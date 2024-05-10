@@ -1,0 +1,95 @@
+Screen:
+    name:'Criar_conta'
+    Image:
+        source: 'Background\Background4.png'
+        allow_stretch: True
+        keep_ratio: False
+
+    MDLabel:
+        id: welcome_label
+        text: ""
+        font_size: dp(20)
+        halign: "center"
+        size_hint_y: None
+        height: self.texture_size[1]
+        pos_hint: {'center_x': 0.5, 'top': 0.95}  # Posiciona o rótulo acima do cartão
+
+    MDCard:
+        size_hint: None, None
+        size: dp(250), dp(370)  # Convertendo o tamanho do MDCard para dp
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        elevation: 20
+        orientation: 'vertical'
+        padding: dp(15)
+        spacing: dp(15)
+        md_bg_color: 0, 0, 0, 0  # Cor transparente
+        radius: [dp(10)]  # Convertendo o raio para dp
+        mode: "round"
+        
+        MDLabel:
+            id: label
+            text: "Criar conta"
+            font_size: dp(30)  # Convertendo o tamanho da fonte para dp
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: dp(5)
+
+        MDTextField:
+            hint_text: "Nome:" 
+            icon_right: "rename"
+            size_hint_x: None
+            width: dp(200)  # Convertendo a largura para dp
+            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            pos_hint: {'center_x': 0.5}
+            mode: "round"
+
+        MDTextField:
+            hint_text: "Sobrenome:" 
+            icon_right: "rename-outline"
+            size_hint_x: None
+            width: dp(200)  # Convertendo a largura para dp
+            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            pos_hint: {'center_x': 0.5}
+            mode: "round"
+
+        MDTextField:
+            hint_text: "Email:" 
+            icon_right: "email"
+            size_hint_x: None
+            width: dp(200)  # Convertendo a largura para dp
+            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            pos_hint: {'center_x': 0.5}
+            mode: "round"
+
+        MDTextField:
+            password: True
+            hint_text: "Digite sua Senha"
+            icon_right: "key"
+            size_hint_x: None
+            width: dp(200)  # Convertendo a largura para dp
+            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            pos_hint: {'center_x': 0.5}
+            mode: "round"
+
+        MDTextField:
+            password: True
+            hint_text: "Confirmar Senha"
+            icon_right: "key-chain"
+            size_hint_x: None
+            width: dp(200)  # Convertendo a largura para dp
+            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            pos_hint: {'center_x': 0.5}
+            mode: "round"
+        
+        MDFillRoundFlatButton:
+            text: "Criar conta"
+            custom_color: "Gray"
+            theme_text_color: "Custom"
+            text_color: 0, 0, 0, 1  # Cor personalizada
+            width: dp(200)
+            md_bg_color: app.theme_cls.primary_color
+            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            pos_hint: {'center_x': 0.5}
+
+
