@@ -5,6 +5,7 @@ from kivymd.uix.screen import Screen
 from kivy.metrics import dp
 import os
 
+
 class App(MDApp):
     def build(self):
         # Definindo a resolução da janela para um tamanho típico de tela de celular
@@ -13,6 +14,7 @@ class App(MDApp):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Gray"
         return Builder.load_file(os.path.join("telas\menu\menu.kv"))
+
 
 if __name__ == "__main__":
     App().run()

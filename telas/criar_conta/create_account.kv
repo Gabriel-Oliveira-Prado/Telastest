@@ -1,5 +1,5 @@
-Screen:
-    name:'Criar_conta'
+MDScreen:
+    name: 'Criar_conta'
     Image:
         source: 'Background\Background4.png'
         allow_stretch: True
@@ -82,7 +82,7 @@ Screen:
             pos_hint: {'center_x': 0.5}
             mode: "round"
         
-        MDFillRoundFlatButton:
+        MDFlatButton:
             text: "Criar conta"
             custom_color: "Gray"
             theme_text_color: "Custom"
@@ -91,5 +91,3 @@ Screen:
             md_bg_color: app.theme_cls.primary_color
             font_size: dp(14)  # Convertendo o tamanho da fonte para dp
             pos_hint: {'center_x': 0.5}
-
-
