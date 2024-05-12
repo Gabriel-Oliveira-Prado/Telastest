@@ -1,0 +1,83 @@
+MDScreen:
+    MDNavigationLayout:
+        ScreenManager:
+            Screen:
+                MDTopAppBar:
+                    title: "Navigation Drawer"
+                    elevation: 4
+                    pos_hint: {"top": 1}
+                    md_bg_color: "#ffffff"
+                    specific_text_color: "#4a4939"
+                    left_action_items:
+                        [['menu', lambda x: nav_drawer.set_state("open")]]
+                
+                MDBottomNavigation:
+                    #panel_color: "#eeeaea"
+                    background_color: 1, 1, 1, 1  # Cor de fundo branca
+                    selected_color_background: "purple"
+                    text_color_active: "lightgrey"
+                    spacing: 5
+
+                    MDBottomNavigationItem:
+                        name: 'screen 1'
+                        text: 'Menu'
+                        icon: 'home'
+                        halign: 'center'
+
+                        MDLabel:
+                            text: 'Menu'
+                            halign: 'center'
+
+                    MDBottomNavigationItem:
+                        name: 'screen 2'
+                        text: 'Pesquisar'
+                        icon: 'magnify'
+                        halign: 'center'
+
+                        MDLabel:
+                            text: 'Pesquisar'
+                            halign: 'center'
+
+                    MDBottomNavigationItem:
+                        name: 'screen 3'
+                        text: 'Publicações'
+                        icon: 'plus-box-multiple'
+                        halign: 'center'
+
+                        MDLabel:
+                            text: 'Publicações'
+                            halign: 'center'
+
+                    MDBottomNavigationItem:
+                        name: 'screen 4'
+                        text: 'Vagas'
+                        icon: 'briefcase-variant'
+                        halign: 'center'
+
+                        MDLabel:
+                            text: 'Vagas'
+                            halign: 'center'
+                        
+        MDNavigationDrawer:
+            id: nav_drawer
+            spacing: 10
+            radius: (0, 16, 16, 0)
+            background_color: 1, 1, 1, 1  # Cor de fundo branca
+        
+            MDIconButton:
+                icon: "account-circle"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # cor Preto
+                on_release: app.change_screen('Conta')
+
+            MDIconButton:
+                icon: "cog"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # cor Preto
+                on_release: app.change_screen('configuracoes')
+
+            MDIconButton:
+                icon:"bell-ring"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1  # cor Preto
+                on_release: app.change_screen('notificações')

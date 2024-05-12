@@ -1,6 +1,7 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
+from kivymd.uix.pickers import MDDatePicker
 from kivy.metrics import dp
 
 class App(MDApp):
@@ -17,9 +18,6 @@ class App(MDApp):
         nome_pessoa = self.root.ids.login.text
         self.root.ids.welcome_label.text = f"Bem vindo(a) - {nome_pessoa}"
     
-    def on_create_account(self):
-        # Carrega a tela de criação de conta
-        self.root.current = "criar_conta"  # Navega para a tela de criar conta
 
 if __name__ == "__main__":
     App().run()
