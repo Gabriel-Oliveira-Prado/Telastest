@@ -6,16 +6,13 @@ from kivy.metrics import dp
 import os
 
 class App(MDApp):
-    data = {
-        'Criar Grupo': 'account-multiple',
-        'Criar': 'account-group-outline',
-    }
     def build(self):
         # Definindo a resolução da janela para um tamanho típico de tela de celular
         Window.size = (dp(360), dp(640))  # Largura x Altura em dp
 
         self.theme_cls.primary_palette = "Purple"
-        return Builder.load_file(os.path.join("telas\chat\chat.kv"))
+        return Builder.load_file(os.path.join("telas", "notificações", "notificacoes.kv"))
+
     
     def refresh_callback(self):
         # Faça algo quando o layout de atualização for atualizado

@@ -26,7 +26,7 @@ class App(MDApp):
         Window.size = (dp(360), dp(640))  # Largura x Altura em dp
         Window.clearcolor = (1, 1, 1, 1)
 
-        self.theme_cls.primary_palette = "Gray"
+        self.theme_cls.primary_palette = "Purple"
         return Builder.load_file(os.path.join("telas\menu\menu.kv"))
 
     def refresh_callback(self):

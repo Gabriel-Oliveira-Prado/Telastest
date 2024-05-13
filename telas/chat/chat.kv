@@ -1,140 +1,194 @@
 MDScreen:
-    name:'chat'
-    background_color: 1, 1, 1, 1  # Cor de fundo branco
-    
-    MDBottomNavigation:
-        background_color: 0.2, 0.2, 0.2, 1  # Cor de fundo cinza escuro
-        selected_color_background: "purple"
-        text_color_active: "lightgrey"
-        height: dp(64)  # Ajuste a altura conforme necessário
-        spacing: 5
-        
-        canvas.before:
-            Color:
-                rgba: 0.29, 0, 0.51, 1  # Cor roxo escuro
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        MDBottomNavigationItem:
-            name: 'Contatos'
-            text: 'Contatos'
-            icon: 'chat-processing-outline'
-            halign: 'center'
-            on_tab_press: app.switch_screen('Contatos')
+    MDNavigationLayout:
 
-            MDTextField:
-                hint_text: "Pesquisar"
-                mode: "round"
-                halign:'left'
-                padding: 10
-                size_hint: None, None
-                size: dp(200), dp(200)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-                icon_left:'magnify'
-                    
+        ScreenManager:
+            id:'chat'
 
-            MDLabel:
-                text: 'Contatos'
-                halign: 'center'
-
-        MDBottomNavigationItem:
-            name: 'Grupos'
-            text: 'Grupos'
-            icon: 'text-box-multiple-outline'
-            halign: 'center'
-            on_tab_press: app.switch_screen('Grupos') 
-
-            MDTextField:
-                hint_text: "Pesquisar"
-                mode: "round"
-                halign:'left'
-                padding: 10
-                size_hint: None, None
-                size: dp(200), dp(200)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-                icon_left:'magnify'
-
-            MDLabel:
-                text: 'Grupos'
-                halign: 'center'
-
-        MDBottomNavigationItem:
-            name: 'Comunidades'
-            text: 'Comunidades'
-            icon: 'account-group-outline'
-            halign: 'center'
-            on_tab_press: app.switch_screen('Comunidades')  
-            
-            MDTextField:
-                hint_text: "Pesquisar"
-                mode: "round"
-                halign:'left'
-                padding: 10
-                size_hint: None, None
-                size: dp(200), dp(200)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-                icon_left:'magnify'
-
-            MDLabel:
-                text: 'Comunidades'
-                halign: 'center'
-    
-    MDNavigationDrawer:
-        id: nav_drawer
-        size_hint_y: 1
-        spacing: 10
-        background_color: 1, 1, 1, 1  # Cor de fundo branca
-
-        FloatLayout:
-            spacing: 14
-            padding: dp(5)
-
-            MDLabel:
-                id:Username
-                text: "Username"
-                font_size: dp(20)
-                halign: "center"
-                size_hint_y: None
-                height: self.texture_size[1]
-                pos_hint: {'center_x': 0.45, 'center_y': 0.94}
-
-            Image:
-                source: 'Telastest/Background\profile.png'
-                size_hint: None, None
-                size: dp(65), dp(65)  # Defina o tamanho da imagem aqui
-                pos_hint: {'center_x': 0.10,'center_y': 0.95}
-                pos: self.parent.pos
-
-            MDIconButton:
-                icon: "account-circle"
-                theme_text_color: "Custom"
-                pos_hint: {'center_x': 0.1,'center_y': 0.03}
-                text_color: 0, 0, 0, 1  # cor Preto
-                on_release: app.change_screen('Conta')
-
-            MDIconButton:
-                icon: "cog"
-                theme_text_color: "Custom"
-                pos_hint: {'center_x': 0.3,'center_y': 0.03}
-                text_color: 0, 0, 0, 1  # cor Preto
-                on_release: app.change_screen('configuracoes')
+            Screen:
+                name: 'chat'
+                background_color: 1, 1, 1, 1  # Cor de fundo branco
                 
-            MDIconButton:
-                icon:'bookmark-multiple'
-                theme_text_color: "Custom"
-                pos_hint: {'center_x': 0.5,'center_y': 0.03}
-                text_color: 0, 0, 0, 1  # cor Preto
-                on_release: app.change_screen('Salvos')
+                MDBottomNavigation:
+                    background_color: 0.2, 0.2, 0.2, 1  # Cor de fundo cinza escuro
+                    selected_color_background: "purple"
+                    text_color_active: "lightgrey"
+                    height: dp(64)  # Ajuste a altura conforme necessário
+                    spacing: 5
+                    
+                    canvas.before:
+                        Color:
+                            rgba: 0.29, 0, 0.51, 1  # Cor roxo escuro
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                            
+                    MDBottomNavigationItem:
+                        name: 'Contatos'
+                        text: 'Contatos'
+                        icon: 'chat-processing-outline'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('Contatos')
+                        
+                        MDFloatingActionButtonSpeedDial:
+                            root_button_anim: True
+                            hint_animation: True
+                            size_hint: None, None
+                            size: dp(20), dp(20)  # Defina o tamanho conforme necessário
+                            hint_radius: dp(10)  # Ajuste o tamanho conforme necessário
+                            data: app.data
+                            md_bg_color: app.theme_cls.primary_color
+                            label_text_color: "black"
+                            right_pad: True
+                            right_pad_value: "10dp"
+                            icon: "plus"
+                            elevation: 0
+                            
 
-            MDIconButton:
-                icon:"bell-ring"
-                theme_text_color: "Custom"
-                pos_hint: {'center_x': 0.7,'center_y': 0.03}
-                text_color: 0, 0, 0, 1  # cor Preto
-                on_release: app.change_screen('notificações')
+                        MDTextField:
+                            hint_text: "Pesquisar"
+                            mode: "round"
+                            halign:'left'
+                            padding: 10
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                            icon_left:'magnify'
+                                
 
-            MDIconButton:
-                icon:"chat"
-                theme_text_color: "Custom"
-                pos_hint: {'center_x': 0.9,'center_y': 0.03}
-                text_color: 0, 0, 0, 1  # cor Preto
+                        MDLabel:
+                            text: 'Contatos'
+                            halign: 'center'
+
+                    MDBottomNavigationItem:
+                        name: 'Grupos'
+                        text: 'Grupos'
+                        icon: 'account-multiple'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('Grupos')
+
+                        MDFloatingActionButtonSpeedDial:
+                            root_button: None
+                            root_button_anim: True
+                            hint_animation: True
+                            size_hint: None, None
+                            size: dp(20), dp(20)  # Defina o tamanho conforme necessário
+                            hint_radius: dp(10)  # Ajuste o tamanho conforme necessário
+                            data: app.data
+                            md_bg_color: app.theme_cls.primary_color
+                            label_text_color: "black"
+                            right_pad: True
+                            right_pad_value: "10dp"
+                            icon: "plus"
+                            elevation: 0
+
+                        MDTextField:
+                            hint_text: "Pesquisar"
+                            mode: "round"
+                            halign:'left'
+                            padding: 10
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                            icon_left:'magnify'
+
+                        MDLabel:
+                            text: 'Grupos'
+                            halign: 'center'
+                            
+
+                    MDBottomNavigationItem:
+                        name: 'Comunidades'
+                        text: 'Comunidades'
+                        icon: 'account-group-outline'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('Comunidades')
+
+                        MDFloatingActionButtonSpeedDial:
+                            root_button: None
+                            root_button_anim: True
+                            hint_animation: True
+                            size_hint: None, None
+                            size: dp(20), dp(20)  # Defina o tamanho conforme necessário
+                            hint_radius: dp(10)  # Ajuste o tamanho conforme necessário
+                            data: app.data
+                            md_bg_color: app.theme_cls.primary_color
+                            label_text_color: "black"
+                            right_pad: True
+                            right_pad_value: "10dp"
+                            icon: "plus"
+                            elevation: 0
+                            
+                        
+                        MDTextField:
+                            hint_text: "Pesquisar"
+                            mode: "round"
+                            halign:'left'
+                            padding: 10
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                            icon_left:'magnify'
+
+                        MDLabel:
+                            text: 'Comunidades'
+                            halign: 'center'
+                
+                MDNavigationDrawer:
+                    id: nav_drawer
+                    size_hint_y: 1
+                    spacing: 10
+                    background_color: 1, 1, 1, 1  # Cor de fundo branca
+
+                    FloatLayout:
+                        spacing: 14
+                        padding: dp(5)
+
+                        MDLabel:
+                            id:Username
+                            text: "Username"
+                            font_size: dp(20)
+                            halign: "center"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            pos_hint: {'center_x': 0.45, 'center_y': 0.94}
+
+                        Image:
+                            source: 'Background\profile.png'
+                            size_hint: None, None
+                            size: dp(65), dp(65)  # Defina o tamanho da imagem aqui
+                            pos_hint: {'center_x': 0.10,'center_y': 0.95}
+                            pos: self.parent.pos
+
+                        MDIconButton:
+                            icon: "account-circle"
+                            theme_text_color: "Custom"
+                            pos_hint: {'center_x': 0.1,'center_y': 0.03}
+                            text_color: 0, 0, 0, 1  # cor Preto
+                            on_release: app.change_screen('Conta')
+
+                        MDIconButton:
+                            icon: "cog"
+                            theme_text_color: "Custom"
+                            pos_hint: {'center_x': 0.3,'center_y': 0.03}
+                            text_color: 0, 0, 0, 1  # cor Preto
+                            on_release: app.change_screen('configuracoes')
+                            
+                        MDIconButton:
+                            icon:'bookmark-multiple'
+                            theme_text_color: "Custom"
+                            pos_hint: {'center_x': 0.5,'center_y': 0.03}
+                            text_color: 0, 0, 0, 1  # cor Preto
+                            on_release: app.change_screen('Salvos')
+
+                        MDIconButton:
+                            icon:"bell-ring"
+                            theme_text_color: "Custom"
+                            pos_hint: {'center_x': 0.7,'center_y': 0.03}
+                            text_color: 0, 0, 0, 1  # cor Preto
+                            on_release: app.change_screen('notificações')
+
+                        MDIconButton:
+                            icon:"chat"
+                            theme_text_color: "Custom"
+                            pos_hint: {'center_x': 0.9,'center_y': 0.03}
+                            text_color: 0, 0, 0, 1  # cor Preto

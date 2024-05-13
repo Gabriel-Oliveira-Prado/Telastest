@@ -5,33 +5,22 @@ MDScreen:
 
 
             Screen:
-                name: 'menu'
+                name: 'salvos'
                 background_color: 1, 1, 1, 1  # Cor de fundo branco
 
-                MDScrollViewRefreshLayout:
-                    id: refresh_layout
-                    refresh_callback: app.refresh_callback
-                    root_layout: root
-                    size_hint: 1, 0.9  # Reduzindo a altura para 90% da tela
-
-                    # Definindo a cor de fundo
+                MDBottomNavigation:
+                    background_color: 1, 1, 1, 1  # Cor de fundo branca
+                    selected_color_background: app.theme_cls.primary_color
+                    text_color_active: 0, 0, 0, 1
+                    height: dp(64)  # Ajuste a altura conforme necessário
+                    spacing: 5
+                    
                     canvas.before:
                         Color:
                             rgba: 0.29, 0, 0.51, 1  # Cor roxo escuro
                         Rectangle:
                             size: self.size
                             pos: self.pos
-
-                    # Personalizando o indicador de atualização
-                    refreshing: True  # Indica se a atualização está em andamento
-                    refresh_timeout: 1.5  # Tempo limite para a animação de atualização
-                    color: 0, 0, 1, 1  # Cor do indicador de atualização (azul)
-
-                    MDGridLayout:
-                        id: box
-                        adaptive_height: True
-                        cols: 1
-                        padding: dp(5)
                 MDBottomNavigation:
                     background_color: 1, 1, 1, 1  # Cor de fundo branca
                     selected_color_background: app.theme_cls.primary_color
@@ -41,21 +30,10 @@ MDScreen:
 
                     MDBottomNavigationItem:
                         name: 'screen 1'
-                        text: 'Menu'
-                        icon: 'home'
+                        text: 'Salvos'
+                        icon: 'bookmark-multiple'
                         halign: 'center'
-                        on_tab_press: app.switch_screen('menu')  # Corrigindo a referência
-
-                        MDLabel:
-                            text: 'Menu'
-                            halign: 'center'
-
-                    MDBottomNavigationItem:
-                        name: 'screen 2'
-                        text: 'Pesquisar'
-                        icon: 'magnify'
-                        halign: 'center'
-                        on_tab_press: app.switch_screen('pesquisar')  # Corrigindo a referência
+                        on_tab_press: app.switch_screen('Salvos')
 
                         MDIconButton:
                             icon: 'arrow-left'
@@ -63,13 +41,6 @@ MDScreen:
                             text_color: 0, 0, 0, 1
                             pos_hint: {'center_x': 0.1, 'center_y': 0.95}
                             on_release: app.change_screen('menu')
-                        MDIconButton:
-                            icon: 'arrow-left'
-                            theme_text_color: 'Custom'
-                            text_color: 0, 0, 0, 1
-                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: app.change_screen('menu')
-
                         FloatLayout:
                             size_hint: None, None
                             size: dp(200), dp(200)
@@ -92,62 +63,9 @@ MDScreen:
                                 theme_text_color: "Custom"
                                 text_color: 0, 0, 0, 1  # Cor preta (RGB: 0, 0, 0)
                                 pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
-                        
-                    
+                            
                         MDLabel:
-                            text: 'Pesquisar'
-                            halign: 'center'
-
-                    MDBottomNavigationItem:
-                        name: 'screen 3'
-                        text: 'Publicações'
-                        icon: 'plus-box-multiple'
-                        halign: 'center'
-                        on_tab_press: app.switch_screen('publicacoes')
-
-                        MDLabel:
-                            text: 'Publicações'
-                            halign: 'center'
-
-                    MDBottomNavigationItem:
-                        name: 'screen 4'
-                        text: 'Vagas'
-                        icon: 'briefcase-variant'
-                        halign: 'center'
-                        on_tab_press: app.switch_screen('vagas')
-
-                        MDIconButton:
-                            icon: 'arrow-left'
-                            theme_text_color: 'Custom'
-                            text_color: 0, 0, 0, 1
-                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: app.change_screen('menu')
-
-                        FloatLayout:
-                            size_hint: None, None
-                            size: dp(200), dp(200)
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-
-                            MDTextField:
-                                hint_text: "Pesquisar"
-                                mode: "round"
-                                halign: 'left'
-                                padding: 10
-                                size_hint_x: None
-                                size: dp(200),dp(20)
-
-                                #width: root.width - dp(48)  # Considerando a largura do ícone
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                icon_left: 'magnify'
-
-                            MDIconButton:
-                                icon: "filter"
-                                theme_text_color: "Custom"
-                                text_color: 0, 0, 0, 1  # Cor preta (RGB: 0, 0, 0)
-                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
-
-                        MDLabel:
-                            text: 'Vagas'
+                            text: 'Salvos'
                             halign: 'center'
 
         MDNavigationDrawer:
