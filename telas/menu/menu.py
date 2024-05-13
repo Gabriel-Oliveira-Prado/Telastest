@@ -3,24 +3,22 @@ from kivy.core.window import Window
 from kivymd.app import MDApp
 from kivy.metrics import dp
 import os
-
-# Importe a classe BoxLayout para construir o ContentNavigationDrawer
-from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.scrollview import ScrollView
+from kivymd.uix.gridlayout import MDGridLayout
 from kivy.uix.button import Button
+from kivy.uix.screenmanager import ScreenManager, Screen
 
-class ContentNavigationDrawer(BoxLayout):
+class RefreshLayoutContent(ScrollView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-        # Adicione widgets ao ContentNavigationDrawer
-        button1 = Button(text='Opção 1')
-        button2 = Button(text='Opção 2')
+        # Adicione widgets ao RefreshLayoutContent
+        self.layout = MDGridLayout(cols=1, adaptive_height=True, spacing=dp(10))
+        for i in range(10):
+            btn = Button(text=f'Item {i}')
+            self.layout.add_widget(btn)
         
-        self.orientation = 'vertical'
-        self.spacing = dp(8)
-        
-        self.add_widget(button1)
-        self.add_widget(button2)
+        self.add_widget(self.layout)
 
 class App(MDApp):
     def build(self):
@@ -31,6 +29,13 @@ class App(MDApp):
         self.theme_cls.primary_palette = "Gray"
         return Builder.load_file(os.path.join("telas\menu\menu.kv"))
 
+    def refresh_callback(self):
+        # Faça algo quando o layout de atualização for atualizado
+        print("Layout de atualização atualizado!")
+
+    def switch_screen(self, screen_name):
+        # Função para trocar de tela
+        pass  # Implemente a lógica para trocar de tela aqui
 
 if __name__ == "__main__":
     App().run()

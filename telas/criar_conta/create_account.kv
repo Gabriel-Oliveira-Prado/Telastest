@@ -16,7 +16,7 @@ MDScreen:
 
     MDCard:
         size_hint: None, None
-        size: dp(250), dp(380)  # Convertendo o tamanho do MDCard para dp
+        size: dp(250), dp(390)  # Convertendo o tamanho do MDCard para dp
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         elevation: 20
         orientation: 'vertical'
@@ -82,17 +82,52 @@ MDScreen:
             pos_hint: {'center_x': 0.5}
             mode: "round"
         
-        MDTextField:
-            hint_text: "(DD/MM/YYYY)"
-            icon_right: "calendar"
-            size_hint_x: None
-            width: dp(200)  # Convertendo a largura para dp
-            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: 14
+            padding: dp(10)
             pos_hint: {'center_x': 0.5}
-            mode: "round"
-            input_filter: "int"
-            input_type: "number"
-            max_text_length: 10  # 8 caracteres para a data + 2 barras
+
+            MDTextField:
+                hint_text: "DD"
+                size_hint_x: None
+                width: dp(50)
+                font_size: dp(14)
+                pos_hint: {'center_y': 0.5}
+                mode: "round"
+                input_filter: "int"
+                input_type: "number"
+                max_text_length: 2
+                on_text: 
+                    root.ids.month_field.focus = True if len(self.text) == 2 else False
+
+            MDTextField:
+                id: month_field
+                hint_text: "MM"
+                size_hint_x: None
+                width: dp(50)
+                font_size: dp(14)
+                pos_hint: {'center_y': 0.5}
+                mode: "round"
+                input_filter: "int"
+                input_type: "number"
+                max_text_length: 2
+                on_text: 
+                    root.ids.year_field.focus = True if len(self.text) == 2 else False
+
+            MDTextField:
+                id: year_field
+                hint_text: "YYYY"
+                size_hint_x: None
+                width: dp(70)
+                font_size: dp(14)
+                pos_hint: {'center_y': 0.5}
+                mode: "round"
+                input_filter: "int"
+                input_type: "number"
+                max_text_length: 4
                         
         MDFillRoundFlatButton:
             text: "Criar conta"

@@ -1,0 +1,108 @@
+MDScreen:
+    name:'chat'
+    background_color: 1, 1, 1, 1  # Cor de fundo branca
+
+    MDBottomNavigation:
+        background_color: 0.2, 0.2, 0.2, 1  # Cor de fundo cinza escuro
+        selected_color_background: "purple"
+        text_color_active: "lightgrey"
+        height: dp(64)  # Ajuste a altura conforme necessário
+        spacing: 5
+        
+        MDBottomNavigationItem:
+            name: 'Contatos'
+            text: 'Contatos'
+            icon: 'chat-processing-outline'
+            halign: 'center'
+            on_tab_press: app.switch_screen('Contatos') 
+            MDLabel:
+                text: 'Contatos'
+                halign: 'center'
+
+        MDBottomNavigationItem:
+            name: 'Grupos'
+            text: 'Grupos'
+            icon: 'text-box-multiple-outline'
+            halign: 'center'
+            on_tab_press: app.switch_screen('Grupos')  
+
+            MDLabel:
+                text: 'Grupos'
+                halign: 'center'
+
+        MDBottomNavigationItem:
+            name: 'Comunidades'
+            text: 'Comunidades'
+            icon: 'account-group-outline'
+            halign: 'center'
+            on_tab_press: app.switch_screen('Comunidades')  
+
+            MDLabel:
+                text: 'Comunidades'
+                halign: 'center'
+    
+    MDNavigationDrawer:
+        id: nav_drawer
+        size_hint_y: 1
+        spacing: 10
+        background_color: 1, 1, 1, 1  # Cor de fundo branca
+
+        FloatLayout:
+            spacing: 14
+            padding: dp(5)
+
+            MDLabel:
+                id:Username
+                text: "Username"
+                font_size: dp(20)
+                halign: "center"
+                size_hint_y: None
+                height: self.texture_size[1]
+                pos_hint: {'center_x': 0.45, 'center_y': 0.94}
+
+            Image:
+                source: 'Background\profile.png'
+                size_hint: None, None
+                size: dp(65), dp(65)  # Defina o tamanho da imagem aqui
+                pos_hint: {'center_x': 0.10,'center_y': 0.95}
+                pos: self.parent.pos
+
+            MDIconButton:
+                icon: "account-circle"
+                theme_text_color: "Custom"
+                pos_hint: {'center_x': 0.1,'center_y': 0.03}
+                text_color: 0, 0, 0, 1  # cor Preto
+                on_release: app.change_screen('Conta')
+
+            MDIconButton:
+                icon: "cog"
+                theme_text_color: "Custom"
+                pos_hint: {'center_x': 0.3,'center_y': 0.03}
+                text_color: 0, 0, 0, 1  # cor Preto
+                on_release: app.change_screen('configuracoes')
+                
+            MDIconButton:
+                icon:'bookmark-multiple'
+                theme_text_color: "Custom"
+                pos_hint: {'center_x': 0.5,'center_y': 0.03}
+                text_color: 0, 0, 0, 1  # cor Preto
+                on_release: app.change_screen('Salvos')
+
+            MDIconButton:
+                icon:"bell-ring"
+                theme_text_color: "Custom"
+                pos_hint: {'center_x': 0.7,'center_y': 0.03}
+                text_color: 0, 0, 0, 1  # cor Preto
+                on_release: app.change_screen('notificações')
+
+            MDIconButton:
+                icon:"chat"
+                theme_text_color: "Custom"
+                pos_hint: {'center_x': 0.9,'center_y': 0.03}
+                text_color: 0, 0, 0, 1  # cor Preto
+
+
+
+            
+
+                    
