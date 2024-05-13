@@ -1,7 +1,7 @@
 MDScreen:
     name:'chat'
-    background_color: 1, 1, 1, 1  # Cor de fundo branca
-
+    background_color: 1, 1, 1, 1  # Cor de fundo branco
+    
     MDBottomNavigation:
         background_color: 0.2, 0.2, 0.2, 1  # Cor de fundo cinza escuro
         selected_color_background: "purple"
@@ -9,12 +9,30 @@ MDScreen:
         height: dp(64)  # Ajuste a altura conforme necessário
         spacing: 5
         
+        canvas.before:
+            Color:
+                rgba: 0.29, 0, 0.51, 1  # Cor roxo escuro
+            Rectangle:
+                size: self.size
+                pos: self.pos
         MDBottomNavigationItem:
             name: 'Contatos'
             text: 'Contatos'
             icon: 'chat-processing-outline'
             halign: 'center'
-            on_tab_press: app.switch_screen('Contatos') 
+            on_tab_press: app.switch_screen('Contatos')
+
+            MDTextField:
+                hint_text: "Pesquisar"
+                mode: "round"
+                halign:'left'
+                padding: 10
+                size_hint: None, None
+                size: dp(200), dp(200)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                icon_left:'magnify'
+                    
+
             MDLabel:
                 text: 'Contatos'
                 halign: 'center'
@@ -24,7 +42,17 @@ MDScreen:
             text: 'Grupos'
             icon: 'text-box-multiple-outline'
             halign: 'center'
-            on_tab_press: app.switch_screen('Grupos')  
+            on_tab_press: app.switch_screen('Grupos') 
+
+            MDTextField:
+                hint_text: "Pesquisar"
+                mode: "round"
+                halign:'left'
+                padding: 10
+                size_hint: None, None
+                size: dp(200), dp(200)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                icon_left:'magnify'
 
             MDLabel:
                 text: 'Grupos'
@@ -36,6 +64,16 @@ MDScreen:
             icon: 'account-group-outline'
             halign: 'center'
             on_tab_press: app.switch_screen('Comunidades')  
+            
+            MDTextField:
+                hint_text: "Pesquisar"
+                mode: "round"
+                halign:'left'
+                padding: 10
+                size_hint: None, None
+                size: dp(200), dp(200)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                icon_left:'magnify'
 
             MDLabel:
                 text: 'Comunidades'
@@ -61,7 +99,7 @@ MDScreen:
                 pos_hint: {'center_x': 0.45, 'center_y': 0.94}
 
             Image:
-                source: 'Background\profile.png'
+                source: 'Telastest/Background\profile.png'
                 size_hint: None, None
                 size: dp(65), dp(65)  # Defina o tamanho da imagem aqui
                 pos_hint: {'center_x': 0.10,'center_y': 0.95}
@@ -100,9 +138,3 @@ MDScreen:
                 theme_text_color: "Custom"
                 pos_hint: {'center_x': 0.9,'center_y': 0.03}
                 text_color: 0, 0, 0, 1  # cor Preto
-
-
-
-            
-
-                    

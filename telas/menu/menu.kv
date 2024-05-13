@@ -55,7 +55,17 @@ MDScreen:
                         icon: 'magnify'
                         halign: 'center'
                         on_tab_press: app.switch_screen('pesquisar')  # Corrigindo a referência
-
+                        
+                        MDTextField:
+                            hint_text: "Pesquisar"
+                            mode: "round"
+                            halign:'left'
+                            padding: 10
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                            icon_left:'magnify'
+                
                         MDLabel:
                             text: 'Pesquisar'
                             halign: 'center'
