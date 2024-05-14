@@ -2,10 +2,14 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivymd.uix.pickers import MDDatePicker
+from kivymd.uix.menu import MDDropdownMenu
+
+
 from kivy.metrics import dp
 
 class App(MDApp):
     def build(self):
+        
         # Definindo a resolução da janela para um tamanho típico de tela de celular
         Window.size = (dp(360), dp(640))  # Largura x Altura em dp
 

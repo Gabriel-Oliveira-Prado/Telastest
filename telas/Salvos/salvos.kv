@@ -78,6 +78,34 @@ MDScreen:
                 spacing: 14
                 padding: dp(5)
 
+                MDList:
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.28}
+                    
+                    ConfigItem:
+                        text: "Segurança"
+                        description: "Configurações de segurança do aplicativo"
+                        IconLeftWidget:
+                            icon: "security"
+                    ConfigItem:
+                        text: "Visibilidade"
+                        description: "Opões de visibilidade"
+                        IconLeftWidget:
+                            icon:"eye"
+                    ConfigItem:
+                        text: "Privacidade de Dados"
+                        description: "Controle de privacidade e segurança de dados"
+                        IconLeftWidget:
+                            icon:'lock'
+                    ConfigItem:
+                        text: "Notificações"
+                        description: "Gerencie as notificações do aplicativo"
+                        IconLeftWidget:
+                            icon: "bell-cog"
+                    ConfigItem:
+                        text: "Logout"
+                        description: "Sair da conta e fazer logout do aplicativo"
+                        IconLeftWidget:
+                            icon: "logout"
                 MDLabel:
                     id:Username
                     text: "Username"
@@ -102,11 +130,11 @@ MDScreen:
                     on_release: app.change_screen('Conta')
 
                 MDIconButton:
-                    icon: "cog"
+                    icon: "account-convert"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.3,'center_y': 0.03}
                     text_color: 0, 0, 0, 1  # cor Preto
-                    on_release: app.change_screen('configuracoes')
+                    on_release: app.change_screen('Trocar_tela')
                 
                 MDIconButton:
                     icon:'bookmark-multiple'

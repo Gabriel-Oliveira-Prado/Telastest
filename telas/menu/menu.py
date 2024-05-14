@@ -7,18 +7,13 @@ from kivy.uix.scrollview import ScrollView
 from kivymd.uix.gridlayout import MDGridLayout
 from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivymd.uix.list import OneLineIconListItem
+from kivymd.uix.list import IconLeftWidget
 
-class RefreshLayoutContent(ScrollView):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        
-        # Adicione widgets ao RefreshLayoutContent
-        self.layout = MDGridLayout(cols=1, adaptive_height=True, spacing=dp(10))
-        for i in range(10):
-            btn = Button(text=f'Item {i}')
-            self.layout.add_widget(btn)
-        
-        self.add_widget(self.layout)
+
+
+class ConfigItem(OneLineIconListItem):
+    pass
 
 class App(MDApp):
     def build(self):
@@ -36,6 +31,7 @@ class App(MDApp):
     def switch_screen(self, screen_name):
         # Função para trocar de tela
         pass  # Implemente a lógica para trocar de tela aqui
+
 
 if __name__ == "__main__":
     App().run()

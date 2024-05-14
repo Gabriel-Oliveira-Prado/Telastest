@@ -36,22 +36,24 @@ MDScreen:
             padding_y: dp(5)
 
         MDTextField:
-            hint_text: "Nome:" 
+            hint_text: "Nome Completo:" 
             icon_right: "rename"
             size_hint_x: None
             width: dp(200)  # Convertendo a largura para dp
             font_size: dp(14)  # Convertendo o tamanho da fonte para dp
             pos_hint: {'center_x': 0.5}
             mode: "round"
+            required: True
 
         MDTextField:
-            hint_text: "Sobrenome:" 
+            hint_text: "Nome Social:" 
             icon_right: "rename-outline"
             size_hint_x: None
             width: dp(200)  # Convertendo a largura para dp
             font_size: dp(14)  # Convertendo o tamanho da fonte para dp
             pos_hint: {'center_x': 0.5}
             mode: "round"
+            required: False  # Tornando o campo não obrigatório
 
         MDTextField:
             hint_text: "Email:" 
@@ -61,6 +63,7 @@ MDScreen:
             font_size: dp(14)  # Convertendo o tamanho da fonte para dp
             pos_hint: {'center_x': 0.5}
             mode: "round"
+            required: True
 
         MDTextField:
             password: True
@@ -71,6 +74,7 @@ MDScreen:
             font_size: dp(14)  # Convertendo o tamanho da fonte para dp
             pos_hint: {'center_x': 0.5}
             mode: "round"
+            required: True
 
         MDTextField:
             password: True
@@ -81,7 +85,8 @@ MDScreen:
             font_size: dp(14)  # Convertendo o tamanho da fonte para dp
             pos_hint: {'center_x': 0.5}
             mode: "round"
-        
+            required: True
+                
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
@@ -92,6 +97,7 @@ MDScreen:
 
             MDTextField:
                 hint_text: "DD"
+                required: True
                 size_hint_x: None
                 width: dp(50)
                 font_size: dp(14)
@@ -104,7 +110,7 @@ MDScreen:
                     root.ids.month_field.focus = True if len(self.text) == 2 else False
 
             MDTextField:
-                id: month_field
+                required: True
                 hint_text: "MM"
                 size_hint_x: None
                 width: dp(50)
@@ -118,8 +124,8 @@ MDScreen:
                     root.ids.year_field.focus = True if len(self.text) == 2 else False
 
             MDTextField:
-                id: year_field
                 hint_text: "YYYY"
+                required: True
                 size_hint_x: None
                 width: dp(70)
                 font_size: dp(14)

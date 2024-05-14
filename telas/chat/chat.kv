@@ -28,7 +28,36 @@ MDScreen:
                         icon: 'chat-processing-outline'
                         halign: 'center'
                         on_tab_press: app.switch_screen('Contatos')
-                        
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: app.change_screen('menu')
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                size: dp(200),dp(20)
+
+                                #width: root.width - dp(48)  # Considerando a largura do ícone
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+
+                            MDIconButton:
+                                icon: "filter"
+                                theme_text_color: "Custom"
+                                text_color: 0, 0, 0, 1  # Cor preta (RGB: 0, 0, 0)
+                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
+
                         FloatLayout:
                             size_hint: None, None
                             size: dp(360), dp(640)
@@ -66,6 +95,35 @@ MDScreen:
                         icon: 'account-multiple'
                         halign: 'center'
                         on_tab_press: app.switch_screen('Grupos')
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: app.go_to_previous_screen()
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                size: dp(200),dp(20)
+
+                                #width: root.width - dp(48)  # Considerando a largura do ícone
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+
+                            MDIconButton:
+                                icon: "filter"
+                                theme_text_color: "Custom"
+                                text_color: 0, 0, 0, 1  # Cor preta (RGB: 0, 0, 0)
+                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
 
                         FloatLayout:
                             size_hint: None, None
@@ -83,16 +141,7 @@ MDScreen:
                                 label_text_color: "black"
                                 icon: "plus"
                                 elevation: 0
-
-                        MDTextField:
-                            hint_text: "Pesquisar"
-                            mode: "round"
-                            halign: 'left'
-                            padding: 10
-                            size_hint: None, None
-                            size: dp(200), dp(200)
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-                            icon_left: 'magnify'
+                        
 
                         MDLabel:
                             text: 'Grupos'
@@ -105,6 +154,36 @@ MDScreen:
                         halign: 'center'
                         on_tab_press: app.switch_screen('Comunidades')
 
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: app.go_to_previous_screen()
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                size: dp(200),dp(20)
+
+                                #width: root.width - dp(48)  # Considerando a largura do ícone
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+
+                            MDIconButton:
+                                icon: "filter"
+                                theme_text_color: "Custom"
+                                text_color: 0, 0, 0, 1  # Cor preta (RGB: 0, 0, 0)
+                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
+
                         FloatLayout:
                             size_hint: None, None
                             size: dp(360), dp(640)
@@ -121,6 +200,7 @@ MDScreen:
                                 label_text_color: "black"
                                 icon: "plus"
                                 elevation: 0
+                                
                              
                         MDTextField:
                             hint_text: "Pesquisar"
@@ -136,62 +216,91 @@ MDScreen:
                             text: 'Comunidades'
                             halign: 'center'
                 
-                MDNavigationDrawer:
-                    id: nav_drawer
-                    size_hint_y: 1
-                    spacing: 10
-                    background_color: 1, 1, 1, 1  # Cor de fundo branca
+        MDNavigationDrawer:
+            id: nav_drawer
+            size_hint_y: 1
+            spacing: 10
+            background_color: 1, 1, 1, 1  # Cor de fundo branca
 
-                    FloatLayout:
-                        spacing: 14
-                        padding: dp(5)
+            FloatLayout:
+                spacing: 14
+                padding: dp(5)
 
-                        MDLabel:
-                            id:Username
-                            text: "Username"
-                            font_size: dp(20)
-                            halign: "center"
-                            size_hint_y: None
-                            height: self.texture_size[1]
-                            pos_hint: {'center_x': 0.45, 'center_y': 0.94}
+                MDList:
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.28}
+                    
+                    ConfigItem:
+                        text: "Segurança"
+                        description: "Configurações de segurança do aplicativo"
+                        IconLeftWidget:
+                            icon: "security"
+                    ConfigItem:
+                        text: "Visibilidade"
+                        description: "Opões de visibilidade"
+                        IconLeftWidget:
+                            icon:"eye"
+                    ConfigItem:
+                        text: "Privacidade de Dados"
+                        description: "Controle de privacidade e segurança de dados"
+                        IconLeftWidget:
+                            icon:'lock'
+                    ConfigItem:
+                        text: "Notificações"
+                        description: "Gerencie as notificações do aplicativo"
+                        IconLeftWidget:
+                            icon: "bell-cog"
+                    ConfigItem:
+                        text: "Logout"
+                        description: "Sair da conta e fazer logout do aplicativo"
+                        IconLeftWidget:
+                            icon: "logout"
+                MDLabel:
+                    id:Username
+                    text: "Username"
+                    font_size: dp(20)
+                    halign: "center"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    pos_hint: {'center_x': 0.45, 'center_y': 0.94}
 
-                        Image:
-                            source: 'Background\profile.png'
-                            size_hint: None, None
-                            size: dp(65), dp(65)  # Defina o tamanho da imagem aqui
-                            pos_hint: {'center_x': 0.10,'center_y': 0.95}
-                            pos: self.parent.pos
+                Image:
+                    source: 'Background\profile.png'
+                    size_hint: None, None
+                    size: dp(65), dp(65)  # Defina o tamanho da imagem aqui
+                    pos_hint: {'center_x': 0.10,'center_y': 0.95}
+                    pos: self.parent.pos
 
-                        MDIconButton:
-                            icon: "account-circle"
-                            theme_text_color: "Custom"
-                            pos_hint: {'center_x': 0.1,'center_y': 0.03}
-                            text_color: 0, 0, 0, 1  # cor Preto
-                            on_release: app.change_screen('Conta')
+                MDIconButton:
+                    icon: "account-circle"
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.1,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  # cor Preto
+                    on_release: app.change_screen('Conta')
 
-                        MDIconButton:
-                            icon: "cog"
-                            theme_text_color: "Custom"
-                            pos_hint: {'center_x': 0.3,'center_y': 0.03}
-                            text_color: 0, 0, 0, 1  # cor Preto
-                            on_release: app.change_screen('configuracoes')
-                            
-                        MDIconButton:
-                            icon:'bookmark-multiple'
-                            theme_text_color: "Custom"
-                            pos_hint: {'center_x': 0.5,'center_y': 0.03}
-                            text_color: 0, 0, 0, 1  # cor Preto
-                            on_release: app.change_screen('Salvos')
+                MDIconButton:
+                    icon: "account-convert"
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.3,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  # cor Preto
+                    on_release: app.change_screen('Trocar_tela')
+                
+                MDIconButton:
+                    icon:'bookmark-multiple'
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.5,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  # cor Preto
+                    on_release: app.change_screen('Salvos')
 
-                        MDIconButton:
-                            icon:"bell-ring"
-                            theme_text_color: "Custom"
-                            pos_hint: {'center_x': 0.7,'center_y': 0.03}
-                            text_color: 0, 0, 0, 1  # cor Preto
-                            on_release: app.change_screen('notificações')
+                MDIconButton:
+                    icon:"bell-ring"
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.7,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  # cor Preto
+                    on_release: app.change_screen('notificações')
 
-                        MDIconButton:
-                            icon:"chat"
-                            theme_text_color: "Custom"
-                            pos_hint: {'center_x': 0.9,'center_y': 0.03}
-                            text_color: 0, 0, 0, 1  # cor Preto
+                MDIconButton:
+                    icon:"chat"
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.9,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  # cor Preto
+                    on_release: app.change_screen('chat')

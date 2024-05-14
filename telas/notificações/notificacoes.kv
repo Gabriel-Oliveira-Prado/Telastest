@@ -72,45 +72,11 @@ MDScreen:
                                 icon_left: 'magnify'
 
                             MDIconButton:
-                                icon: "cog"
+                                icon: "filter"
                                 theme_text_color: "Custom"
                                 text_color: 0, 0, 0, 1  # Cor preta (RGB: 0, 0, 0)
                                 pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
-
-
-                        MDBoxLayout:
-                            spacing:3
-                            paddin: 4
-                            size_hint: None, None
-                            size: dp(360), dp(100)
-                            pos_hint: {'center_y': 0.88,'center_x': 0.5}
-                            MDFillRoundFlatButton:
-                                text: "Todos"
-                                mode: "round"
-                                halign: 'center'
-                                
-                                size_hint: None, None
-                                size: dp(200),dp(20)
-                                #width: root.width - dp(48)  # Considerando a largura do ícone
-                                pos_hint: {'center_y': 0.5}
-                            MDFillRoundFlatButton:
-                                text: "Minhas publicações"
-                                mode: "round"
-                                halign: 'center'
-                                
-                                size_hint: None, None
-                                size: dp(200),dp(20)
-                                #width: root.width - dp(48)  # Considerando a largura do ícone
-                                pos_hint: {'center_y': 0.5}
-                            MDFillRoundFlatButton:
-                                text: "Menções"
-                                mode: "round"
-                                halign: 'center'
-                                
-                                size_hint: None, None
-                                size: dp(200),dp(20)
-                                #width: root.width - dp(48)  # Considerando a largura do ícone
-                                pos_hint: {'center_y': 0.5}
+                                #filtros: Todos, Minhas Puplicacoes, Mencoes e mensagens
 
                         MDLabel:
                             text: 'notificações'
@@ -126,6 +92,34 @@ MDScreen:
                 spacing: 14
                 padding: dp(5)
 
+                MDList:
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.28}
+                    
+                    ConfigItem:
+                        text: "Segurança"
+                        description: "Configurações de segurança do aplicativo"
+                        IconLeftWidget:
+                            icon: "security"
+                    ConfigItem:
+                        text: "Visibilidade"
+                        description: "Opões de visibilidade"
+                        IconLeftWidget:
+                            icon:"eye"
+                    ConfigItem:
+                        text: "Privacidade de Dados"
+                        description: "Controle de privacidade e segurança de dados"
+                        IconLeftWidget:
+                            icon:'lock'
+                    ConfigItem:
+                        text: "Notificações"
+                        description: "Gerencie as notificações do aplicativo"
+                        IconLeftWidget:
+                            icon: "bell-cog"
+                    ConfigItem:
+                        text: "Logout"
+                        description: "Sair da conta e fazer logout do aplicativo"
+                        IconLeftWidget:
+                            icon: "logout"
                 MDLabel:
                     id:Username
                     text: "Username"
@@ -150,11 +144,11 @@ MDScreen:
                     on_release: app.change_screen('Conta')
 
                 MDIconButton:
-                    icon: "cog"
+                    icon: "account-convert"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.3,'center_y': 0.03}
                     text_color: 0, 0, 0, 1  # cor Preto
-                    on_release: app.change_screen('configuracoes')
+                    on_release: app.change_screen('Trocar_tela')
                 
                 MDIconButton:
                     icon:'bookmark-multiple'
