@@ -8,4 +8,77 @@ MDScreen:
                 name: 'config_notificações'
                 background_color: 1, 1, 1, 1  # Cor de fundo branco
 
-                
+                MDIconButton:
+                    icon: 'arrow-left'
+                    theme_text_color: 'Custom'
+                    text_color: 0, 0, 0, 1
+                    pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                    on_release: app.go_to_left_screen()
+
+                FloatLayout:
+                    size_hint: None, None
+                    size: dp(200), dp(200)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                    MDLabel:
+                        text: "Notificações"
+                        padding: 10
+                        font_size: dp(20)  # Convertendo o tamanho da fonte para dp
+                        halign: "center"
+                        size_hint_x: None
+                        size: dp(150),dp(20)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+                        icon_left: 'magnify'
+
+                MDIconButton:
+                    icon: 'progress-question'
+                    theme_text_color: 'Custom'
+                    text_color: 0, 0, 0, 1
+                    pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+                    on_release: app.open_link("https://exemplo.com")
+
+
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: dp(1)
+                    padding: dp(5)
+                    spacing: dp(5)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+                    canvas:
+                        Color:
+                            rgba: 0.7, 0.7, 0.7, 1  # Cor da linha divisória
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                MDList:
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.70}
+                    halign: 'left'
+                    ConfigItem:
+                        text: "Pesquisando vaga"
+                        
+                    ConfigItem:
+                        text: "Contratação"
+                        
+                    ConfigItem:
+                        text: "Mensagens"
+                        
+    
+                    ConfigItem:
+                        text: "Eventos"
+                        
+                    
+                    ConfigItem:
+                        text: "Publicar e comentar"
+                        
+
+                    ConfigItem:
+                        text: "Notícias e relatórios"
+                        
+                       
+
+
+
+
+

@@ -21,7 +21,7 @@ class App(MDApp):
         Window.clearcolor = (1, 1, 1, 1)
 
         self.theme_cls.primary_palette = "Purple"
-        return Builder.load_file(os.path.join("telas\menu\menu.kv"))
+        return Builder.load_file(os.path.join("telas\config_notificações\config_notificações.kv"))
 
     def switch_screen(self, screen_name):
         # Função para trocar de tela

@@ -21,6 +21,7 @@ class App(MDApp):
         # Atualiza o texto do rótulo acima do cartão com o texto "Bem vindo(a) - nomedapessoa"
         nome_pessoa = self.root.ids.login.text
         self.root.ids.welcome_label.text = f"Bem vindo(a) - {nome_pessoa}"
+        
     
     def format_date(self, text):
         # Remove todos os caracteres que não são dígitos
