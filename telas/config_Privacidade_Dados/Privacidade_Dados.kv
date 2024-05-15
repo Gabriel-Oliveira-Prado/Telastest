@@ -5,7 +5,7 @@ MDScreen:
 
 
             Screen:
-                name: 'Config_Segurança'
+                name: 'Config_Privacidade_Dados'
                 background_color: 1, 1, 1, 1  
             
                 MDIconButton:
@@ -21,12 +21,12 @@ MDScreen:
                     pos_hint: {'center_x': 0.5, 'center_y': 0.95}
 
                     MDLabel:
-                        text: "Segurança"
+                        text: "Privacidade dos dados"
                         padding: 10
                         font_size: dp(20)  
                         halign: "center"
                         size_hint_x: None
-                        size: dp(150),dp(20)
+                        size: dp(250),dp(20)
                         pos_hint: {'center_x': 0.5, 'center_y': 0.51}
 
                 MDIconButton:
@@ -50,16 +50,6 @@ MDScreen:
                         Rectangle:
                             size: self.size
                             pos: self.pos
-                MDLabel:
-                    text: "Acesso a conta:"
-                    padding: 10
-                    font_size: dp(18)  
-                    halign: "left"
-                    size_hint_x: None
-                    size: dp(250),dp(20)
-                    pos_hint: {'center_x': 0.65, 'center_y': 0.89}
-                    theme_text_color: 'Custom'
-                    text_color: 0, 0, 0, 1 
                
                 FloatLayout:
                     size_hint: None, None
@@ -70,26 +60,25 @@ MDScreen:
                         pos_hint: {'center_x': 0.4, 'center_y': 0.5}
                         halign: 'left'
                         ConfigItem:
-                            text: "Endereço de email"
+                            text: "Política de Privacidade"
 
                         ConfigItem:
-                            text: "Trocar Senha"
-                                  
-                        ConfigItem:
-                            text: "Números de telefone"
+                            text: "Consentimento de Dados"
                         
                         ConfigItem:
-                            text: "Suas sessões"
+                            text: "Criptografia de Dados"
                               
                         ConfigItem:
-                            text: "Verificação de duas etapas"
-                            MDSwitch:
-                                pos_hint: {'center_x': 0.85, 'center_y': 0.3}
-                                size_hint: None, None
-                                size: dp(48), dp(48)
-                            
-                                
+                            text: "Controle de Acesso"
+                        
                         ConfigItem:
-                            text: "Informações de localização"
+                            text: "Opções de Compartilhamento"
+                        
+                        ConfigItem:
+                            text: "Opções de Exclusão de Conta"
+                        
+                        ConfigItem:
+                            text: "Configurações de Privacidade"
+                            
                             
                             
