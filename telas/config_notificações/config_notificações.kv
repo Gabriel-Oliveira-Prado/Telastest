@@ -6,7 +6,7 @@ MDScreen:
 
             Screen:
                 name: 'config_notificações'
-                background_color: 1, 1, 1, 1  # Cor de fundo branco
+                background_color: 1, 1, 1, 1  
 
                 MDIconButton:
                     icon: 'arrow-left'
@@ -23,7 +23,7 @@ MDScreen:
                     MDLabel:
                         text: "Notificações"
                         padding: 10
-                        font_size: dp(20)  # Convertendo o tamanho da fonte para dp
+                        font_size: dp(20)  
                         halign: "center"
                         size_hint_x: None
                         size: dp(150),dp(20)
@@ -47,38 +47,76 @@ MDScreen:
                     pos_hint: {'center_x': 0.5, 'center_y': 0.92}
                     canvas:
                         Color:
-                            rgba: 0.7, 0.7, 0.7, 1  # Cor da linha divisória
+                            rgba: 0.7, 0.7, 0.7, 1 
                         Rectangle:
                             size: self.size
                             pos: self.pos
 
-                MDList:
-                    pos_hint: {'center_x': 0.4, 'center_y': 0.70}
-                    halign: 'left'
-                    ConfigItem:
-                        text: "Pesquisando vaga"
+               
+                FloatLayout:
+                    size_hint: None, None
+                    size: dp(359), dp(590)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.6}
                         
-                    ConfigItem:
-                        text: "Contratação"
-                        
-                    ConfigItem:
-                        text: "Mensagens"
-                        
-    
-                    ConfigItem:
-                        text: "Eventos"
-                        
-                    
-                    ConfigItem:
-                        text: "Publicar e comentar"
-                        
+                    MDList:
+                        pos_hint: {'center_x': 0.4, 'center_y': 0.5}
+                        halign: 'left'
+                        ConfigItem:
+                            text: "vagas"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+                                                            
+                        ConfigItem:
+                            text: "Contratação"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+                                
+                        ConfigItem:
+                            text: "Mensagens"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+                                
+                        ConfigItem:
+                            text: "Eventos"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+                                
+                        ConfigItem:
+                            text: "Publicar e comentar"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
 
-                    ConfigItem:
-                        text: "Notícias e relatórios"
-                        
+                        ConfigItem:
+                            text: "Notícias e relatórios"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+
+                        ConfigItem:
+                            text: "Grupos"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+
+                        ConfigItem:
+                            text: "Comunidades"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+                                
+                            
+                            
                        
-
-
-
-
-

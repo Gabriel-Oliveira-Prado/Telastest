@@ -6,26 +6,26 @@ MDScreen:
 
             Screen:
                 name: 'salvos'
-                background_color: 1, 1, 1, 1  # Cor de fundo branco
+                background_color: 1, 1, 1, 1  
 
                 MDBottomNavigation:
-                    background_color: 1, 1, 1, 1  # Cor de fundo branca
+                    background_color: 1, 1, 1, 1  
                     selected_color_background: app.theme_cls.primary_color
                     text_color_active: 0, 0, 0, 1
-                    height: dp(64)  # Ajuste a altura conforme necessário
+                    height: dp(64)  
                     spacing: 5
                     
                     canvas.before:
                         Color:
-                            rgba: 0.29, 0, 0.51, 1  # Cor roxo escuro
+                            rgba: 0.29, 0, 0.51, 1  
                         Rectangle:
                             size: self.size
                             pos: self.pos
                 MDBottomNavigation:
-                    background_color: 1, 1, 1, 1  # Cor de fundo branca
+                    background_color: 1, 1, 1, 1 
                     selected_color_background: app.theme_cls.primary_color
                     text_color_active: 0, 0, 0, 1
-                    height: dp(64)  # Ajuste a altura conforme necessário
+                    height: dp(64)  
                     spacing: 5
 
                     MDBottomNavigationItem:
@@ -53,15 +53,13 @@ MDScreen:
                                 padding: 10
                                 size_hint_x: None
                                 size: dp(200),dp(20)
-
-                                #width: root.width - dp(48)  # Considerando a largura do ícone
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 icon_left: 'magnify'
 
                             MDIconButton:
                                 icon: "filter"
                                 theme_text_color: "Custom"
-                                text_color: 0, 0, 0, 1  # Cor preta (RGB: 0, 0, 0)
+                                text_color: 0, 0, 0, 1 
                                 pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
                             
                         MDLabel:
@@ -72,7 +70,7 @@ MDScreen:
             id: nav_drawer
             size_hint_y: 1
             spacing: 10
-            background_color: 1, 1, 1, 1  # Cor de fundo branca
+            background_color: 1, 1, 1, 1 
 
             FloatLayout:
                 spacing: 14
@@ -118,7 +116,7 @@ MDScreen:
                 Image:
                     source: 'Background\profile.png'
                     size_hint: None, None
-                    size: dp(65), dp(65)  # Defina o tamanho da imagem aqui
+                    size: dp(65), dp(65)  
                     pos_hint: {'center_x': 0.10,'center_y': 0.95}
                     pos: self.parent.pos
 
@@ -126,33 +124,33 @@ MDScreen:
                     icon: "account-circle"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.1,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  # cor Preto
+                    text_color: 0, 0, 0, 1  
                     on_release: app.change_screen('Conta')
 
                 MDIconButton:
                     icon: "account-convert"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.3,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  # cor Preto
+                    text_color: 0, 0, 0, 1 
                     on_release: app.change_screen('Trocar_tela')
                 
                 MDIconButton:
                     icon:'bookmark-multiple'
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.5,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  # cor Preto
+                    text_color: 0, 0, 0, 1  
                     on_release: app.change_screen('Salvos')
 
                 MDIconButton:
                     icon:"bell-ring"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.7,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  # cor Preto
+                    text_color: 0, 0, 0, 1  
                     on_release: app.change_screen('notificações')
 
                 MDIconButton:
                     icon:"chat"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.9,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  # cor Preto
+                    text_color: 0, 0, 0, 1  
                     on_release: app.change_screen('chat')

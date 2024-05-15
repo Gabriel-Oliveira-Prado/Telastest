@@ -8,20 +8,20 @@ MDScreen:
 
     MDCard:
         size_hint: None, None
-        size: dp(250), dp(350)  # Ajuste da altura para acomodar os botões
+        size: dp(250), dp(350) 
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         elevation: 20
         orientation: 'vertical'
         padding: dp(15)
         spacing: dp(20)
-        md_bg_color: 0, 0, 0, 0  # Cor transparente
-        radius: [dp(10)]  # Convertendo o raio para dp
+        md_bg_color: 0, 0, 0, 0  
+        radius: [dp(10)]  
         mode: "round"
 
         MDLabel:
             id: label
             text: "Login"
-            font_size: dp(30)  # Convertendo o tamanho da fonte para dp
+            font_size: dp(30)  
             halign: "center"
             size_hint_y: None
             height: self.texture_size[1]
@@ -32,8 +32,8 @@ MDScreen:
             id: login
             icon_right: "account"
             size_hint_x: None
-            width: dp(200)  # Convertendo a largura para dp
-            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            width: dp(200)  
+            font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "round"
 
@@ -43,8 +43,8 @@ MDScreen:
             id: senha
             icon_right: "account-key"
             size_hint_x: None
-            width: dp(200)  # Convertendo a largura para dp
-            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            width: dp(200)  
+            font_size: dp(14) 
             pos_hint: {'center_x': 0.5}
             mode: "round"
 
@@ -55,22 +55,22 @@ MDScreen:
             pos_hint: {"center_x": 0.5}
             on_release: app.open_link("https://exemplo.com")
 
-        MDFillRoundFlatButton:  # botao
+        MDFillRoundFlatButton:  
             text: "     Entrar     "
             custom_color: "Gray"
             theme_text_color: "Custom"
-            text_color: 0, 0, 0, 1  # Cor personalizada
+            text_color: 0, 0, 0, 1 
             md_bg_color: app.theme_cls.primary_color
-            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            font_size: dp(14) 
             pos_hint: {'center_x': 0.5}
 
         MDFillRoundFlatButton:
             text: "Criar conta"
             custom_color: "Gray"
             theme_text_color: "Custom"
-            text_color: 0, 0, 0, 1  # Cor personalizada
+            text_color: 0, 0, 0, 1  
             md_bg_color: app.theme_cls.primary_color
-            font_size: dp(14)  # Convertendo o tamanho da fonte para dp
+            font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             on_release:
                 app.root.transition.direction = 'right'
