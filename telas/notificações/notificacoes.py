@@ -9,6 +9,8 @@ from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.uix.list import OneLineIconListItem
 from kivymd.uix.list import IconLeftWidget
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
 
         
 class ConfigItem(OneLineIconListItem):
@@ -22,6 +24,25 @@ class App(MDApp):
 
         self.theme_cls.primary_palette = "Purple"
         return Builder.load_file(("notificacoes.kv"))
+    def show_logout_dialog(self):
+        dialog = MDDialog(
+            text="Deseja sair da conta?",
+            buttons=[
+                MDFlatButton(
+                    text="Cancelar",
+                    on_release=lambda *args: dialog.dismiss()
+                ),
+                MDFlatButton(
+                    text="Sim",
+                    on_release=lambda *args: self.logout()
+                )
+            ]
+        )
+        dialog.open()
+
+    def logout(self):
+        # Implemente a lógica real do logout aqui
+        pass
 
     def refresh_callback(self):
         # Faça algo quando o layout de atualização for atualizado

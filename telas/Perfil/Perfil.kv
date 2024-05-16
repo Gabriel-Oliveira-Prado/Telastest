@@ -71,7 +71,7 @@ MDScreen:
                     MDLabel:
                         text: "Nome"
                         padding: 10
-                        font_size: dp(1)  
+                        font_size: dp(20)  
                         halign: "left"
                         size_hint: None, None
                         size: dp(150), dp(20)
@@ -206,6 +206,7 @@ MDScreen:
                     ConfigItem:
                         text: "Logout"
                         description: "Sair da conta e fazer logout do aplicativo"
+                        on_release: app.show_logout_dialog()
                         IconLeftWidget:
                             icon: "logout"
                 MDLabel:
