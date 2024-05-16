@@ -26,7 +26,7 @@ class App(MDApp):
         Window.clearcolor = (1, 1, 1, 1)
 
         self.theme_cls.primary_palette = "Purple"
-        return Builder.load_file(os.path.join("telas\Perfil\Perfil.kv"))
+        return Builder.load_file(os.path.join("telas\config_Perfil\config_Perfil.kv"))
 
     def show_logout_dialog(self):
         dialog = MDDialog(
