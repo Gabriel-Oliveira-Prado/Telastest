@@ -2,17 +2,17 @@ MDScreen:
     name: 'Criar_conta'
 
     Image:
-        source: 'Background\Background4.png'
+        source: 'Background\Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
     MDCard:
         size_hint: None, None
-        size: dp(250), dp(450)  
+        size: dp(250), dp(600)  
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-        elevation: 20
+        elevation: 0
         orientation: 'vertical'
         padding: dp(15)
-        spacing: dp(10)
+        spacing: dp(5)
         md_bg_color: 0, 0, 0, 0  
         radius: [dp(10)]  
         mode: "round"
@@ -33,8 +33,9 @@ MDScreen:
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
-            mode: "round"
+            mode: "rectangle"
             required: True
+            line_color_normal: "#FDFAF3"
 
         MDTextField:
             hint_text: "Nome Social:" 
@@ -43,8 +44,9 @@ MDScreen:
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
-            mode: "round"
-            required: False 
+            mode: "rectangle"
+            required: False
+            line_color_normal: "#FDFAF3"
 
         MDTextField:
             hint_text: "Email:" 
@@ -53,8 +55,23 @@ MDScreen:
             width: dp(200) 
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
-            mode: "round"
+            mode: "rectangle"
             required: True
+            line_color_normal: "#FDFAF3"
+        
+        MDTextField:
+            hint_text: "CPF"
+            icon_right: "card-account-details-outline"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            required: True
+            input_filter: "int"
+            input_type: "number"
+            max_text_length: 11
+            line_color_normal: "#FDFAF3"
 
         MDTextField:
             password: True
@@ -64,8 +81,9 @@ MDScreen:
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
-            mode: "round"
+            mode: "rectangle"
             required: True
+            line_color_normal: "#FDFAF3"
 
         MDTextField:
             password: True
@@ -75,8 +93,9 @@ MDScreen:
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
-            mode: "round"
+            mode: "rectangle"
             required: True
+            line_color_normal: "#FDFAF3"
 
         BoxLayout:
             orientation: 'horizontal'
@@ -93,9 +112,10 @@ MDScreen:
                 width: dp(50)
                 font_size: dp(14)
                 pos_hint: {'center_y': 0.5}
-                mode: "round"
+                mode: "rectangle"
                 input_filter: "int"
                 input_type: "number"
+                line_color_normal: "#FDFAF3"
                 max_text_length: 2
                 on_text: 
                     root.ids.month_field.focus = True if len(self.text) == 2 else False
@@ -107,9 +127,10 @@ MDScreen:
                 width: dp(50)
                 font_size: dp(14)
                 pos_hint: {'center_y': 0.5}
-                mode: "round"
+                mode: "rectangle"
                 input_filter: "int"
                 input_type: "number"
+                line_color_normal: "#FDFAF3"
                 max_text_length: 2
                 on_text: 
                     root.ids.year_field.focus = True if len(self.text) == 2 else False
@@ -121,17 +142,17 @@ MDScreen:
                 width: dp(70)
                 font_size: dp(14)
                 pos_hint: {'center_y': 0.5}
-                mode: "round"
+                mode: "rectangle"
                 input_filter: "int"
                 input_type: "number"
+                line_color_normal: "#FDFAF3"
                 max_text_length: 4
-                        
-        MDFillRoundFlatButton:
+                
+        MDRaisedButton:
             text: "Criar conta"
-            custom_color: "Gray"
             theme_text_color: "Custom"
-            text_color: 0, 0, 0, 1  
+            text_color: 0, 0, 0, 1
+            md_bg_color: "#FDFAF3"  
             width: dp(200)
-            md_bg_color: app.theme_cls.primary_color
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}

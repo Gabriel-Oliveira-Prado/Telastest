@@ -5,25 +5,25 @@ MDScreen:
 
             Screen:
                 name: 'menu'
-                background_color: 1, 1, 1, 1  
+                background_color:  '#FFFFFF'  
 
                 MDScrollViewRefreshLayout:
                     id: refresh_layout
                     refresh_callback: app.refresh_callback
                     root_layout: root
-                    size_hint: 1, 0.9 
+                    size_hint: 1, 0.9
 
                     # Definindo a cor de fundo
                     canvas.before:
                         Color:
-                            rgba: 0.29, 0, 0.51, 1  # Cor roxo escuro
+                            rgba: 0.0, 0.0, 0.75, 1  # Cor índigo
                         Rectangle:
                             size: self.size
                             pos: self.pos
 
-                    refreshing: True  
+                    refreshing: True
                     refresh_timeout: 1.5
-                    color: 0, 0, 1, 1  
+                    color: 0, 0, 1, 1
 
                     MDGridLayout:
                         id: box
@@ -105,14 +105,14 @@ MDScreen:
                         
                         MDRectangleFlatIconButton:
                             text: 'Quem pode ver:'
-                            pos_hint: {'center_x': 0.4,'center_y': 0.95}
+                            pos_hint: {'center_x': 0.4, 'center_y': 0.95}
                             theme_text_color: "Custom"
-                            text_color: "purple"
-                            text_color: "purple"
+                            text_color: (0.0, 0.0, 0.75, 1)  # Cor roxo claro
                             theme_icon_color: "Custom"
-                            icon_color: "purple"
+                            icon_color: (0.0, 0.0, 0.75, 1)  # Cor roxo claro
                             icon: "eye"
                             on_release: app.show_QuemPoderver(self)
+
                         
                         MDRaisedButton:
                             text: 'Publicar'

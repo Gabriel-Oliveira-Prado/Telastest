@@ -1,3 +1,7 @@
+from kivy.config import Config
+Config.set('graphics', 'width', '360')
+Config.set('graphics', 'height', '640')
+Config.set('graphics', 'resizable', False)
 from kivy.core.window import Window
 from kivy.metrics import dp
 import os
@@ -29,7 +33,7 @@ class App(MDApp):
         Window.size = (dp(360), dp(640))  # Largura x Altura em dp
         Window.clearcolor = (1, 1, 1, 1)
 
-        self.theme_cls.primary_palette = "Purple"
+        self.theme_cls.primary_palette = "Indigo"
         return Builder.load_file(os.path.join("telas", "menu", "menu.kv"))
 
     def show_logout_dialog(self):
