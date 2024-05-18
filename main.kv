@@ -1,0 +1,373 @@
+ScreenManager:
+    TelaEntrarLogin:
+    TelaEntrarLoginJuridico:
+    TelaCriarConta:
+
+<TelaEntrarLogin>:
+    name: 'Entrar_login'
+    Image:
+        source: 'Background\Backgroundinicial.png'
+        allow_stretch: True
+        keep_ratio: False
+
+    MDRectangleFlatIconButton:
+        icon: 'account-tie'
+        text: 'Pessoa jurídica'
+        pos_hint: {'center_x': 0.25, 'center_y': 0.95}
+        custom_color: "Gray"
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1 
+        md_bg_color: "#FDFAF3"
+        icon_color: 0, 0, 0, 1
+        on_release: 
+            app.root.transition.direction = "left"
+            app.root.current = 'Entrar_Login_jurídico'
+    
+    MDCard:
+        size_hint: None, None
+        size: dp(260), dp(350) 
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        elevation: 0
+        orientation: 'vertical'
+        padding: dp(15)
+        spacing: dp(10)
+        md_bg_color: 0, 0, 0, 0  
+        radius: [dp(10)]  
+        mode: "round"
+
+        MDLabel:
+            id: label
+            theme_text_color: "Custom"
+            text_color: '#FDFAF3'
+            text: "Login"
+            font_size: dp(30)  
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: dp(5)
+
+        MDTextField:
+            hint_text: "Digite seu Login" 
+            icon_right: "account"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"  
+            
+
+        MDTextField:
+            password: True
+            hint_text: "Digite sua Senha"
+            icon_right: "account-key"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14) 
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"
+            
+        MDTextButton:
+            text: "Esqueceu a senha?"
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1  # Cor branca
+            font_size: "12sp"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.open_link("https://exemplo.com")
+        MDFloatLayout:
+            spacing:10
+            pos_hint: {'center_y': 0.5}
+            MDRaisedButton:  
+                text: "     Entrar     "
+                custom_color: "Gray"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1 
+                md_bg_color: "#FDFAF3"
+                font_size: dp(14) 
+                pos_hint: {'center_x': 0.25, 'center_y': 0.65}
+
+            MDRaisedButton:
+                text: "Criar conta"
+                custom_color: "Gray"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                md_bg_color: "#FDFAF3"
+                font_size: dp(14)
+                pos_hint: {'center_x': 0.75, 'center_y': 0.65}
+                on_release:
+                    app.root.transition.direction = 'right'
+                    app.root.current = 'Criar_conta'
+
+<TelaEntrarLoginJuridico>:
+    name: 'Entrar_Login_jurídico'
+    Image:
+        source: 'Background\Backgroundinicial.png'
+        allow_stretch: True
+        keep_ratio: False
+
+    MDRectangleFlatIconButton:
+        icon: 'account'
+        text: 'Pessoa Física'
+        pos_hint: {'center_x': 0.25, 'center_y': 0.95}
+        custom_color: "Gray"
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1 
+        md_bg_color: "#FDFAF3"
+        icon_color: 0, 0, 0, 1
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Entrar_login'
+
+    MDCard:
+        size_hint: None, None
+        size: dp(260), dp(350) 
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        elevation: 0
+        orientation: 'vertical'
+        padding: dp(15)
+        spacing: dp(10)
+        md_bg_color: 0, 0, 0, 0  
+        radius: [dp(10)]  
+        mode: "round"
+
+        MDLabel:
+            id: label
+            theme_text_color: "Custom"
+            text_color: '#FDFAF3'
+            text: "Login"
+            font_size: dp(30)  
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: dp(5)
+
+        MDTextField:
+            hint_text: "CNPJ" 
+            id: login
+            icon_right: "account-tie"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"  
+        
+        MDTextField:
+            hint_text: "Digite seu Email" 
+            id: login
+            icon_right: "email"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"
+            
+
+        MDTextField:
+            password: True
+            hint_text: "Digite sua Senha"
+            id: senha
+            icon_right: "account-key"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14) 
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"
+            
+        MDTextButton:
+            text: "Esqueceu a senha?"
+            theme_text_color: "Custom"
+            text_color: 1, 1, 1, 1  # Cor branca
+            font_size: "12sp"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.open_link("https://exemplo.com")
+        MDFloatLayout:
+            spacing:10
+            pos_hint: {'center_y': 0.5}
+            MDRaisedButton:  
+                text: "     Entrar     "
+                custom_color: "Gray"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1 
+                md_bg_color: "#FDFAF3"
+                font_size: dp(14) 
+                pos_hint: {'center_x': 0.25, 'center_y': 0.65}
+
+            MDRaisedButton:
+                text: "Criar conta"
+                custom_color: "Gray"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                md_bg_color: "#FDFAF3"
+                font_size: dp(14)
+                pos_hint: {'center_x': 0.75, 'center_y': 0.65}
+                on_release:
+                    app.root.transition.direction = 'right'
+                    app.root.current = 'Criar_conta'
+
+<TelaCriarConta>:
+    name: 'Criar_conta'
+    Image:
+        source: 'Background\Backgroundinicial.png'
+        allow_stretch: True
+        keep_ratio: False
+    
+    MDRectangleFlatIconButton:
+        icon:'store-edit'
+        text: 'Conta jurídica'
+        pos_hint: {'center_x': 0.25, 'center_y': 0.95}
+        custom_color: "Gray"
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1 
+        md_bg_color: "#FDFAF3"
+        icon_color: 0, 0, 0, 1
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = ''
+        
+
+    MDCard:
+        size_hint: None, None
+        size: dp(250), dp(600)  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        elevation: 0
+        orientation: 'vertical'
+        padding: dp(15)
+        spacing: dp(5)
+        md_bg_color: 0, 0, 0, 0  
+        radius: [dp(10)]  
+        mode: "round"
+        
+        MDLabel:
+            id: label
+            text: "Criar conta"
+            font_size: dp(30)  
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: dp(5)
+
+        MDTextField:
+            hint_text: "Nome Completo:" 
+            icon_right: "rename"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"
+
+        MDTextField:
+            hint_text: "Nome Social:" 
+            icon_right: "rename-outline"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"
+
+        MDTextField:
+            hint_text: "Email:" 
+            icon_right: "email"
+            size_hint_x: None
+            width: dp(200) 
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"
+        
+        MDTextField:
+            hint_text: "CPF"
+            icon_right: "card-account-details-outline"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            input_filter: "int"
+            input_type: "number"
+            max_text_length: 11
+            line_color_normal: "#FDFAF3"
+
+        MDTextField:
+            password: True
+            hint_text: "Digite sua Senha"
+            icon_right: "key"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"
+
+        MDTextField:
+            password: True
+            hint_text: "Confirmar Senha"
+            icon_right: "key-chain"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            line_color_normal: "#FDFAF3"
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: 14
+            padding: dp(10)
+            pos_hint: {'center_x': 0.5}
+
+            MDTextField:
+                hint_text: "DD"
+                size_hint_x: None
+                width: dp(50)
+                font_size: dp(14)
+                pos_hint: {'center_y': 0.5}
+                mode: "rectangle"
+                input_filter: "int"
+                input_type: "number"
+                line_color_normal: "#FDFAF3"
+                max_text_length: 2
+                on_text: 
+                    root.ids.month_field.focus = True if len(self.text) == 2 else False
+
+            MDTextField:
+                hint_text: "MM"
+                size_hint_x: None
+                width: dp(50)
+                font_size: dp(14)
+                pos_hint: {'center_y': 0.5}
+                mode: "rectangle"
+                input_filter: "int"
+                input_type: "number"
+                line_color_normal: "#FDFAF3"
+                max_text_length: 2
+                on_text: 
+                    root.ids.year_field.focus = True if len(self.text) == 2 else False
+
+            MDTextField:
+                hint_text: "YYYY"
+                size_hint_x: None
+                width: dp(70)
+                font_size: dp(14)
+                pos_hint: {'center_y': 0.5}
+                mode: "rectangle"
+                input_filter: "int"
+                input_type: "number"
+                line_color_normal: "#FDFAF3"
+                max_text_length: 4
+                
+        MDRaisedButton:
+            text: "Criar conta"
+            theme_text_color: "Custom"
+            text_color: 0, 0, 0, 1
+            md_bg_color: "#FDFAF3"  
+            width: dp(200)
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
