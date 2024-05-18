@@ -18,7 +18,8 @@ class TelaEntrarLoginJuridico(Screen):
 class TelaCriarConta(Screen):
     pass
 
-
+class TelaCriarContaJuridico(Screen):
+    pass
 
 
 

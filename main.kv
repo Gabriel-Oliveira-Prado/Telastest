@@ -2,6 +2,7 @@ ScreenManager:
     TelaEntrarLogin:
     TelaEntrarLoginJuridico:
     TelaCriarConta:
+    TelaCriarContaJuridico:
 
 <TelaEntrarLogin>:
     name: 'Entrar_login'
@@ -216,8 +217,8 @@ ScreenManager:
         keep_ratio: False
     
     MDRectangleFlatIconButton:
-        icon:'store-edit'
         text: 'Conta jurídica'
+        icon:'store-edit'
         pos_hint: {'center_x': 0.25, 'center_y': 0.95}
         custom_color: "Gray"
         theme_text_color: "Custom"
@@ -226,7 +227,7 @@ ScreenManager:
         icon_color: 0, 0, 0, 1
         on_release: 
             app.root.transition.direction = "right"
-            app.root.current = ''
+            app.root.current = 'Criar_conta_Jurídica'
         
 
     MDCard:
@@ -371,3 +372,109 @@ ScreenManager:
             width: dp(200)
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
+        
+<TelaCriarContaJuridico>:
+    name: 'Criar_conta_Jurídica'
+
+    Image:
+        source: 'Background\Backgroundinicial.png'
+        allow_stretch: True
+        keep_ratio: False
+
+    MDRectangleFlatIconButton:
+        icon:'account-plus'
+        text: 'Conta Física'
+        pos_hint: {'center_x': 0.25, 'center_y': 0.95}
+        custom_color: "Gray"
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1 
+        md_bg_color: "#FDFAF3"
+        icon_color: 0, 0, 0, 1
+        on_release:
+            app.root.transition.direction = 'right'
+            app.root.current = 'Criar_conta'
+
+        
+    MDCard:
+        size_hint: None, None
+        size: dp(250), dp(500)  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        elevation: 0
+        orientation: 'vertical'
+        padding: dp(15)
+        spacing: dp(10)
+        md_bg_color: 0, 0, 0, 0  
+        radius: [dp(10)]  
+        mode: "round"
+        
+        MDLabel:
+            id: label
+            text: "Criar conta jurídica"
+            font_size: dp(30)  
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: dp(5)
+
+        MDTextField:
+            hint_text: "Nome da Empresa" 
+            icon_right: "store-edit"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"          
+            line_color_normal: "#FDFAF3"
+
+        MDTextField:
+            hint_text: "Email:" 
+            icon_right: "email"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"            
+            line_color_normal: "#FDFAF3"
+
+        MDTextField:
+            hint_text: "Senha:" 
+            icon_right: "key"
+            size_hint_x: None
+            width: dp(200) 
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"    
+            line_color_normal: "#FDFAF3"
+        
+        MDTextField:
+            hint_text: "Telefone"
+            icon_right: "phone"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            input_filter: "int"
+            input_type: "number"
+            line_color_normal: "#FDFAF3"
+
+        MDTextField:
+            hint_text: "CNPJ"
+            icon_right: "store"
+            size_hint_x: None
+            width: dp(200)  
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+            mode: "rectangle"
+            max_text_length: 14
+            line_color_normal: "#FDFAF3"
+                
+        MDRaisedButton:
+            text: "Criar Conta"
+            theme_text_color: "Custom"
+            text_color: 0, 0, 0, 1
+            md_bg_color: "#FDFAF3"  
+            width: dp(200)
+            font_size: dp(14)  
+            pos_hint: {'center_x': 0.5}
+
