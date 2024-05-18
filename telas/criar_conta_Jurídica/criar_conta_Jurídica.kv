@@ -1,13 +1,24 @@
 MDScreen:
-    name: 'Criar_conta'
+    name: 'Criar_conta_Jurídica'
 
     Image:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
+
+    MDRectangleFlatIconButton:
+        icon:'account-plus'
+        text: 'Conta jurídica'
+        pos_hint: {'center_x': 0.25, 'center_y': 0.95}
+        custom_color: "Gray"
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1 
+        md_bg_color: "#FDFAF3"
+        icon_color: 0, 0, 0, 1
+        
     MDCard:
         size_hint: None, None
-        size: dp(250), dp(400)  
+        size: dp(250), dp(500)  
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         elevation: 0
         orientation: 'vertical'

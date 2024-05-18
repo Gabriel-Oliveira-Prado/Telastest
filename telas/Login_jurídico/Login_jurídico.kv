@@ -1,10 +1,19 @@
 MDScreen:
-    name:'Entrar_login'
+    name:'Entrar_Login_jurídico'
     Image:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
 
+    MDRectangleFlatIconButton:
+        icon:'account'
+        text: 'Pessoa Física'
+        pos_hint: {'center_x': 0.25, 'center_y': 0.95}
+        custom_color: "Gray"
+        theme_text_color: "Custom"
+        text_color: 0, 0, 0, 1 
+        md_bg_color: "#FDFAF3"
+        icon_color: 0, 0, 0, 1
 
     MDCard:
         size_hint: None, None
