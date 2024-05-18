@@ -34,7 +34,6 @@ MDScreen:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            required: True
             line_color_normal: "#FDFAF3"
 
         MDTextField:
@@ -45,7 +44,6 @@ MDScreen:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            required: False
             line_color_normal: "#FDFAF3"
 
         MDTextField:
@@ -56,7 +54,6 @@ MDScreen:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            required: True
             line_color_normal: "#FDFAF3"
         
         MDTextField:
@@ -67,7 +64,6 @@ MDScreen:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            required: True
             input_filter: "int"
             input_type: "number"
             max_text_length: 11
@@ -82,7 +78,6 @@ MDScreen:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            required: True
             line_color_normal: "#FDFAF3"
 
         MDTextField:
@@ -94,7 +89,6 @@ MDScreen:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            required: True
             line_color_normal: "#FDFAF3"
 
         BoxLayout:
@@ -107,7 +101,6 @@ MDScreen:
 
             MDTextField:
                 hint_text: "DD"
-                required: True
                 size_hint_x: None
                 width: dp(50)
                 font_size: dp(14)
@@ -121,7 +114,6 @@ MDScreen:
                     root.ids.month_field.focus = True if len(self.text) == 2 else False
 
             MDTextField:
-                required: True
                 hint_text: "MM"
                 size_hint_x: None
                 width: dp(50)
@@ -137,7 +129,6 @@ MDScreen:
 
             MDTextField:
                 hint_text: "YYYY"
-                required: True
                 size_hint_x: None
                 width: dp(70)
                 font_size: dp(14)

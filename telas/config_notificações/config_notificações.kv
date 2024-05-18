@@ -54,8 +54,8 @@ MDScreen:
                
                 FloatLayout:
                     size_hint: None, None
-                    size: dp(359), dp(590)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                    size: dp(360), dp(590)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.58}
                         
                     MDList:
                         pos_hint: {'center_x': 0.4, 'center_y': 0.5}
@@ -82,7 +82,7 @@ MDScreen:
                                 size: dp(48), dp(48)
                                 
                         ConfigItem:
-                            text: "Eventos"
+                            text: "Menções"
                             MDSwitch:
                                 pos_hint: {'center_x': 0.8, 'center_y': 0.3}
                                 size_hint: None, None
@@ -97,6 +97,13 @@ MDScreen:
 
                         ConfigItem:
                             text: "Notícias e relatórios"
+                            MDSwitch:
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.3}
+                                size_hint: None, None
+                                size: dp(48), dp(48)
+
+                        ConfigItem:
+                            text: "Contatos"
                             MDSwitch:
                                 pos_hint: {'center_x': 0.8, 'center_y': 0.3}
                                 size_hint: None, None
