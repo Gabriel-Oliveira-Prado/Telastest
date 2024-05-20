@@ -9,9 +9,9 @@ MDScreen:
                 background_color: 1, 1, 1, 1  
 
                 MDBottomNavigation:
-                    background_color: 0.2, 0.2, 0.2, 1  
-                    selected_color_background: "purple"
-                    text_color_active: "lightgrey"
+                    background_color: 1, 1, 1, 1  
+                    selected_color_background: app.theme_cls.primary_color
+                    text_color_active: 0, 0, 0, 1
                     height: dp(64)  
                     spacing: 5
                     
@@ -33,7 +33,9 @@ MDScreen:
                             theme_text_color: 'Custom'
                             text_color: 0, 0, 0, 1
                             pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: app.change_screen('menu')
+                            on_release: 
+                                app.root.transition.direction = "right"
+                                app.root.current = 'Menu'
 
                         FloatLayout:
                             size_hint: None, None
@@ -90,7 +92,7 @@ MDScreen:
                     MDBottomNavigationItem:
                         name: 'Grupos'
                         text: 'Grupos'
-                        icon: 'account-multiple'
+                        icon: 'account-multiple-outline'
                         halign: 'center'
                         on_tab_press: app.switch_screen('Grupos')
                         MDIconButton:
@@ -98,7 +100,9 @@ MDScreen:
                             theme_text_color: 'Custom'
                             text_color: 0, 0, 0, 1
                             pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: app.go_to_previous_screen()
+                            on_release: 
+                                app.root.transition.direction = "right"
+                                app.root.current = 'Menu'
 
                         FloatLayout:
                             size_hint: None, None
@@ -155,7 +159,9 @@ MDScreen:
                             theme_text_color: 'Custom'
                             text_color: 0, 0, 0, 1
                             pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: app.go_to_previous_screen()
+                            on_release: 
+                                app.root.transition.direction = "right"
+                                app.root.current = 'Menu'
 
                         FloatLayout:
                             size_hint: None, None

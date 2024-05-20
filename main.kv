@@ -3,9 +3,21 @@ ScreenManager:
     TelaEntrarLoginJuridico:
     TelaCriarConta:
     TelaCriarContaJuridico:
+    TelaMenu:
+    Telaconfignotificacoes:
+    TelaconfigPrivacidadeDados:
+    TelaconfigVisibilidade:
+    TelaconfigSeguranca:
+    TelaconfigPerfil:
+    TelaSalvos:
+    Telanotificacoes:
+    TelaChat:
+
+
 
 <TelaEntrarLogin>:
     name: 'Entrar_login'
+    background_color:  '#FFFFFF'
     Image:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
@@ -37,7 +49,6 @@ ScreenManager:
         mode: "round"
 
         MDLabel:
-            id: label
             theme_text_color: "Custom"
             text_color: '#FDFAF3'
             text: "Login"
@@ -87,7 +98,9 @@ ScreenManager:
                 md_bg_color: "#FDFAF3"
                 font_size: dp(14) 
                 pos_hint: {'center_x': 0.25, 'center_y': 0.65}
-
+                on_release:
+                    app.root.transition.direction = 'up'
+                    app.root.current = 'Menu'
             MDRaisedButton:
                 text: "Criar conta"
                 custom_color: "Gray"
@@ -102,6 +115,7 @@ ScreenManager:
 
 <TelaEntrarLoginJuridico>:
     name: 'Entrar_Login_jurídico'
+    background_color:  '#FFFFFF'
     Image:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
@@ -211,6 +225,7 @@ ScreenManager:
 
 <TelaCriarConta>:
     name: 'Criar_conta'
+    background_color:  '#FFFFFF'
     Image:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
@@ -229,7 +244,6 @@ ScreenManager:
             app.root.transition.direction = "right"
             app.root.current = 'Criar_conta_Jurídica'
         
-
     MDCard:
         size_hint: None, None
         size: dp(250), dp(600)  
@@ -374,8 +388,9 @@ ScreenManager:
             pos_hint: {'center_x': 0.5}
         
 <TelaCriarContaJuridico>:
-    name: 'Criar_conta_Jurídica'
 
+    name: 'Criar_conta_Jurídica'
+    background_color:  '#FFFFFF'
     Image:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
@@ -478,3 +493,1117 @@ ScreenManager:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
 
+<TelaMenu>:
+    name: 'Menu'
+    MDNavigationLayout:
+        ScreenManager:
+            Screen:
+                background_color:  '#FFFFFF'
+
+                MDScrollViewRefreshLayout:
+                    id: refresh_layout
+                    refresh_callback: app.refresh_callback
+                    root_layout: root
+                    size_hint: 1, 0.9
+                    canvas.before:
+                        Color:
+                            rgba: 0.0, 0.0, 0.75, 1
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                    refreshing: True
+                    refresh_timeout: 1.5
+                    color: 0, 0, 1, 1
+
+                    MDGridLayout:
+                        id: box
+                        adaptive_height: True
+                        cols: 1
+                        padding: dp(5)
+
+                MDBottomNavigation:
+                    background_color: 1, 1, 1, 1  
+                    selected_color_background: app.theme_cls.primary_color
+                    text_color_active: 0, 0, 0, 1
+                    height: dp(64)  
+                    spacing: 5
+
+                    MDBottomNavigationItem:
+                        name: 'screen 1'
+                        text: 'Menu'
+                        icon: 'home'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('menu')
+
+                        MDLabel:
+                            text: 'Menu'
+                            halign: 'center'
+
+                    MDBottomNavigationItem:
+                        name: 'screen 2'
+                        text: 'Pesquisar'
+                        icon: 'magnify'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('pesquisar') 
+
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: app.go_to_left_screen()
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                size: dp(200),dp(20)
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+
+                            MDIconButton:
+                                icon: "filter"
+                                theme_text_color: "Custom"
+                                text_color: 0, 0, 0, 1 
+                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
+                            
+                        
+                        MDLabel:
+                            text: 'Pesquisar'
+                            halign: 'center'
+
+                    MDBottomNavigationItem:
+                        name: 'screen 3'
+                        text: 'Publicações'
+                        icon: 'plus-box-multiple'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('publicacoes')
+
+                        
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: app.go_to_left_screen()
+                            
+                        MDRectangleFlatIconButton:
+                            text: 'Quem pode ver:'
+                            pos_hint: {'center_x': 0.4, 'center_y': 0.95}
+                            theme_text_color: "Custom"
+                            text_color: (0.0, 0.0, 0.75, 1)  # Cor roxo claro
+                            theme_icon_color: "Custom"
+                            icon_color: (0.0, 0.0, 0.75, 1)  # Cor roxo claro
+                            icon: "eye"
+                            on_release: app.show_QuemPoderver(self)
+
+                            
+                        MDRaisedButton:
+                            text: 'Publicar'
+                            pos_hint: {'center_x': 0.8,'center_y': 0.95}
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(360), dp(640) 
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+
+                            ScrollView:
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.25}
+                                size_hint: None, None
+                                size: dp(350), dp(640)
+
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    size_hint_y: None
+                                    height: self.minimum_height
+                                    spacing:25
+
+                                    MDTextField:
+                                        hint_text: "Compartilhe"
+                                        helper_text: "escreva sobre oque quiser"
+                                        multiline: True
+                                        mode: "rectangle"
+                                        max_text_length: 500
+                                        font_size:sp(14)
+                                        size_hint_y: None
+                                        height: self.minimum_height
+                                    FloatLayout:
+                                        MDIconButton:
+                                            icon: 'image' 
+                                            pos_hint: {'center_x': 0.8, 'center_y': 0.25}
+
+                                        MDIconButton:
+                                            icon: 'dots-vertical'
+                                            pos_hint: {'center_x': 0.9, 'center_y': 0.25}
+
+                    MDBottomNavigationItem:
+                        name: 'screen 4'
+                        text: 'Vagas'
+                        icon: 'briefcase-variant'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('vagas')
+
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: app.go_to_left_screen()
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                size: dp(200),dp(20)
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+
+                            MDIconButton:
+                                icon: "filter"
+                                theme_text_color: "Custom"
+                                text_color: 0, 0, 0, 1  
+                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
+
+                        MDLabel:
+                            text: 'Vagas'
+                            halign: 'center'
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            size_hint_y: 1
+            spacing: 10
+            background_color: 1, 1, 1, 1  
+
+            FloatLayout:
+                spacing: 14
+                padding: dp(5)
+
+                MDList:
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.31}
+                            
+                    ConfigItem:
+                        text: "Perfil"
+                        description: "Editar Perfil"
+                        on_release: 
+                            app.root.transition.direction = "right"
+                            app.root.current = 'config_Perfil'
+                        IconLeftWidget:
+                            icon: "account-cog"
+                    ConfigItem:
+                        text: "Segurança"
+                        description: "Configurações de segurança do aplicativo"
+                        on_release: 
+                            app.root.transition.direction = "right"
+                            app.root.current = 'Config_Segurança'
+                        IconLeftWidget:
+                            icon: "security"
+                    ConfigItem:
+                        text: "Visibilidade"
+                        description: "Opções de visibilidade"
+                        on_release: 
+                            app.root.transition.direction = "right"
+                            app.root.current = 'Config_Visibilidade'
+                        IconLeftWidget:
+                            icon:"eye"
+                    ConfigItem:
+                        text: "Privacidade de Dados"
+                        description: "Controle de privacidade e segurança de dados"
+                        on_release: 
+                            app.root.transition.direction = "right"
+                            app.root.current = 'Config_Privacidade_Dados'
+                        IconLeftWidget:
+                            icon:'lock'
+                    ConfigItem:
+                        text: "Notificações"
+                        description: "Gerencie as notificações do aplicativo"
+                        on_release: 
+                            app.root.transition.direction = "right"
+                            app.root.current = 'config_notificações'
+                        IconLeftWidget:
+                            icon: "bell-cog"
+                            on_release: 
+                                app.root.transition.direction = "right"
+                                app.root.current = 'config_notificações'
+                        
+                    ConfigItem:
+                        text: "Logout"
+                        description: "Sair da conta e fazer logout do aplicativo"
+                        on_release: app.show_logout_dialog()
+                        IconLeftWidget:
+                            icon: "logout"
+                MDLabel:
+                    id:Username
+                    text: "Username"
+                    font_size: dp(20)
+                    halign: "center"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    pos_hint: {'center_x': 0.45, 'center_y': 0.94}
+
+                Image:
+                    source: 'Background\profile.png'
+                    size_hint: None, None
+                    size: dp(65), dp(65)  
+                    pos_hint: {'center_x': 0.10,'center_y': 0.95}
+                    pos: self.parent.pos
+
+                MDIconButton:
+                    icon: "account-circle"
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.1,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  
+                    on_release: app.change_screen('Conta')
+
+                MDIconButton:
+                    icon: "moon-waning-crescent"
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.3,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  
+                    on_release: app.change_screen('Modo_noturno')
+                    
+                MDIconButton:
+                    icon:'bookmark-multiple'
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.5,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  
+                    on_release: 
+                        app.root.transition.direction = "right"
+                        app.root.current = 'Salvos'
+
+                MDIconButton:
+                    icon:"bell-ring"
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.7,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  
+                    on_release: 
+                        app.root.transition.direction = "right"
+                        app.root.current = 'Notificacoes'
+
+                MDIconButton:
+                    icon:"chat"
+                    theme_text_color: "Custom"
+                    pos_hint: {'center_x': 0.9,'center_y': 0.03}
+                    text_color: 0, 0, 0, 1  
+                    on_release: 
+                        app.root.transition.direction = "right"
+                        app.root.current = 'chat'
+<Telaconfignotificacoes>:
+    name: 'config_notificações'
+    background_color: '#FFFFFF'
+
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Menu'
+
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+        MDLabel:
+            text: "Notificações"
+            padding: 10
+            font_size: dp(20)
+            halign: "center"
+            size_hint_x: None
+            size: dp(150), dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+
+    MDIconButton:
+        icon: 'progress-question'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+        on_release: app.open_link("https://exemplo.com")
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+    FloatLayout:
+        size_hint: None, None
+        size: dp(360), dp(590)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.58}
+
+        ScrollView:
+            MDList:
+                OneLineIconListItem:
+                    text: "vagas"
+                    IconLeftWidget:
+                        icon: 'briefcase-outline'
+                    
+
+                OneLineIconListItem:
+                    text: "Contratação"
+                    IconLeftWidget:
+                        icon: 'account-tie-outline'
+                    
+
+                OneLineIconListItem:
+                    text: "Mensagens"
+                    IconLeftWidget:
+                        icon: 'message-outline'
+                    
+
+                OneLineIconListItem:
+                    text: "Menções"
+                    IconLeftWidget:
+                        icon: 'at'
+                    
+
+                OneLineIconListItem:
+                    text: "Publicar e comentar"
+                    IconLeftWidget:
+                        icon: 'comment-edit-outline'
+                    
+
+                OneLineIconListItem:
+                    text: "Notícias e relatórios"
+                    IconLeftWidget:
+                        icon: 'newspaper'
+                    
+
+                OneLineIconListItem:
+                    text: "Contatos"
+                    IconLeftWidget:
+                        icon: 'account-outline'
+                    
+
+                OneLineIconListItem:
+                    text: "Grupos"
+                    IconLeftWidget:
+                        icon: 'account-multiple-outline'
+                    
+
+                OneLineIconListItem:
+                    text: "Comunidades"
+                    IconLeftWidget:
+                        icon: 'account-group-outline'
+
+<TelaconfigPrivacidadeDados>:
+    name: 'Config_Privacidade_Dados'
+    background_color:  '#FFFFFF'
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Menu'
+
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+        MDLabel:
+            text: "Privacidade dos dados"
+            padding: 10
+            font_size: dp(20)  
+            halign: "center"
+            size_hint_x: None
+            size: dp(250),dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+
+    MDIconButton:
+        icon: 'progress-question'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+        on_release: app.open_link("https://exemplo.com")
+
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+               
+    FloatLayout:
+        size_hint: None, None
+        size: dp(359), dp(590)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.66}
+                        
+        MDList:
+            pos_hint: {'center_x': 0.4, 'center_y': 0.5}
+            halign: 'left'
+            ConfigItem:
+                text: "Política de Privacidade"
+            ConfigItem:
+                text: "Consentimento de Dados"                    
+            ConfigItem:
+                text: "Criptografia de Dados"
+            ConfigItem:
+                text: "Controle de Acesso"
+            ConfigItem:
+                text: "Opções de Compartilhamento"
+            ConfigItem:
+                text: "Opções de Exclusão de Conta"
+            ConfigItem:
+                text: "Configurações de Privacidade"
+
+<TelaconfigVisibilidade>:
+    name: 'Config_Visibilidade'
+    background_color:  '#FFFFFF'
+
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Menu'
+
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+        MDLabel:
+            text: "Visibilidade"
+            padding: 10
+            font_size: dp(20)  
+            halign: "center"
+            size_hint_x: None
+            size: dp(150),dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+
+    MDIconButton:
+        icon: 'progress-question'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+        on_release: app.open_link("https://exemplo.com")
+
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+               
+    FloatLayout:
+        size_hint: None, None
+        size: dp(359), dp(590)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.66}
+                        
+        MDList:
+            pos_hint: {'center_x': 0.4, 'center_y': 0.6}
+            halign: 'left'
+            ConfigItem:
+                text: "Opções de visualização"
+            ConfigItem:
+                text: "Quem poder ver"                        
+            ConfigItem:
+                text: "Restrito por Localização"                             
+            ConfigItem:
+                text: "Restrito por Domínio"
+
+<TelaconfigSeguranca>:
+    name: 'Config_Segurança'
+    background_color:  '#FFFFFF'
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Menu'
+
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+        MDLabel:
+            text: "Segurança"
+            padding: 10
+            font_size: dp(20)  
+            halign: "center"
+            size_hint_x: None
+            size: dp(150),dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+
+    MDIconButton:
+        icon: 'progress-question'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+        on_release: app.open_link("https://exemplo.com")
+
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+    MDLabel:
+        text: "Acesso a conta:"
+        padding: 10
+        font_size: dp(18)  
+        halign: "left"
+        size_hint_x: None
+        size: dp(250),dp(20)
+        pos_hint: {'center_x': 0.65, 'center_y': 0.89}
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1 
+               
+    FloatLayout:
+        size_hint: None, None
+        size: dp(359), dp(590)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.66}
+                        
+        MDList:
+            pos_hint: {'center_x': 0.4, 'center_y': 0.5}
+            halign: 'left'
+            ConfigItem:
+                text: "Endereço de email"
+            ConfigItem:
+                text: "Trocar Senha"                                 
+            ConfigItem:
+                text: "Números de telefone"                        
+            ConfigItem:
+                text: "Suas sessões"                              
+            ConfigItem:
+                text: "Verificação de duas etapas"                               
+            ConfigItem:
+                text: "Informações de localização"                      
+
+<TelaconfigPerfil>:
+    name: 'config_Perfil'
+    background_color:  '#FFFFFF'
+
+    FloatLayout:
+        spacing: 14
+        pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+        size_hint: None, None
+        size: dp(360), dp(160) 
+                    
+        MDCard:
+            size_hint_x: None
+            size: dp(360), dp(160)  
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            elevation: 1
+            orientation: 'vertical'
+            md_bg_color: 0, 0, 0, 1  
+            mode: "round"
+                        
+            Image:
+                source: 'Background\Background3.png'
+                allow_stretch: True
+                keep_ratio: False
+
+        MDIconButton:
+            icon: 'arrow-left'
+            theme_text_color: 'Custom'
+            text_color: 0, 0, 0, 1
+            pos_hint: {'center_x': 0.1, 'center_y': 0.7}
+            on_release: "menu"
+            size_hint: None, None
+            size: dp(48), dp(48)
+            on_release: 
+                app.root.transition.direction = "right"
+                app.root.current = 'Menu'
+                
+        MDIconButton:
+            icon: 'camera'
+            theme_text_color: "Custom"
+            pos_hint: {'center_x': 0.9,'center_y': 0.7}
+            size_hint: None, None
+            size: dp(48), dp(48)
+            text_color: 0, 0, 0, 1  
+            on_release: app.change_screen('Trocar_Background_Perfil')
+
+    FloatLayout:
+        size_hint: None, None
+        size: dp(100), dp(100) 
+        pos_hint: {'center_x': 0.2, 'center_y': 0.78}
+        Image:
+            source: 'Background\profile.png'
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: None, None
+            size: dp(100), dp(100)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        MDIconButton:
+            icon: 'camera'
+            theme_text_color: "Custom"
+            pos_hint: {'center_x': 0.82,'center_y': 0.14}
+            size_hint: None, None
+            size: dp(48), dp(48)
+            text_color: 0, 0, 0, 1  
+            on_release: app.change_screen('Trocar_foto_Perfil')
+                
+    FloatLayout:
+                    
+        MDLabel:
+            text: "Nome"
+            padding: 10
+            font_size: dp(20)  
+            halign: "left"
+            size_hint: None, None
+            size: dp(150), dp(20)
+            pos_hint: {'center_x': 0.55, 'center_y': 0.74}
+        MDIconButton:
+            icon: "pencil"
+            theme_text_color: "Custom"
+            pos_hint: {'right': 0.98, 'center_y': 0.75}
+            text_color: 0, 0, 0, 1
+
+        MDLabel:
+            text: "Nome Social:"
+            padding: 10
+            font_size: dp(15)  
+            halign: "left"
+            size_hint: None, None
+            size: dp(150), dp(20)
+            pos_hint: {'center_x': 0.2, 'center_y': 0.68}
+
+        MDLabel:
+            text: "Gênero:"
+            padding: 10
+            font_size: dp(15)  
+            halign: "left"
+            size_hint: None, None
+            size: dp(150), dp(20)
+            pos_hint: {'center_x': 0.2, 'center_y': 0.65}
+
+        MDLabel:
+            text: "Profissão:"
+            padding: 10
+            font_size: dp(15)  
+            halign: "left"
+            size_hint: None, None
+            size: dp(150), dp(20)
+            pos_hint: {'center_x': 0.2, 'center_y': 0.62}
+
+        MDLabel:
+            text: "Localização:"    
+            padding: 10
+            font_size: dp(15)  
+            halign: "left"
+            size_hint: None, None
+            size: dp(150), dp(20)
+            pos_hint: {'center_x': 0.2, 'center_y': 0.59}
+                    
+        MDBoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(1)
+            padding: dp(5)
+            spacing: dp(5)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.56}
+            canvas:
+                Color:
+                    rgba: 0.7, 0.7, 0.7, 1 
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        FloatLayout:
+            size_hint: None, None
+            size: dp(360), dp(400) 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.34}
+
+            ScrollView:
+                pos_hint: {'center_x': 0.5, 'center_y': 0.05}
+                size_hint: None, None
+                size: dp(350), dp(640)
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing:25
+
+                    MDTextField:
+                        hint_text: "Sobre Mim"
+                        helper_text: "Descreva um pouco sobre você"
+                        multiline: True
+                        mode: "rectangle"
+                        max_text_length: 500
+                        font_size: sp(14)
+                        size_hint_y: None
+                        height: self.minimum_height
+
+                    MDRectangleFlatIconButton:
+                        text: "Currículo:"    
+                        padding: 10
+                        font_size: dp(15)  
+                        halign: "left"
+                        pos_hint: {'center_x': 0.17, 'center_y': 0.5}
+                        icon: "attachment"
+
+<TelaSalvos>:
+    name: 'Salvos'
+    background_color:  '#FFFFFF'
+    MDGridLayout:
+        id: box
+        adaptive_height: True
+        cols: 1
+        padding: dp(5)
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Menu'
+
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+        MDLabel:
+            text: "Salvos"
+            padding: 10
+            font_size: dp(20)  
+            halign: "center"
+            size_hint_x: None
+            size: dp(150),dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+
+    MDIconButton:
+        icon: 'filter'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+<Telanotificacoes>:
+    name: 'Notificacoes'
+    background_color:  '#FFFFFF'
+    MDGridLayout:
+        id: box
+        adaptive_height: True
+        cols: 1
+        padding: dp(5)
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Menu' 
+
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+        MDLabel:
+            text: "Notificações"
+            padding: 10
+            font_size: dp(20)  
+            halign: "center"
+            size_hint_x: None
+            size: dp(150),dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+
+    MDIconButton:
+        icon: 'filter'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+<TelaChat>:
+    name: 'chat'
+    MDNavigationLayout:
+        ScreenManager:
+            Screen:
+                background_color:  '#FFFFFF'
+                MDBottomNavigation:
+                    background_color: 1, 1, 1, 1  
+                    selected_color_background: app.theme_cls.primary_color
+                    text_color_active: 0, 0, 0, 1
+                    height: dp(64)  
+                    spacing: 5
+                    canvas.before:
+                        Color:
+                            rgba: 0.0, 0.0, 0.75, 1  
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                                        
+                    MDBottomNavigationItem:
+                        name: 'Contatos'
+                        text: 'Contatos'
+                        icon: 'chat-processing-outline'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('Contatos')
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: 
+                                app.root.transition.direction = "right"
+                                app.root.current = 'Menu'
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                size: dp(200),dp(20)
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+
+                            MDIconButton:
+                                icon: "filter"
+                                theme_text_color: "Custom"
+                                text_color: 0, 0, 0, 1  
+                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(360), dp(640)
+                            pos_hint: {'center_x': 1, 'center_y': 0.5}
+                                        
+                            MDFloatingActionButtonSpeedDial:
+                                root_button: None
+                                root_button_anim: True
+                                size_hint: None, None
+                                size: dp(20), dp(20)  
+                                hint_radius: dp(0)  
+                                data: app.data
+                                md_bg_color: app.theme_cls.primary_color
+                                label_text_color: "black"
+                                icon: "plus"
+                                elevation: 0
+
+                        MDTextField:
+                            hint_text: "Pesquisar"
+                            mode: "round"
+                            halign: 'left'
+                            padding: 10
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                            icon_left: 'magnify'
+
+                        MDLabel:
+                            text: 'Contatos'
+                            halign: 'center'
+
+                    MDBottomNavigationItem:
+                        name: 'Grupos'
+                        text: 'Grupos'
+                        icon: 'account-multiple-outline'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('Grupos')
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: 
+                                app.root.transition.direction = "right"
+                                app.root.current = 'Menu'
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                size: dp(200),dp(20)
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+
+                            MDIconButton:
+                                icon: "filter"
+                                theme_text_color: "Custom"
+                                text_color: 0, 0, 0, 1  
+                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(360), dp(640)
+                            pos_hint: {'center_x': 1, 'center_y': 0.5}
+                                        
+                            MDFloatingActionButtonSpeedDial:
+                                root_button: None
+                                root_button_anim: True
+                                size_hint: None, None
+                                size: dp(20), dp(20)  
+                                hint_radius: dp(0)  
+                                data: app.data
+                                md_bg_color: app.theme_cls.primary_color
+                                label_text_color: "black"
+                                icon: "plus"
+                                elevation: 0   
+
+                        MDLabel:
+                            text: 'Grupos'
+                            halign: 'center'
+
+                    MDBottomNavigationItem:
+                        name: 'Comunidades'
+                        text: 'Comunidades'
+                        icon: 'account-group-outline'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('Comunidades')
+
+                        MDIconButton:
+                            icon: 'arrow-left'
+                            theme_text_color: 'Custom'
+                            text_color: 0, 0, 0, 1
+                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+                            on_release: 
+                                app.root.transition.direction = "right"
+                                app.root.current = 'Menu'
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                size: dp(200),dp(20)
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+
+                            MDIconButton:
+                                icon: "filter"
+                                theme_text_color: "Custom"
+                                text_color: 0, 0, 0, 1  
+                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(360), dp(640)
+                            pos_hint: {'center_x': 1, 'center_y': 0.5}
+                                        
+                            MDFloatingActionButtonSpeedDial:
+                                root_button: None
+                                root_button_anim: True
+                                size_hint: None, None
+                                size: dp(20), dp(20)  
+                                hint_radius: dp(0)  
+                                data: app.data
+                                md_bg_color: app.theme_cls.primary_color
+                                label_text_color: "black"
+                                icon: "plus"
+                                elevation: 0
+                                            
+                                        
+                        MDTextField:
+                            hint_text: "Pesquisar"
+                            mode: "round"
+                            halign: 'left'
+                            padding: 10
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                            icon_left: 'magnify'
+
+                        MDLabel:
+                            text: 'Comunidades'
+                            halign: 'center'                   

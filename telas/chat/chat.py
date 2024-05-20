@@ -22,7 +22,7 @@ class ConfigItem(OneLineIconListItem):
 
 class App(MDApp):
     data = {
-        'Criar Grupo': 'account-multiple',
+        'Criar Grupo': 'account-multiple-outline',
         'Criar Comunidade': 'account-group-outline',
     }
     def build(self):
@@ -30,7 +30,7 @@ class App(MDApp):
         Window.size = (dp(360), dp(640))  # Largura x Altura em dp
         Window.clearcolor = (1, 1, 1, 1)
 
-        self.theme_cls.primary_palette = "Purple"
+        self.theme_cls.primary_palette = "Indigo"
         return Builder.load_file(os.path.join("telas\chat\chat.kv"))
     def show_logout_dialog(self):
         dialog = MDDialog(

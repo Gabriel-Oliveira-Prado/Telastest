@@ -13,7 +13,9 @@ MDScreen:
                     theme_text_color: 'Custom'
                     text_color: 0, 0, 0, 1
                     pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                    on_release: app.go_to_left_screen()
+                    on_release: 
+                        app.root.transition.direction = "right"
+                        app.root.current = 'Menu'
 
                 FloatLayout:
                     size_hint: None, None
