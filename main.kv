@@ -20,7 +20,6 @@ ScreenManager:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
-
     MDRectangleFlatIconButton:
         icon: 'account-tie'
         text: 'Pessoa jurídica'
@@ -32,8 +31,7 @@ ScreenManager:
         icon_color: 0, 0, 0, 1
         on_release: 
             app.root.transition.direction = "left"
-            app.root.current = 'Entrar_Login_jurídico'
-    
+            app.root.current = 'Entrar_Login_jurídico'   
     MDCard:
         size_hint: None, None
         size: dp(260), dp(350) 
@@ -45,7 +43,6 @@ ScreenManager:
         md_bg_color: 0, 0, 0, 0  
         radius: [dp(10)]  
         mode: "round"
-
         MDLabel:
             theme_text_color: "Custom"
             text_color: '#FDFAF3'
@@ -55,7 +52,6 @@ ScreenManager:
             size_hint_y: None
             height: self.texture_size[1]
             padding_y: dp(5)
-
         MDTextField:
             hint_text: "Digite seu Login" 
             icon_right: "account"
@@ -65,8 +61,6 @@ ScreenManager:
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             line_color_normal: "#FDFAF3"  
-            
-
         MDTextField:
             password: True
             hint_text: "Digite sua Senha"
@@ -76,8 +70,7 @@ ScreenManager:
             font_size: dp(14) 
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#FDFAF3"
-            
+            line_color_normal: "#FDFAF3"           
         MDTextButton:
             text: "Esqueceu a senha?"
             theme_text_color: "Custom"
@@ -118,7 +111,6 @@ ScreenManager:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
-
     MDRectangleFlatIconButton:
         icon: 'account'
         text: 'Pessoa Física'
@@ -131,7 +123,6 @@ ScreenManager:
         on_release: 
             app.root.transition.direction = "right"
             app.root.current = 'Entrar_login'
-
     MDCard:
         size_hint: None, None
         size: dp(260), dp(350) 
@@ -143,9 +134,7 @@ ScreenManager:
         md_bg_color: 0, 0, 0, 0  
         radius: [dp(10)]  
         mode: "round"
-
         MDLabel:
-            id: label
             theme_text_color: "Custom"
             text_color: '#FDFAF3'
             text: "Login"
@@ -154,7 +143,6 @@ ScreenManager:
             size_hint_y: None
             height: self.texture_size[1]
             padding_y: dp(5)
-
         MDTextField:
             hint_text: "CNPJ" 
             id: login
@@ -164,8 +152,7 @@ ScreenManager:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#FDFAF3"  
-        
+            line_color_normal: "#FDFAF3"       
         MDTextField:
             hint_text: "Digite seu Email" 
             id: login
@@ -176,8 +163,6 @@ ScreenManager:
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             line_color_normal: "#FDFAF3"
-            
-
         MDTextField:
             password: True
             hint_text: "Digite sua Senha"
@@ -188,8 +173,7 @@ ScreenManager:
             font_size: dp(14) 
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#FDFAF3"
-            
+            line_color_normal: "#FDFAF3"           
         MDTextButton:
             text: "Esqueceu a senha?"
             theme_text_color: "Custom"
@@ -208,7 +192,6 @@ ScreenManager:
                 md_bg_color: "#FDFAF3"
                 font_size: dp(14) 
                 pos_hint: {'center_x': 0.25, 'center_y': 0.65}
-
             MDRaisedButton:
                 text: "Criar conta"
                 custom_color: "Gray"
@@ -227,11 +210,10 @@ ScreenManager:
     Image:
         source: 'Background\Backgroundinicial.png'
         allow_stretch: True
-        keep_ratio: False
-    
+        keep_ratio: False   
     MDRectangleFlatIconButton:
-        text: 'Conta jurídica'
         icon:'store-edit'
+        text: 'Conta jurídica'
         pos_hint: {'center_x': 0.25, 'center_y': 0.95}
         custom_color: "Gray"
         theme_text_color: "Custom"
@@ -240,12 +222,11 @@ ScreenManager:
         icon_color: 0, 0, 0, 1
         on_release: 
             app.root.transition.direction = "right"
-            app.root.current = 'Criar_conta_Jurídica'
-        
+            app.root.current = 'Criar_conta_Jurídica'    
     MDCard:
         size_hint: None, None
-        size: dp(250), dp(600)  
-        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        size: dp(250), dp(500)  
+        pos_hint: {'center_x': 0.5, 'center_y': 0.42}
         elevation: 0
         orientation: 'vertical'
         padding: dp(15)
@@ -255,8 +236,9 @@ ScreenManager:
         mode: "round"
         
         MDLabel:
-            id: label
             text: "Criar conta"
+            theme_text_color: "Custom"
+            text_color: '#FDFAF3'
             font_size: dp(30)  
             halign: "center"
             size_hint_y: None
@@ -386,7 +368,6 @@ ScreenManager:
             pos_hint: {'center_x': 0.5}
         
 <TelaCriarContaJuridico>:
-
     name: 'Criar_conta_Jurídica'
     background_color:  '#FFFFFF'
     Image:
@@ -407,7 +388,6 @@ ScreenManager:
             app.root.transition.direction = 'right'
             app.root.current = 'Criar_conta'
 
-        
     MDCard:
         size_hint: None, None
         size: dp(250), dp(500)  
@@ -421,8 +401,9 @@ ScreenManager:
         mode: "round"
         
         MDLabel:
-            id: label
             text: "Criar conta jurídica"
+            theme_text_color: "Custom"
+            text_color: '#FDFAF3'
             font_size: dp(30)  
             halign: "center"
             size_hint_y: None
