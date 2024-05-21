@@ -1,54 +1,63 @@
+from kivy.lang import Builder
+
 from kivymd.app import MDApp
-from kivymd.uix.button import MDRaisedButton
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.gridlayout import MDGridLayout
-from kivymd.uix.bottomsheet import MDGridBottomSheet
-from kivy.uix.screenmanager import ScreenManager, Screen
 
-class MainApp(MDApp):
+KV = '''
+MDScreen:
+
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: "20dp"
+        adaptive_height: True
+        size_hint_x: .8
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDTextField:
+            hint_text: "Date dd/mm/yyyy without limits"
+            helper_text: "Enter a valid dd/mm/yyyy date"
+            validator: "date"
+            date_format: "dd/mm/yyyy"
+
+        MDTextField:
+            hint_text: "Date mm/dd/yyyy without limits"
+            helper_text: "Enter a valid mm/dd/yyyy date"
+            validator: "date"
+            date_format: "mm/dd/yyyy"
+
+        MDTextField:
+            hint_text: "Date yyyy/mm/dd without limits"
+            helper_text: "Enter a valid yyyy/mm/dd date"
+            validator: "date"
+            date_format: "yyyy/mm/dd"
+
+        MDTextField:
+            hint_text: "Date dd/mm/yyyy in [01/01/1900, 01/01/2100] interval"
+            helper_text: "Enter a valid dd/mm/yyyy date"
+            validator: "date"
+            date_format: "dd/mm/yyyy"
+            date_interval: "01/01/1900", "01/01/2100"
+
+        MDTextField:
+            hint_text: "Date dd/mm/yyyy in [01/01/1900, None] interval"
+            helper_text: "Enter a valid dd/mm/yyyy date"
+            validator: "date"
+            date_format: "dd/mm/yyyy"
+            date_interval: "01/01/1900", None
+
+        MDTextField:
+            hint_text: "Date dd/mm/yyyy in [None, 01/01/2100] interval"
+            helper_text: "Enter a valid dd/mm/yyyy date"
+            validator: "date"
+            date_format: "dd/mm/yyyy"
+            date_interval: None, "01/01/2100"
+'''
+
+
+class Test(MDApp):
     def build(self):
-        self.layout = MDBoxLayout(orientation="vertical")
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "Orange"
+        return Builder.load_string(KV)
 
-        button = MDRaisedButton(
-            text="Abrir Bottom Sheet",
-            pos_hint={"center_x": .5, "center_y": .5},
-            on_release=self.show_grid_bottom_sheet
-        )
 
-        self.layout.add_widget(button)
-        
-        # Crie o BottomSheet aqui e adicione ao layout
-        self.bottom_sheet_menu = MDGridBottomSheet()
-        self.layout.add_widget(self.bottom_sheet_menu)
-        
-        return self.layout
-
-    def show_grid_bottom_sheet(self, instance):
-        # Definindo um layout de grade para os itens
-        grid_layout = MDGridLayout(cols=2)  # 2 colunas
-        
-        for item in menu_items:
-            # Criando o widget do item
-            button = MDRaisedButton(**item)  
-            grid_layout.add_widget(button)  # Adicionando o botão ao layout de grade
-
-        # Adicionando o layout de grade ao BottomSheet
-        self.bottom_sheet_menu.add_widget(grid_layout) 
-        self.bottom_sheet_menu.open()
-
-def callback_for_menu_items(instance):
-    print(f"Clicou no item: {instance.text}")
-
-menu_items = [
-    { "text": "Item 1",
-      "on_release": callback_for_menu_items },
-    { "text": "Item 2",
-      "on_release": callback_for_menu_items },
-    { "text": "Item 3",
-      "on_release": callback_for_menu_items },
-    { "text": "Item 4",
-      "on_release": callback_for_menu_items },
-]
-
-if __name__ == "__main__":
-    MainApp().run()
+Test().run()
