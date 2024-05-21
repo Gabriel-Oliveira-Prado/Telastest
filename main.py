@@ -55,6 +55,9 @@ class Telanotificacoes(Screen):
 class TelaChat(Screen):
     pass
 
+class TelaPublicacoes(Screen):
+    pass
+
 class ItemConfirm(OneLineIconListItem):
     pass
 
