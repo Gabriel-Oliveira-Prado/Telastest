@@ -602,14 +602,6 @@ ScreenManager:
                         IconLeftWidget:
                             icon: "security"
                     ConfigItem:
-                        text: "Visibilidade"
-                        description: "Opções de visibilidade"
-                        on_release: 
-                            app.root.transition.direction = "right"
-                            app.root.current = 'Config_Visibilidade'
-                        IconLeftWidget:
-                            icon:"eye"
-                    ConfigItem:
                         text: "Privacidade de Dados"
                         description: "Controle de privacidade e segurança de dados"
                         on_release: 
@@ -774,30 +766,6 @@ ScreenManager:
                     text: "Publicar e comentar"
                     IconLeftWidget:
                         icon: 'comment-edit-outline'
-                    
-
-                OneLineIconListItem:
-                    text: "Notícias e relatórios"
-                    IconLeftWidget:
-                        icon: 'newspaper'
-                    
-
-                OneLineIconListItem:
-                    text: "Contatos"
-                    IconLeftWidget:
-                        icon: 'account-outline'
-                    
-
-                OneLineIconListItem:
-                    text: "Grupos"
-                    IconLeftWidget:
-                        icon: 'account-multiple-outline'
-                    
-
-                OneLineIconListItem:
-                    text: "Comunidades"
-                    IconLeftWidget:
-                        icon: 'account-group-outline'
 
 <TelaconfigPrivacidadeDados>:
     name: 'Config_Privacidade_Dados'
@@ -841,27 +809,55 @@ ScreenManager:
             Rectangle:
                 size: self.size
                 pos: self.pos               
+    
     FloatLayout:
         size_hint: None, None
         size: dp(359), dp(590)
-        pos_hint: {'center_x': 0.5, 'center_y': 0.66}                        
-        MDList:
-            pos_hint: {'center_x': 0.4, 'center_y': 0.5}
-            halign: 'left'
-            ConfigItem:
-                text: "Política de Privacidade"
-            ConfigItem:
-                text: "Consentimento de Dados"                    
-            ConfigItem:
-                text: "Criptografia de Dados"
-            ConfigItem:
-                text: "Controle de Acesso"
-            ConfigItem:
-                text: "Opções de Compartilhamento"
-            ConfigItem:
-                text: "Opções de Exclusão de Conta"
-            ConfigItem:
-                text: "Configurações de Privacidade"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+        ScrollView:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.05}
+            size_hint: None, None
+            size: dp(360), dp(640)       
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing:15                 
+                MDList:
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.5}
+                    halign: 'left'
+                    ConfigItem:
+                        text: "Política de Privacidade"
+                    ConfigItem:
+                        text: "Consentimento de Dados"                    
+                    ConfigItem:
+                        text: "Controle de Acesso"
+                    ConfigItem:
+                        text: "Opções de Exclusão de Conta"
+                MDFloatLayout:
+                    size_hint: None, None
+                    size: dp(359), dp(590)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.66}
+                    MDLabel:
+                        text: "Visibilidade"
+                        padding: 10
+                        font_size: dp(20)  
+                        halign: "center"
+                        size_hint_x: None
+                        size: dp(150),dp(20)
+                        pos_hint: {'center_x': 0.5, 'center_y': 1}                   
+                    MDList:
+                        pos_hint: {'center_x': 0.4, 'center_y': 0.6}
+                        halign: 'left'
+                        ConfigItem:
+                            text: "Opções de visualização"
+                        ConfigItem:
+                            text: "Quem poder ver"                        
+                        ConfigItem:
+                            text: "Restrito por Localização"                             
+                        ConfigItem:
+                            text: "Restrito por Domínio"
+
 
 <TelaconfigVisibilidade>:
     name: 'Config_Visibilidade'
@@ -1313,100 +1309,6 @@ ScreenManager:
                             text: 'Contatos'
                             halign: 'center'
 
-                    MDBottomNavigationItem:
-                        name: 'Grupos'
-                        text: 'Grupos'
-                        icon: 'account-multiple-outline'
-                        halign: 'center'
-                        on_tab_press: app.switch_screen('Grupos')
-                        MDIconButton:
-                            icon: 'arrow-left'
-                            theme_text_color: 'Custom'
-                            text_color: 0, 0, 0, 1
-                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: 
-                                app.root.transition.direction = "right"
-                                app.root.current = 'Menu'
-
-                        FloatLayout:
-                            size_hint: None, None
-                            size: dp(200), dp(200)
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-
-                            MDTextField:
-                                hint_text: "Pesquisar"
-                                mode: "round"
-                                halign: 'left'
-                                padding: 10
-                                size_hint_x: None
-                                size: dp(200),dp(20)
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                icon_left: 'magnify'
-
-                            MDIconButton:
-                                icon: "filter"
-                                theme_text_color: "Custom"
-                                text_color: 0, 0, 0, 1  
-                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
-
-                        FloatLayout:
-                            size_hint: None, None
-                            size: dp(360), dp(640)
-                            pos_hint: {'center_x': 1, 'center_y': 0.5}
-                                        
-                            MDFloatingActionButtonSpeedDial:
-                                root_button: None
-                                root_button_anim: True
-                                size_hint: None, None
-                                size: dp(20), dp(20)  
-                                hint_radius: dp(0)  
-                                data: app.data
-                                md_bg_color: app.theme_cls.primary_color
-                                label_text_color: "black"
-                                icon: "plus"
-                                elevation: 0   
-
-                        MDLabel:
-                            text: 'Grupos'
-                            halign: 'center'
-
-                    MDBottomNavigationItem:
-                        name: 'Comunidades'
-                        text: 'Comunidades'
-                        icon: 'account-group-outline'
-                        halign: 'center'
-                        on_tab_press: app.switch_screen('Comunidades')
-
-                        MDIconButton:
-                            icon: 'arrow-left'
-                            theme_text_color: 'Custom'
-                            text_color: 0, 0, 0, 1
-                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: 
-                                app.root.transition.direction = "right"
-                                app.root.current = 'Menu'
-
-                        FloatLayout:
-                            size_hint: None, None
-                            size: dp(200), dp(200)
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-
-                            MDTextField:
-                                hint_text: "Pesquisar"
-                                mode: "round"
-                                halign: 'left'
-                                padding: 10
-                                size_hint_x: None
-                                size: dp(200),dp(20)
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                icon_left: 'magnify'
-
-                            MDIconButton:
-                                icon: "filter"
-                                theme_text_color: "Custom"
-                                text_color: 0, 0, 0, 1  
-                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
-
                         FloatLayout:
                             size_hint: None, None
                             size: dp(360), dp(640)
@@ -1431,13 +1333,10 @@ ScreenManager:
                             size: dp(200), dp(200)
                             pos_hint: {'center_x': 0.5, 'center_y': 0.95}
                             icon_left: 'magnify'
-                        MDLabel:
-                            text: 'Comunidades'
-                            halign: 'center'
-
+     
 <TelaPublicacoes>:
     name: 'Publicacoes'
-    background_color:  '#FFFFFF'   
+    background_color:'#FFFFFF'   
     MDIconButton:
         icon: 'arrow-left'
         theme_text_color: 'Custom'

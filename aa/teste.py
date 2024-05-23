@@ -1,63 +1,27 @@
-from kivy.lang import Builder
-
-from kivymd.app import MDApp
-
-KV = '''
-MDScreen:
-
-    MDBoxLayout:
-        orientation: "vertical"
-        spacing: "20dp"
-        adaptive_height: True
-        size_hint_x: .8
-        pos_hint: {"center_x": .5, "center_y": .5}
-
-        MDTextField:
-            hint_text: "Date dd/mm/yyyy without limits"
-            helper_text: "Enter a valid dd/mm/yyyy date"
-            validator: "date"
-            date_format: "dd/mm/yyyy"
-
-        MDTextField:
-            hint_text: "Date mm/dd/yyyy without limits"
-            helper_text: "Enter a valid mm/dd/yyyy date"
-            validator: "date"
-            date_format: "mm/dd/yyyy"
-
-        MDTextField:
-            hint_text: "Date yyyy/mm/dd without limits"
-            helper_text: "Enter a valid yyyy/mm/dd date"
-            validator: "date"
-            date_format: "yyyy/mm/dd"
-
-        MDTextField:
-            hint_text: "Date dd/mm/yyyy in [01/01/1900, 01/01/2100] interval"
-            helper_text: "Enter a valid dd/mm/yyyy date"
-            validator: "date"
-            date_format: "dd/mm/yyyy"
-            date_interval: "01/01/1900", "01/01/2100"
-
-        MDTextField:
-            hint_text: "Date dd/mm/yyyy in [01/01/1900, None] interval"
-            helper_text: "Enter a valid dd/mm/yyyy date"
-            validator: "date"
-            date_format: "dd/mm/yyyy"
-            date_interval: "01/01/1900", None
-
-        MDTextField:
-            hint_text: "Date dd/mm/yyyy in [None, 01/01/2100] interval"
-            helper_text: "Enter a valid dd/mm/yyyy date"
-            validator: "date"
-            date_format: "dd/mm/yyyy"
-            date_interval: None, "01/01/2100"
-'''
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.uix.dropdown import DropDown
 
 
-class Test(MDApp):
+class SelectButtonApp(App):
     def build(self):
-        self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Orange"
-        return Builder.load_string(KV)
+        main_button = Button(text='Selecionar Opções', size_hint=(None, None), size=(200, 50))
+        dropdown = DropDown()
+
+        # Adiciona algumas opções ao dropdown
+        for option in ['Opção 1', 'Opção 2', 'Opção 3']:
+            btn = Button(text=option, size_hint_y=None, height=44)
+            btn.bind(on_release=lambda btn: dropdown.select(btn.text))
+            dropdown.add_widget(btn)
+
+        # Abre o dropdown quando o botão principal é clicado
+        main_button.bind(on_release=dropdown.open)
+
+        # Atualiza o texto do botão principal com a opção selecionada
+        dropdown.bind(on_select=lambda instance, x: setattr(main_button, 'text', x))
+
+        return main_button
 
 
-Test().run()
+if __name__ == '__main__':
+    SelectButtonApp().run()

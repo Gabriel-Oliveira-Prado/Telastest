@@ -1,0 +1,49 @@
+Screen:
+    name: 'criar_vaga'
+
+    MDFloatLayout:
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Cor branca
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDLabel:
+            text: "Criar Vaga"
+            font_size: dp(20)
+            halign: "center"
+            size_hint_x: None
+            size: dp(300), dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+            theme_text_color: "Custom"
+            text_color: 0, 0, 0, 1
+
+        MDRoundFlatButton:
+            id: main_button
+            text: "                       cargo                       "
+            size_hint: None, None
+            width: dp(200) 
+            height: dp(400)  
+            background_color: 0, 0, 0, 0 
+            color: 0, 0, 0, 1  
+            on_release: app.show_options2(main_button)  
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+            border_color: 0, 0, 0, 1
+            text_color: 0, 0, 0, 1
+        
+        
+        
+        MDRoundFlatButton:
+            id: main_button
+            text: "                       especificação                       "
+            size_hint: None, None
+            width: dp(200) 
+            height: dp(400)  
+            background_color: 0, 0, 0, 0 
+            color: 0, 0, 0, 1  
+            on_release: app.show_options1(main_button)  
+            pos_hint: {'center_x': 0.5, 'center_y': 0.75}
+            border_color: 0, 0, 0, 1
+            text_color: 0, 0, 0, 1
+        
