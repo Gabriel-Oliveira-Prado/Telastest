@@ -14,6 +14,9 @@ ScreenManager:
     TelaChat:
     TelaPublicacoes:
     TelaInformacoesPerfil:
+    TelaEnderecoemail:
+    TelaTrocarSenha:
+    Telanumerostelefone:
 
 <TelaEntrarLogin>:
     name: 'Entrar_login'
@@ -470,41 +473,12 @@ ScreenManager:
                                 app.root.transition.direction = "up"
                                 app.root.current = 'Publicacoes'
 
-
-                        MDCard:
-                            size_hint: None, None
-                            size: dp(350), dp(150) 
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
-                            elevation: 0
-                            orientation: 'vertical'
-                            md_bg_color: 0, 0, 0, 1  
-                            radius: [dp(10)]  
-                            mode: "outlined"
-                            ripple_behavior: True
-                            radius:50
-
-                            FitImage:
-                                source: 'Background\Backgroundcursos.png'
-                                allow_stretch: True
-                                keep_ratio: False
-                                size_hint: 1, 1
-                                radius:50
-
-                            
-
                     MDBottomNavigationItem:
                         name: 'screen 2'
                         text: 'Pesquisar'
                         icon: 'magnify'
                         halign: 'center'
                         on_tab_press: app.switch_screen('pesquisar') 
-
-                        MDIconButton:
-                            icon: 'arrow-left'
-                            theme_text_color: 'Custom'
-                            text_color: 0, 0, 0, 1
-                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: app.go_to_left_screen()
 
                         FloatLayout:
                             size_hint: None, None
@@ -538,13 +512,6 @@ ScreenManager:
                         icon: 'briefcase-variant'
                         halign: 'center'
                         on_tab_press: app.switch_screen('vagas')
-
-                        MDIconButton:
-                            icon: 'arrow-left'
-                            theme_text_color: 'Custom'
-                            text_color: 0, 0, 0, 1
-                            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: app.go_to_left_screen()
 
                         FloatLayout:
                             size_hint: None, None
@@ -582,7 +549,7 @@ ScreenManager:
                 padding: dp(5)
 
                 MDList:
-                    pos_hint: {'center_x': 0.4, 'center_y': 0.31}
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.27}
                             
                     ConfigItem:
                         text: "Perfil"
@@ -648,13 +615,16 @@ ScreenManager:
                     pos_hint: {'center_x': 0.1,'center_y': 0.03}
                     text_color: 0, 0, 0, 1  
                     on_release: app.change_screen('Conta')
+                    on_release: 
+                        app.root.transition.direction = "right"
+                        app.root.current = 'config_Perfil'
 
                 MDIconButton:
-                    icon: "moon-waning-crescent"
+                    icon: "web"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.3,'center_y': 0.03}
                     text_color: 0, 0, 0, 1  
-                    on_release: app.change_screen('Modo_noturno')
+                    on_release: app.open_link("https://exemplo.com")
                     
                 MDIconButton:
                     icon:'bookmark-multiple'
@@ -741,30 +711,67 @@ ScreenManager:
                     text: "vagas"
                     IconLeftWidget:
                         icon: 'briefcase-outline'
-                    
-
+                    Switch:
+                        id: Vagas_notifig
+                        pos_hint: {'center_y': 0.5, 'center_x': 0.8}
+                        active: True
+                        width: dp(40)  
+                        height: dp(25)
+                        canvas:  
+                            Color:
+                                rgba: 63,81,181,255
                 OneLineIconListItem:
                     text: "Contratação"
                     IconLeftWidget:
                         icon: 'account-tie-outline'
-                    
-
+                    Switch:
+                        id: Contratação_notifig
+                        pos_hint: {'center_y': 0.5, 'center_x': 0.8}
+                        active: True
+                        width: dp(40)  
+                        height: dp(25) 
+                        canvas:  
+                            Color:
+                                rgba: 63,81,181,255            
                 OneLineIconListItem:
                     text: "Mensagens"
                     IconLeftWidget:
                         icon: 'message-outline'
-                    
-
+                    Switch:
+                        id: Mensagens_config
+                        pos_hint: {'center_y': 0.5, 'center_x': 0.8}
+                        active: True
+                        width: dp(40)  
+                        height: dp(25)
+                        canvas:  
+                            Color:
+                                rgba: 63,81,181,255
                 OneLineIconListItem:
                     text: "Menções"
                     IconLeftWidget:
                         icon: 'at'
-                    
-
+                    Switch:
+                        id: Menções_notifig
+                        pos_hint: {'center_y': 0.5, 'center_x': 0.8}
+                        active: True
+                        width: dp(40)  
+                        height: dp(25) 
+                        canvas:  
+                            Color:
+                                rgba: 63,81,181,255
                 OneLineIconListItem:
                     text: "Publicar e comentar"
                     IconLeftWidget:
                         icon: 'comment-edit-outline'
+                    Switch:
+                        id: Publicar_comentar_notifig
+                        pos_hint: {'center_y': 0.5, 'center_x': 0.8}
+                        active: True
+                        width: dp(40)  
+                        height: dp(25)
+                        canvas:  
+                            Color:
+                                rgba: 63,81,181,255
 
 <TelaconfigPrivacidadeDados>:
     name: 'Config_Privacidade_Dados'
@@ -830,32 +837,9 @@ ScreenManager:
                     ConfigItem:
                         text: "Consentimento de Dados"                    
                     ConfigItem:
-                        text: "Controle de Acesso"
+                        text: "Restrito por Localização" 
                     ConfigItem:
                         text: "Opções de Exclusão de Conta"
-                MDFloatLayout:
-                    size_hint: None, None
-                    size: dp(359), dp(590)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.66}
-                    MDLabel:
-                        text: "Visibilidade"
-                        padding: 10
-                        font_size: dp(20)  
-                        halign: "center"
-                        size_hint_x: None
-                        size: dp(150),dp(20)
-                        pos_hint: {'center_x': 0.5, 'center_y': 1}                   
-                    MDList:
-                        pos_hint: {'center_x': 0.4, 'center_y': 0.6}
-                        halign: 'left'
-                        ConfigItem:
-                            text: "Opções de visualização"
-                        ConfigItem:
-                            text: "Quem poder ver"                        
-                        ConfigItem:
-                            text: "Restrito por Localização"                             
-                        ConfigItem:
-                            text: "Restrito por Domínio"
 
 
 <TelaconfigVisibilidade>:
@@ -973,20 +957,24 @@ ScreenManager:
         size: dp(359), dp(590)
         pos_hint: {'center_x': 0.5, 'center_y': 0.66}                       
         MDList:
-            pos_hint: {'center_x': 0.4, 'center_y': 0.5}
+            pos_hint: {'center_x': 0.4, 'center_y': 0.61}
             halign: 'left'
             ConfigItem:
                 text: "Endereço de email"
+                on_release:
+                    app.root.transition.direction = "right"
+                    app.root.current = 'Endereço_email'
             ConfigItem:
-                text: "Trocar Senha"                                 
+                text: "Trocar Senha"    
+                on_release:
+                    app.root.transition.direction = "right"
+                    app.root.current = 'Trocar_Senha'                             
             ConfigItem:
-                text: "Números de telefone"                        
-            ConfigItem:
-                text: "Suas sessões"                              
-            ConfigItem:
-                text: "Verificação de duas etapas"                               
-            ConfigItem:
-                text: "Informações de localização"                      
+                text: "Números de telefone"
+                on_release:
+                    app.root.transition.direction = "right"
+                    app.root.current = 'Números_telefone'                 
+                    
 
 <TelaconfigPerfil>:
     name: 'config_Perfil'
@@ -1350,11 +1338,11 @@ ScreenManager:
         text: 'Quem pode ver:'
         pos_hint: {'center_x': 0.4, 'center_y': 0.95}
         theme_text_color: "Custom"
-        text_color: (0.0, 0.0, 0.75, 1)  # Cor roxo claro
+        text_color: app.theme_cls.primary_color
         theme_icon_color: "Custom"
-        icon_color: (0.0, 0.0, 0.75, 1)  # Cor roxo claro
+        icon_color: app.theme_cls.primary_color
         icon: "eye"
-        on_release: app.show_QuemPoderver(self)
+        on_release: app.showquem_pode_ver(self)
 
                         
     MDRaisedButton:
@@ -1667,3 +1655,157 @@ ScreenManager:
                             line_color_normal: "#000000"
                             icon_left:'github'
                             line_color_focus: "#000000"
+
+<TelaEnderecoemail>
+    name: 'Endereço_email'
+    background_color:  '#FFFFFF'
+    MDGridLayout:
+        id: box
+        adaptive_height: True
+        cols: 1
+        padding: dp(5)
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Config_Segurança'
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+        MDLabel:
+            text: "Endereço de email"
+            padding: 10
+            font_size: dp(20)  
+            halign: "center"
+            size_hint_x: None
+            size: dp(150),dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+    MDIconButton:
+        icon: 'progress-question'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+        on_release: app.open_link("https://exemplo.com")
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+<TelaTrocarSenha>
+    name: 'Trocar_Senha'
+    background_color:  '#FFFFFF'
+    MDGridLayout:
+        id: box
+        adaptive_height: True
+        cols: 1
+        padding: dp(5)
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Config_Segurança'
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+        MDLabel:
+            text: "Trocar Senha"
+            padding: 10
+            font_size: dp(20)  
+            halign: "center"
+            size_hint_x: None
+            size: dp(150),dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+    MDIconButton:
+        icon: 'progress-question'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+        on_release: app.open_link("https://exemplo.com")
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+<Telanumerostelefone>
+    name: 'Números_telefone'
+    background_color:  '#FFFFFF'
+    MDGridLayout:
+        id: box
+        adaptive_height: True
+        cols: 1
+        padding: dp(5)
+    MDIconButton:
+        icon: 'arrow-left'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+        on_release: 
+            app.root.transition.direction = "right"
+            app.root.current = 'Config_Segurança'
+    FloatLayout:
+        size_hint: None, None
+        size: dp(200), dp(200)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+        MDLabel:
+            text: "Números de telefone"
+            padding: 10
+            font_size: dp(20)  
+            halign: "center"
+            size_hint_x: None
+            size: dp(150),dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+    MDIconButton:
+        icon: 'progress-question'
+        theme_text_color: 'Custom'
+        text_color: 0, 0, 0, 1
+        pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+        on_release: app.open_link("https://exemplo.com")
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(1)
+        padding: dp(5)
+        spacing: dp(5)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.92}
+        canvas:
+            Color:
+                rgba: 0.7, 0.7, 0.7, 1 
+            Rectangle:
+                size: self.size
+                pos: self.pos
+    
+
+        
+    
+    
+        
+            
+
+        
+    

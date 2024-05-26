@@ -78,7 +78,7 @@ class App(MDApp):
                     on_release=lambda *args: dialog.dismiss()
                 ),
                 MDFlatButton(
-                    text="Confirmar",
+                    text="Confirmar",   
                     on_release=lambda *args: self.confirm_action(dialog)
                 )
             ]

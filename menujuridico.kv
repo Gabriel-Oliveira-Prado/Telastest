@@ -49,28 +49,6 @@ Screen:
                                 app.root.transition.direction = "up"
                                 app.root.current = 'Publicacoes'
 
-
-                        MDCard:
-                            size_hint: None, None
-                            size: dp(350), dp(150) 
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
-                            elevation: 0
-                            orientation: 'vertical'
-                            md_bg_color: 0, 0, 0, 1  
-                            radius: [dp(10)]  
-                            mode: "outlined"
-                            ripple_behavior: True
-                            radius:50
-
-                            FitImage:
-                                source: 'Background\Backgroundcursos.png'
-                                allow_stretch: True
-                                keep_ratio: False
-                                size_hint: 1, 1
-                                radius:50
-
-                            
-
                     MDBottomNavigationItem:
                         name: 'screen 2'
                         text: 'Pesquisar'
@@ -112,7 +90,7 @@ Screen:
                             halign: 'center'
 
                     MDBottomNavigationItem:
-                        name: 'Screen 3'
+                        name: 'Screen 3_juridico'
                         text: 'Vagas'
                         icon: 'briefcase-variant'
                         halign: 'center'
@@ -145,17 +123,45 @@ Screen:
                                 theme_text_color: "Custom"
                                 text_color: 0, 0, 0, 1  
                                 pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
-
-                        MDCard:
+                        FloatLayout:
                             size_hint: None, None
-                            size: dp(350), dp(150) 
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.75}
-                            elevation: 5
-                            orientation: 'vertical'
-                            padding: dp(15)
-                            md_bg_color: 0, 0, 0, 1  
-                            radius: [dp(10)]
-                            styles: 'outlined'
+                            size: dp(360), dp(640)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+                            ScrollView:
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.05}
+                                size_hint: None, None
+                                size: dp(360), dp(640)
+                                BoxLayout:
+                                    orientation: 'vertical'
+                                    size_hint_y: None
+                                    height: self.minimum_height
+                                    spacing:30
+                                    padding: 15
+                                    MDCard:
+                                        size_hint: None, None
+                                        size: dp(350), dp(150) 
+                                        pos_hint: {'center_x': 0.5, 'center_y': 0.75}
+                                        elevation: 0
+                                        orientation: 'vertical'
+                                        padding: dp(15)
+                                        md_bg_color: 0, 0, 0, 1  
+                                        radius: [dp(10)]
+                                        styles: 'outlined'
+                                    
+                                        FitImage:
+                                            source: 'Background\Backgroundcursos.png'
+                                            allow_stretch: True
+                                            keep_ratio: False
+                                            size_hint: 1, 1
+                                        
+                                    MDLabel:
+                                        text: "Vagas Anuciadas"
+                                        font_size: dp(20)
+                                        halign: "left"
+                                        pos_hint: {'center_x': 0.5}
+                                    
+                                    
+
 
         MDNavigationDrawer:
             id: nav_drawer

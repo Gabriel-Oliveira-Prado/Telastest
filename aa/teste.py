@@ -4,9 +4,16 @@ from kivy.uix.dropdown import DropDown
 
 
 class SelectButtonApp(App):
-    def build(self):
-        main_button = Button(text='Selecionar Opções', size_hint=(None, None), size=(200, 50))
+    def showquem_pode_ver(self,main_button):
         dropdown = DropDown()
+        for option in self.quem_pode_ver:
+            btn = Button(text=option, size_hint_y=None, height=dp(44))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.background_color = (1, 1, 1, 1)
+            btn.color = (0, 0, 0, 1)
+            dropdown.add_widget(btn)
+        dropdown.open(main_button)
+
 
         # Adiciona algumas opções ao dropdown
         for option in ['Opção 1', 'Opção 2', 'Opção 3']:
