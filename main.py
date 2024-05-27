@@ -19,19 +19,120 @@ from kivymd.uix.label import MDLabel
 from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivy.uix.switch import Switch
-import sqlite3
+import pyrebase
+
+firebaseConfig = {
+    'apiKey': "AIzaSyA3gOHi9Q6aHQ5seN5S9bbNmQpPQFMGXFs",
+    'authDomain': "magnus-c4b38.firebaseapp.com",
+    'databaseURL': "https://magnus-c4b38-default-rtdb.firebaseio.com",
+    'projectId': "magnus-c4b38",
+    'storageBucket': "magnus-c4b38.appspot.com",
+    'messagingSenderId': "458576341456",
+    'appId': "1:458576341456:web:6117f4a9160b8667b8f1d5"
+}
+
 
 class TelaEntrarLogin(Screen):
-    pass
+    def Login(self):
+        email = self.ids.email.text
+        senha = self.ids.senha.text
+        
+        if not email or not senha:
+            print("Por favor, preencha todos os campos.")
+            return
+        
+        try:
+            firebase = pyrebase.initialize_app(firebaseConfig)
+            auth = firebase.auth()
+            user = auth.sign_in_with_email_and_password(email, senha)
+            print("Login realizado com sucesso.")
+            # Navegar para outra tela após login bem-sucedido
+            self.manager.current = 'Menu'
+        except Exception as e:
+            print("Erro ao fazer login:", e)
 
 class TelaEntrarLoginJuridico(Screen):
-    pass
+     def LoginJuridico(self):
+        cnpj = self.ids.cnpj.text
+        email = self.ids.email.text
+        senha = self.ids.senha.text
+        
+        if not all([cnpj, email, senha]):
+            print("Por favor, preencha todos os campos.")
+            return
+        
+        try:
+            firebase = pyrebase.initialize_app(firebaseConfig)
+            auth = firebase.auth()
+            user = auth.sign_in_with_email_and_password(email, senha)
+            print("Login realizado com sucesso.")
+            # Navegar para outra tela após login bem-sucedido
+            self.manager.current = 'Menu'
+        except Exception as e:
+            print("Erro ao fazer login:", e)
 
 class TelaCriarConta(Screen):
-    pass
+    def Cadastra(self):
+        nome = self.ids.nome.text
+        nome_social = self.ids.nome_social.text
+        cpf = self.ids.cpf.text
+        email = self.ids.email.text
+        senha = self.ids.senha.text
+        confirmar_senha = self.ids.confirmar_senha.text
+        data_nascimento = self.ids.data_nascimento.text
+        
+        if not all([nome, cpf, email, senha, confirmar_senha, data_nascimento]):
+            print("Por favor, preencha todos os campos.")
+            return
+        
+        if senha != confirmar_senha:
+            print("As senhas não coincidem.")
+            return
+        
+        try:
+            firebase = pyrebase.initialize_app(firebaseConfig)
+            auth = firebase.auth()
+            user = auth.create_user_with_email_and_password(email, senha)
+            db = firebase.database()
+            data = {
+                "nome": nome,
+                "nome_social": nome_social,
+                "cpf": cpf,
+                "email": email,
+                "data_nascimento": data_nascimento
+            }
+            db.child("users").child(user["localId"]).set(data)
+            print("Usuário registrado com sucesso.")
+        except Exception as e:
+            print("Erro ao registrar o usuário:", e)
 
 class TelaCriarContaJuridico(Screen):
-    pass
+     def CadastrarJuridico(self):
+        nome_empresa = self.ids.nome_empresa.text
+        email = self.ids.email.text
+        senha = self.ids.senha.text
+        telefone = self.ids.telefone.text
+        cnpj = self.ids.cnpj.text
+        
+        if not all([nome_empresa, email, senha, telefone, cnpj]):
+            print("Por favor, preencha todos os campos.")
+            return
+        
+        try:
+            firebase = pyrebase.initialize_app(firebaseConfig)
+            auth = firebase.auth()
+            user = auth.create_user_with_email_and_password(email, senha)
+            db = firebase.database()
+            data = {
+                "nome_empresa": nome_empresa,
+                "email": email,
+                "telefone": telefone,
+                "cnpj": cnpj
+            }
+            db.child("users_juridicos").child(user["localId"]).set(data)
+            print("Conta jurídica registrada com sucesso.")
+        except Exception as e:
+            print("Erro ao registrar a conta jurídica:", e)
 
 class TelaMenu(Screen):
     pass

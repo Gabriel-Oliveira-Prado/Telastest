@@ -20,9 +20,9 @@ ScreenManager:
 
 <TelaEntrarLogin>:
     name: 'Entrar_login'
-    background_color:  '#FFFFFF'
+    background_color: '#FFFFFF'
     Image:
-        source: 'Background\Backgroundinicial.png'
+        source: 'Background/Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
     MDRectangleFlatIconButton:
@@ -57,6 +57,7 @@ ScreenManager:
             height: self.texture_size[1]
             padding_y: dp(5)
         MDTextField:
+            id: email
             hint_text: "Digite seu Email" 
             icon_right: "account"
             size_hint_x: None
@@ -66,6 +67,7 @@ ScreenManager:
             mode: "rectangle"
             line_color_normal: "#FDFAF3"  
         MDTextField:
+            id: senha
             password: True
             hint_text: "Digite sua Senha"
             icon_right: "account-key"
@@ -94,8 +96,7 @@ ScreenManager:
                 font_size: dp(14) 
                 pos_hint: {'center_x': 0.25, 'center_y': 0.65}
                 on_release:
-                    app.root.transition.direction = 'up'
-                    app.root.current = 'Menu'
+                    root.Login()
             MDRaisedButton:
                 text: "Criar conta"
                 custom_color: "Gray"
@@ -112,7 +113,7 @@ ScreenManager:
     name: 'Entrar_Login_jurídico'
     background_color:  '#FFFFFF'
     Image:
-        source: 'Background\Backgroundinicial.png'
+        source: 'Background/Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
     MDRectangleFlatIconButton:
@@ -148,7 +149,7 @@ ScreenManager:
             padding_y: dp(5)
         MDTextField:
             hint_text: "CNPJ" 
-            id: login
+            id: cnpj
             icon_right: "account-tie"
             size_hint_x: None
             width: dp(200)  
@@ -158,7 +159,7 @@ ScreenManager:
             line_color_normal: "#FDFAF3"       
         MDTextField:
             hint_text: "Digite seu Email" 
-            id: login
+            id: email
             icon_right: "email"
             size_hint_x: None
             width: dp(200)  
@@ -180,7 +181,7 @@ ScreenManager:
         MDTextButton:
             text: "Esqueceu a senha?"
             theme_text_color: "Custom"
-            text_color: 1, 1, 1, 1  # Cor branca
+            text_color: 1, 1, 1, 1
             font_size: "12sp"
             pos_hint: {"center_x": 0.5}
             on_release: app.open_link("https://exemplo.com")
@@ -195,6 +196,7 @@ ScreenManager:
                 md_bg_color: "#FDFAF3"
                 font_size: dp(14) 
                 pos_hint: {'center_x': 0.25, 'center_y': 0.65}
+                on_release: root.LoginJuridico()
             MDRaisedButton:
                 text: "Criar conta"
                 custom_color: "Gray"
@@ -209,13 +211,13 @@ ScreenManager:
 
 <TelaCriarConta>:
     name: 'Criar_conta'
-    background_color:  '#FFFFFF'
+    background_color: '#FFFFFF'
     Image:
-        source: 'Background\Backgroundinicial.png'
+        source: 'Background/Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False   
     MDRectangleFlatIconButton:
-        icon:'store-edit'
+        icon: 'store-edit'
         text: 'Conta jurídica'
         pos_hint: {'center_x': 0.25, 'center_y': 0.95}
         custom_color: "Gray"
@@ -247,6 +249,7 @@ ScreenManager:
             height: self.texture_size[1]
             padding_y: dp(5)
         MDTextField:
+            id: nome
             hint_text: "Nome Completo:" 
             icon_right: "rename"
             size_hint_x: None
@@ -256,6 +259,7 @@ ScreenManager:
             mode: "rectangle"
             line_color_normal: "#FDFAF3"
         MDTextField:
+            id: nome_social
             hint_text: "Nome Social:" 
             icon_right: "rename-outline"
             size_hint_x: None
@@ -265,6 +269,7 @@ ScreenManager:
             mode: "rectangle"
             line_color_normal: "#FDFAF3"
         MDTextField:
+            id: email
             hint_text: "Email:" 
             icon_right: "email"
             size_hint_x: None
@@ -274,6 +279,7 @@ ScreenManager:
             mode: "rectangle"
             line_color_normal: "#FDFAF3"       
         MDTextField:
+            id: cpf
             hint_text: "CPF"
             icon_right: "card-account-details-outline"
             size_hint_x: None
@@ -286,6 +292,7 @@ ScreenManager:
             max_text_length: 11
             line_color_normal: "#FDFAF3"
         MDTextField:
+            id: senha
             password: True
             hint_text: "Digite sua Senha"
             icon_right: "key"
@@ -296,6 +303,7 @@ ScreenManager:
             mode: "rectangle"
             line_color_normal: "#FDFAF3"
         MDTextField:
+            id: confirmar_senha
             password: True
             hint_text: "Confirmar Senha"
             icon_right: "key-chain"
@@ -306,6 +314,7 @@ ScreenManager:
             mode: "rectangle"
             line_color_normal: "#FDFAF3"
         MDTextField:
+            id: data_nascimento
             icon_right: "calendar-month"
             size_hint_x: None
             width: dp(200)  
@@ -324,17 +333,19 @@ ScreenManager:
             md_bg_color: "#FDFAF3"  
             width: dp(200)
             font_size: dp(14)  
-            pos_hint: {'center_x': 0.5}    
+            pos_hint: {'center_x': 0.5}     
+            on_release: root.Cadastra()   
+
 
 <TelaCriarContaJuridico>:
     name: 'Criar_conta_Jurídica'
-    background_color:  '#FFFFFF'
+    background_color: '#FFFFFF'
     Image:
-        source: 'Background\Backgroundinicial.png'
+        source: 'Background/Backgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
     MDRectangleFlatIconButton:
-        icon:'account-plus'
+        icon: 'account-plus'
         text: 'Conta Física'
         pos_hint: {'center_x': 0.25, 'center_y': 0.95}
         custom_color: "Gray"
@@ -366,6 +377,7 @@ ScreenManager:
             height: self.texture_size[1]
             padding_y: dp(5)
         MDTextField:
+            id: nome_empresa
             hint_text: "Nome da Empresa" 
             icon_right: "store-edit"
             size_hint_x: None
@@ -375,6 +387,7 @@ ScreenManager:
             mode: "rectangle"          
             line_color_normal: "#FDFAF3"
         MDTextField:
+            id: email
             hint_text: "Email:" 
             icon_right: "email"
             size_hint_x: None
@@ -384,6 +397,7 @@ ScreenManager:
             mode: "rectangle"            
             line_color_normal: "#FDFAF3"
         MDTextField:
+            id: senha
             hint_text: "Senha:" 
             icon_right: "key"
             size_hint_x: None
@@ -393,6 +407,7 @@ ScreenManager:
             mode: "rectangle"    
             line_color_normal: "#FDFAF3"     
         MDTextField:
+            id: telefone
             hint_text: "Telefone"
             icon_right: "phone"
             size_hint_x: None
@@ -404,6 +419,7 @@ ScreenManager:
             input_type: "number"
             line_color_normal: "#FDFAF3"
         MDTextField:
+            id: cnpj
             hint_text: "CNPJ"
             icon_right: "store"
             size_hint_x: None
@@ -421,6 +437,7 @@ ScreenManager:
             width: dp(200)
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
+            on_release: root.CadastrarJuridico()
 
 <TelaMenu>:
     name: 'Menu'
