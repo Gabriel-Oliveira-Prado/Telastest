@@ -22,116 +22,16 @@ from kivy.uix.switch import Switch
 import sqlite3
 
 class TelaEntrarLogin(Screen):
-    def login(self):
-        usuario = self.ids.login.text
-        senha = self.ids.senha.text
-
-        # Conexão com o banco de dados 
-        conn = sqlite3.connect('usuarios.db')
-        cursor = conn.cursor()
-
-        # Verifique se a tabela existe, se não, crie-a
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS usuarios (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                usuario TEXT UNIQUE NOT NULL,
-                senha TEXT NOT NULL,
-                telefone TEXT,  -- Adicionado campo telefone para usuários jurídicos
-                tipo TEXT NOT NULL DEFAULT 'fisica' 
-            )
-        """)
-
-        cursor.execute(
-            """SELECT * FROM usuarios WHERE usuario = ? AND senha = ? AND tipo = 'fisica'""",
-            (usuario, senha),
-        )
-        user = cursor.fetchone()
-        conn.close()
-
-        if user:
-            # Login bem-sucedido
-            self.parent.current = 'Menu'
-            self.parent.get_screen('Menu').ids.Username.text = user[1]
-        else:
-            Snackbar(text="Usuário ou senha incorretos!").open()
+    pass
 
 class TelaEntrarLoginJuridico(Screen):
-    def login_juridico(self):
-        cnpj = self.ids.login.text
-        senha = self.ids.senha.text
-
-        conn = sqlite3.connect('usuarios.db')
-        cursor = conn.cursor()
-
-        cursor.execute(
-            """SELECT * FROM usuarios WHERE usuario = ? AND senha = ? AND tipo = 'juridica'""",
-            (cnpj, senha),
-        )
-        user = cursor.fetchone()
-        conn.close()
-
-        if user:
-            self.parent.current = 'Menu'
-            self.parent.get_screen('Menu').ids.Username.text = user[1]
-        else:
-            Snackbar(text="CNPJ ou senha incorretos!").open()
+    pass
 
 class TelaCriarConta(Screen):
-    def cadastrar(self):
-        nome = self.ids.nome.text
-        usuario = self.ids.usuario.text
-        senha = self.ids.senha.text
-        confirmar_senha = self.ids.confirmar_senha.text
-
-        if senha != confirmar_senha:
-            Snackbar(text="As senhas não coincidem!").open()
-            return
-
-        conn = sqlite3.connect('usuarios.db')
-        cursor = conn.cursor()
-
-        try:
-            cursor.execute(
-                """
-                INSERT INTO usuarios (nome, usuario, senha)
-                VALUES (?, ?, ?)
-                """,
-                (nome, usuario, senha),
-            )
-            conn.commit()
-            Snackbar(text="Usuário cadastrado com sucesso!").open()
-            self.parent.current = 'Entrar_login' 
-        except sqlite3.IntegrityError:
-            Snackbar(text="Este nome de usuário já está em uso.").open()
-        finally:
-            conn.close()
+    pass
 
 class TelaCriarContaJuridico(Screen):
-    def cadastrar_juridico(self):
-        nome_empresa = self.ids.nome_empresa.text
-        cnpj = self.ids.cnpj.text
-        senha = self.ids.senha.text
-        telefone = self.ids.telefone.text
-
-        conn = sqlite3.connect('usuarios.db')
-        cursor = conn.cursor()
-
-        try:
-            cursor.execute(
-                """
-                INSERT INTO usuarios (nome, usuario, senha, telefone, tipo)
-                VALUES (?, ?, ?, ?, 'juridica')
-                """,
-                (nome_empresa, cnpj, senha, telefone), 
-            )
-            conn.commit()
-            Snackbar(text="Usuário jurídico cadastrado com sucesso!").open()
-            self.parent.current = 'Entrar_login'  
-        except sqlite3.IntegrityError:
-            Snackbar(text="Este CNPJ já está em uso.").open()
-        finally:
-            conn.close()
+    pass
 
 class TelaMenu(Screen):
     pass
