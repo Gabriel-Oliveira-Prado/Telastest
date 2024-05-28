@@ -853,7 +853,7 @@ ScreenManager:
                     height: dp(50)
                     background_color: 0, 0, 0, 0
                     color: 0, 0, 0, 1
-                    on_release: app.show_cargo(button2)
+                    on_release: root.show_cargo(button2)
                     border_color: 0, 0, 0, 1
                     text_color: 0, 0, 0, 1         
                 MDLabel:
@@ -873,7 +873,7 @@ ScreenManager:
                     height: dp(50)
                     background_color: 0, 0, 0, 0
                     color: 0, 0, 0, 1
-                    on_release: app.show_local_de_trabalho(button3)
+                    on_release: root.show_local_de_trabalho(button3)
                     border_color: 0, 0, 0, 1
                     text_color: 0, 0, 0, 1
                 MDLabel:
@@ -893,7 +893,7 @@ ScreenManager:
                     height: dp(50)
                     background_color: 0, 0, 0, 0
                     color: 0, 0, 0, 1
-                    on_release: app.show_localidade(button4)
+                    on_release: root.show_localidade(button4)
                     border_color: 0, 0, 0, 1
                     text_color: 0, 0, 0, 1
                 MDLabel:
@@ -913,7 +913,7 @@ ScreenManager:
                     height: dp(50)
                     background_color: 0, 0, 0, 0
                     color: 0, 0, 0, 1
-                    on_release: app.show_tipo_de_vaga(button5)
+                    on_release: root.show_tipo_de_vaga(button5)
                     border_color: 0, 0, 0, 1
                     text_color: 0, 0, 0, 1
                 MDLabel:
@@ -925,8 +925,7 @@ ScreenManager:
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1   
                 MDTextField:
-                    hint_text: "Sobre a Vaga"
-                    helper_text: "Descreva sobre a vaga"
+                    hint_text: "Descreva sobre a vaga"
                     multiline: True
                     mode: "rectangle"
                     max_text_length: 1500
