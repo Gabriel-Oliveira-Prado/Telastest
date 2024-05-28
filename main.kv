@@ -462,7 +462,6 @@ ScreenManager:
         ScreenManager:
             Screen:
                 name: 'menu_screen'
-                background_color:  '#FFFFFF'
                 MDScrollViewRefreshLayout:
                     id: refresh_layout
                     refresh_callback: app.refresh_callback
@@ -483,7 +482,8 @@ ScreenManager:
                         id: box
                         adaptive_height: True
                         cols: 1
-                        padding: dp(5)
+                        padding: dp(10)
+                        spacing: dp(10)
 
                 MDBottomNavigation:
                     background_color: 1, 1, 1, 1  
@@ -526,7 +526,7 @@ ScreenManager:
                                 halign: 'left'
                                 padding: 10
                                 size_hint_x: None
-                                size: dp(200),dp(20)
+                                width: dp(200)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 icon_left: 'magnify'
                         
@@ -535,45 +535,54 @@ ScreenManager:
                             halign: 'center'
 
                     MDBottomNavigationItem:
-                        name: 'Screen 3'
+                        name: 'screen 3'
                         text: 'Vagas'
                         icon: 'briefcase-variant'
                         halign: 'center'
-                        on_tab_press: app.switch_screen('Vagas')
+                        on_tab_press: 
+                            app.switch_screen('Vagas')
+                            root.carregar_vagas()
 
-                        FloatLayout:
-                            size_hint: None, None
-                            size: dp(360), dp(200)
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+                        BoxLayout:
+                            orientation: 'vertical'
 
-                            MDTextField:
-                                hint_text: "Pesquisar"
-                                mode: "round"
-                                halign: 'left'
-                                padding: 10
-                                size_hint_x: None
-                                size: dp(200),dp(20)
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                icon_left: 'magnify'
-                            
-                            MDIconButton:
-                                icon: "briefcase-variant"
-                                theme_text_color: "Custom"
-                                text_color: 0, 0, 0, 1  
-                                pos_hint: {'center_x': 0.11, 'center_y': 0.5}
-                                on_release:
-                                    app.root.transition.direction = 'right'
-                                    app.root.current = 'criar_vaga'
+                            FloatLayout:
+                                size_hint_y: None
+                                height: dp(60)
+                                padding: dp(10)
 
-                            MDIconButton:
-                                icon: "filter"
-                                theme_text_color: "Custom"
-                                text_color: 0, 0, 0, 1  
-                                pos_hint: {'center_x': 0.88 , 'center_y': 0.5}
+                                MDTextField:
+                                    hint_text: "Pesquisar"
+                                    mode: "round"
+                                    halign: 'left'
+                                    padding: 10
+                                    size_hint_x: None
+                                    width: dp(200)
+                                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                    icon_left: 'magnify'
+                                
+                                MDIconButton:
+                                    icon: "briefcase-variant"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 0, 0, 1  
+                                    pos_hint: {'center_x': 0.11, 'center_y': 0.5}
+                                    on_release:
+                                        app.root.transition.direction = 'right'
+                                        app.root.current = 'criar_vaga'
 
-                        MDLabel:
-                            text: 'Vagas'
-                            halign: 'center'
+                                MDIconButton:
+                                    icon: "filter"
+                                    theme_text_color: "Custom"
+                                    text_color: 0, 0, 0, 1  
+                                    pos_hint: {'center_x': 0.88 , 'center_y': 0.5}
+
+                            ScrollView: 
+                                MDGridLayout:
+                                    id: vagas_box
+                                    adaptive_height: True
+                                    cols: 1
+                                    padding: dp(20)
+                                    spacing: dp(20)
 
         MDNavigationDrawer:
             id: nav_drawer
@@ -658,7 +667,7 @@ ScreenManager:
                     pos_hint: {'center_x': 0.3,'center_y': 0.03}
                     text_color: 0, 0, 0, 1  
                     on_release: app.open_link("https://workinweb.netlify.app/")
-                    
+
                 MDIconButton:
                     icon:'bookmark-multiple'
                     theme_text_color: "Custom"
@@ -685,6 +694,7 @@ ScreenManager:
                     on_release: 
                         app.root.transition.direction = "right"
                         app.root.current = 'chat'
+
 
 <TelaPublicacoes>:
     name: 'Publicacoes'
@@ -930,6 +940,7 @@ ScreenManager:
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1   
                 MDTextField:
+                    id: sobre_vaga
                     hint_text: "Descreva sobre a vaga"
                     multiline: True
                     mode: "rectangle"
@@ -940,9 +951,11 @@ ScreenManager:
                     line_color_focus: app.theme_cls.primary_color
                     line_color_normal: app.theme_cls.primary_color
                 MDRaisedButton:
+                    id: btn_publicar
                     text: 'Publicar'
                     size_hint_x: 0.8
-                    pos_hint: {'center_x': 0.5}    
+                    pos_hint: {'center_x': 0.5}
+                    on_release: root.salvar_vaga()
 
 <Telaconfignotificacoes>:
     name: 'config_notificacoes'
@@ -1995,12 +2008,3 @@ ScreenManager:
             Rectangle:
                 size: self.size
                 pos: self.pos
-
-        
-    
-    
-        
-            
-
-        
-    

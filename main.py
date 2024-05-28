@@ -140,7 +140,47 @@ class TelaCriarContaJuridico(Screen):
             print("Erro ao registrar a conta jurídica:", e)
 
 class TelaMenu(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.on_enter = self.carregar_vagas
+
+    def carregar_vagas(self):
+        try:
+            vagas = database.child("posts").get().val()
+            self.ids.vagas_box.clear_widgets() 
+            if vagas:
+                for key, vaga in vagas.items():
+                    self.adicionar_vaga(vaga)
+            else:
+                print("Nenhuma vaga encontrada.")
+        except Exception as e:
+            print("Erro ao carregar vagas:", e)
+
+    def adicionar_vaga(self, vaga):
+        especificacao = vaga.get('especificacao', 'N/A')
+        cargo = vaga.get('cargo', 'N/A')
+        local_de_trabalho = vaga.get('local_de_trabalho', 'N/A')
+        localidade = vaga.get('localidade', 'N/A')
+        tipo_de_vaga = vaga.get('tipo_de_vaga', 'N/A')
+        sobre_vaga = vaga.get('sobre_vaga', 'N/A')
+
+        card = MDCard(
+            orientation='vertical',
+            size_hint=(1, None),
+            height=dp(180),
+            pos_hint={"center_x": 0.5},
+            padding=dp(10),
+            spacing=dp(10),
+        )
+        card.add_widget(MDLabel(text=f"Especificação: {especificacao}"))
+        card.add_widget(MDLabel(text=f"Cargo: {cargo}"))
+        card.add_widget(MDLabel(text=f"Local de Trabalho: {local_de_trabalho}"))
+        card.add_widget(MDLabel(text=f"Localidade: {localidade}"))
+        card.add_widget(MDLabel(text=f"Tipo de Vaga: {tipo_de_vaga}"))
+        card.add_widget(MDLabel(text=f"Sobre: {sobre_vaga}"))
+
+        self.ids.vagas_box.add_widget(card)
+
 
 class Telacriarvaga(Screen):
     especificacao = [
