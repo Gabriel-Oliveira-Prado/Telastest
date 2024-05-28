@@ -19,6 +19,7 @@ from kivymd.uix.label import MDLabel
 from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivy.uix.switch import Switch
+from kivymd.uix.card import MDCard
 import pyrebase
 
 firebaseConfig = {
@@ -135,7 +136,40 @@ class TelaCriarContaJuridico(Screen):
             print("Erro ao registrar a conta jurídica:", e)
 
 class TelaMenu(Screen):
-    pass
+    def update_publicacoes(self, texto):
+        box = self.ids.box
+        num_linhas = texto.count('\n') + 1  # Conta o número de quebras de linha e adiciona 1 para a última linha
+        altura_card = str(num_linhas * 20 + 40) + 'dp'  # Ajusta a altura do card com base no número de linhas
+        new_card = MDCard(
+            orientation='vertical',
+            size_hint=(None, None),
+            size=("280dp", altura_card),
+            pos_hint={'center_x': 0.5, 'center_y': 0.5},
+            elevation=1,  # Define a elevação como 1
+            padding="10dp",
+        )
+        new_label = MDLabel(
+            text=texto,
+            theme_text_color="Custom",
+            text_color=(0, 0, 0, 1),
+            halign="left",
+            size_hint_y=None,
+            height="40dp"
+        )
+        new_card.add_widget(new_label)
+        box.add_widget(new_card)
+
+
+class TelaPublicacoes(Screen):
+     def publicar(self):
+        texto = self.ids.publicacao_text.text
+        if texto:
+            app = MDApp.get_running_app()
+            menu_screen = app.root.get_screen('Menu')
+            menu_screen.update_publicacoes(texto)
+            self.ids.publicacao_text.text = ""
+            app.root.transition.direction = 'right'
+            app.root.current = 'Menu'
 
 class Telaconfignotificacoes(Screen):
     pass
@@ -159,9 +193,6 @@ class Telanotificacoes(Screen):
     pass
 
 class TelaChat(Screen):
-    pass
-
-class TelaPublicacoes(Screen):
     pass
 
 class TelaInformacoesPerfil(Screen):
