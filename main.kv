@@ -345,7 +345,14 @@ ScreenManager:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}     
             on_release: root.Cadastra()   
-
+        MDIconButton:
+            icon: 'arrow-left'
+            theme_text_color: 'Custom'
+            text_color: 0, 0, 0, 1
+            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+            on_release:
+                app.root.transition.direction = "right"
+                app.root.current = 'Entrar_login'
 
 <TelaCriarContaJuridico>:
     name: 'Criar_conta_Jurídica'
@@ -456,6 +463,15 @@ ScreenManager:
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             on_release: root.CadastrarJuridico()
+
+        MDIconButton:
+            icon: 'arrow-left'
+            theme_text_color: 'Custom'
+            text_color: 0, 0, 0, 1
+            pos_hint: {'center_x': 0.1, 'center_y': 0.95}
+            on_release:
+                app.root.transition.direction = "right"
+                app.root.current = 'Entrar_login'
 
 <TelaMenu>:
     name: 'Menu'
