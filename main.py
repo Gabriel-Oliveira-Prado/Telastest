@@ -142,7 +142,193 @@ class TelaMenu(Screen):
     pass
 
 class Telacriarvaga(Screen):
-    pass
+    especificacao = [
+        'Administração e Escritório',
+        'Tecnologia da Informação',
+        'Marketing e Vendas',
+        'Recursos Humanos',
+        'Finanças',
+        'Engenharia',
+        'Saúde',
+        'Educação',
+        'Design e Criação',
+        'Logística e Transporte',
+        'Jurídico',
+        'Atendimento ao Cliente',
+        'Operações e Produção',
+        'Cargos de Nível Executivo'
+    ]
+    cargo = [
+        'Operacionais e de Suporte',
+        'Técnico e Especializado',
+        'Supervisão e Coordenação',
+        'Gerência',
+        'Chefia e Direção',
+        'Executivos'
+    ]
+    local_de_trabalho = [
+        'Presencial',
+        'Híbrido',
+        'Remoto'
+    ]
+    localidade  = [
+        'AL - Arapiraca',
+        'AL - Campo Alegre',
+        'AL - Coruripe',
+        'AL - Delmiro Gouveia',
+        'AL - Maceió',
+        'AL - Palmeira dos Índios',
+        'AL - Penedo',
+        'AL - Rio Largo',
+        'AL - São Miguel dos Campos',
+        'AL - União dos Palmares',
+        'BA - Camaçari',
+        'BA - Feira de Santana',
+        'BA - Ilhéus',
+        'BA - Itabuna',
+        'BA - Jequié',
+        'BA - Juazeiro',
+        'BA - Lauro de Freitas',
+        'BA - Salvador',
+        'BA - Teixeira de Freitas',
+        'BA - Vitória da Conquista',
+        'CE - Caucaia',
+        'CE - Crato',
+        'CE - Fortaleza',
+        'CE - Iguatu',
+        'CE - Itapipoca',
+        'CE - Juazeiro do Norte',
+        'CE - Maracanaú',
+        'CE - Maranguape',
+        'CE - Quixadá',
+        'CE - Sobral',
+        'MA - Açailândia',
+        'MA - Bacabal',
+        'MA - Caxias',
+        'MA - Codó',
+        'MA - Imperatriz',
+        'MA - Paço do Lumiar',
+        'MA - Pinheiro',
+        'MA - Santa Inês',
+        'MA - São Luís',
+        'MA - Timon',
+        'PB - Bayeux',
+        'PB - Cabedelo',
+        'PB - Cajazeiras',
+        'PB - Campina Grande',
+        'PB - Guarabira',
+        'PB - João Pessoa',
+        'PB - Patos',
+        'PB - Pombal',
+        'PB - Santa Rita',
+        'PB - Sousa',
+        'PE - Cabo de Santo Agostinho',
+        'PE - Camaragibe',
+        'PE - Caruaru',
+        'PE - Garanhuns',
+        'PE - Jaboatão dos Guararapes',
+        'PE - Olinda',
+        'PE - Paulista',
+        'PE - Petrolina',
+        'PE - Recife',
+        'PE - Vitória de Santo Antão',
+        'PI - Altos',
+        'PI - Barras',
+        'PI - Campo Maior',
+        'PI - Floriano',
+        'PI - José de Freitas',
+        'PI - Parnaíba',
+        'PI - Picos',
+        'PI - Piripiri',
+        'PI - Teresina',
+        'PI - União',
+        'RN - Apodi',
+        'RN - Caicó',
+        'RN - Ceará-Mirim',
+        'RN - Currais Novos',
+        'RN - Macaíba',
+        'RN - Mossoró',
+        'RN - Natal',
+        'RN - Parnamirim',
+        'RN - Santa Cruz',
+        'RN - São Gonçalo do Amarante',
+        'SE - Aracaju',
+        'SE - Estância',
+        'SE - Itabaiana',
+        'SE - Itaporanga DAjuda',
+        'SE - Lagarto',
+        'SE - Nossa Senhora do Socorro',
+        'SE - Propriá',
+        'SE - São Cristóvão',
+        'SE - Simão Dias',
+        'SE - Tobias Barreto'
+    ]
+    tipo_de_vaga = [
+        'Tempo integral',
+        'Meio período',
+        'Contrato',
+        'Temporário',
+        'Outro',
+        'Voluntário',
+        'Estágio'
+    ]
+
+    def show_especificacao(self, main_button):
+        dropdown = DropDown()
+        for option in self.especificacao:
+            btn = Button(text=option, size_hint_y=None, height=dp(44))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.background_color = (1, 1, 1, 1)
+            btn.color = (0, 0, 0, 1)
+            dropdown.add_widget(btn)
+        dropdown.open(main_button)
+
+    def show_cargo(self, main_button):
+        dropdown = DropDown()
+        for option in self.cargo:
+            btn = Button(text=option, size_hint_y=None, height=dp(44))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.background_color = (1, 1, 1, 1)
+            btn.color = (0, 0, 0, 1)
+            dropdown.add_widget(btn)
+        dropdown.open(main_button)
+
+    def show_local_de_trabalho(self, main_button):
+        dropdown = DropDown()
+        for option in self.local_de_trabalho:
+            btn = Button(text=option, size_hint_y=None, height=dp(44))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.background_color = (1, 1, 1, 1)
+            btn.color = (0, 0, 0, 1)
+            dropdown.add_widget(btn)
+        dropdown.open(main_button)
+
+    def show_localidade(self, main_button):
+        dropdown = DropDown()
+        for option in self.localidade:
+            btn = Button(text=option, size_hint_y=None, height=dp(44))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.background_color = (1, 1, 1, 1)
+            btn.color = (0, 0, 0, 1)
+            dropdown.add_widget(btn)
+        dropdown.open(main_button)
+    
+    def show_tipo_de_vaga(self, main_button):
+        dropdown = DropDown()
+        for option in self.tipo_de_vaga:
+            btn = Button(text=option, size_hint_y=None, height=dp(44))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.background_color = (1, 1, 1, 1)
+            btn.color = (0, 0, 0, 1)
+            dropdown.add_widget(btn)
+        dropdown.open(main_button)
+
+    def select_option(self, dropdown, text, main_button):
+        main_button.text = text
+        dropdown.dismiss()
+        # Mantendo a largura fixa
+        main_button.size_hint_x = None
+        main_button.width = dp(200)
 
 class TelaPublicacoes(Screen):
      pass
@@ -209,6 +395,7 @@ class App(MDApp):
         Window.clearcolor = (1, 1, 1, 1)
 
         self.theme_cls.primary_palette = "Indigo"
+        return Builder.load_file("main.kv")
 
     def show_logout_dialog(self):
         self.dialog = MDDialog(
