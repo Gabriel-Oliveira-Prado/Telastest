@@ -8,6 +8,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.metrics import dp
 import os
+from kivy.properties import BooleanProperty
 from kivy.lang import Builder
 from kivymd.uix.list import OneLineIconListItem
 from kivymd.uix.dialog import MDDialog
@@ -334,7 +335,37 @@ class TelaPublicacoes(Screen):
      pass
 
 class Telaconfignotificacoes(Screen):
-    pass
+    vagas = BooleanProperty(False)
+    contratacao = BooleanProperty(False)
+    mensagens = BooleanProperty(False)
+    mencoes = BooleanProperty(False)
+    publicar_comentar = BooleanProperty(False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.load_settings()
+
+    def on_pre_enter(self, *args):
+        self.load_settings()
+
+    def load_settings(self):
+        settings = database.child("users").child("user_id").child("notification_settings").get().val()
+        if settings:
+            self.vagas = settings.get('vagas', False)
+            self.contratacao = settings.get('contratacao', False)
+            self.mensagens = settings.get('mensagens', False)
+            self.mencoes = settings.get('mencoes', False)
+            self.publicar_comentar = settings.get('publicar_comentar', False)
+
+    def save_settings(self):
+        settings = {
+            'vagas': self.vagas,
+            'contratacao': self.contratacao,
+            'mensagens': self.mensagens,
+            'mencoes': self.mencoes,
+            'publicar_comentar': self.publicar_comentar,
+        }
+        database.child("users").child("user_id").child("notification_settings").set(settings)
 
 class TelaconfigPrivacidadeDados(Screen):
     pass
@@ -393,7 +424,8 @@ class App(MDApp):
     def build(self):
         Window.size = (dp(360), dp(640))  
         Window.clearcolor = (1, 1, 1, 1)
-
+        self.screen_manager = ScreenManager()
+        self.screen_manager.add_widget(Telaconfignotificacoes(name='config_notificacoes'))
         self.theme_cls.primary_palette = "Indigo"
         return Builder.load_file("main.kv")
 
@@ -412,7 +444,7 @@ class App(MDApp):
             ]
         )
         self.dialog.open()
-        
+    
     def logout_and_dismiss(self):
         self.dialog.dismiss() 
         self.logout() 
@@ -449,8 +481,15 @@ class App(MDApp):
         dropdown.dismiss()
         main_button.size_hint_x = None
         main_button.width = dp(150)
+    
+    def update_notification_setting(self, key, value):
+        screen = self.screen_manager.get_screen('config_notificacoes')
+        setattr(screen, key, value)
+        screen.save_settings()
 
-        
+    def open_link(self, url):
+        import webbrowser
+        webbrowser.open(url)
 
 if __name__ == "__main__":
     App().run()
