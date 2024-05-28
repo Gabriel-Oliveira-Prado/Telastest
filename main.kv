@@ -513,12 +513,6 @@ ScreenManager:
                                 size: dp(200),dp(20)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 icon_left: 'magnify'
-
-                            MDIconButton:
-                                icon: "filter"
-                                theme_text_color: "Custom"
-                                text_color: 0, 0, 0, 1 
-                                pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
                         
                         MDLabel:
                             text: 'Pesquisar'
@@ -550,7 +544,7 @@ ScreenManager:
                                 icon: "briefcase-variant"
                                 theme_text_color: "Custom"
                                 text_color: 0, 0, 0, 1  
-                                pos_hint: {'center_x': 0.1, 'center_y': 0.5}
+                                pos_hint: {'center_x': 0.11, 'center_y': 0.5}
                                 on_release:
                                     app.root.transition.direction = 'right'
                                     app.root.current = 'criar_vaga'
@@ -559,7 +553,7 @@ ScreenManager:
                                 icon: "filter"
                                 theme_text_color: "Custom"
                                 text_color: 0, 0, 0, 1  
-                                pos_hint: {'center_x': 0.90 , 'center_y': 0.5}
+                                pos_hint: {'center_x': 0.88 , 'center_y': 0.5}
 
                         MDLabel:
                             text: 'Vagas'
@@ -802,7 +796,7 @@ ScreenManager:
                 text_color: 0, 0, 0, 1
         ScrollView:
             size_hint: None, None
-            size: dp(360), dp(640) 
+            size: dp(360), dp(520) 
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             do_scroll_x: False 
             BoxLayout:
@@ -811,11 +805,6 @@ ScreenManager:
                 height: self.minimum_height
                 spacing: dp(10)
                 padding: dp(10)
-                MDCard:
-                    size_hint: None, None
-                    size: dp(350), dp(50) 
-                    elevation: 0
-                    md_bg_color: 0, 0, 0, 0
                 MDLabel:
                     text: "Especificação:"
                     font_size: dp(20)
