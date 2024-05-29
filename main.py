@@ -21,6 +21,9 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
+from kivy.uix.image import Image
+from kivy.clock import Clock
+from kivy.animation import Animation
 import pyrebase
 
 firebaseConfig = {
@@ -36,6 +39,18 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
 
+class SplashScreen(Screen):
+    def __init__(self, **kwargs):
+        super(SplashScreen, self).__init__(**kwargs)
+        self.image = Image(source='logo.png', size_hint=(0.9, 0.9),
+                           pos_hint={'center_x': 0.5, 'center_y': 0.55})
+        self.add_widget(self.image)
+
+    def on_enter(self):
+        Clock.schedule_once(self.dismiss_screen, 8)
+
+    def dismiss_screen(self, dt):
+        self.manager.current = 'Entrar_login'  
 
 class TelaEntrarLogin(Screen):
     def Login(self):
@@ -51,7 +66,6 @@ class TelaEntrarLogin(Screen):
             auth = firebase.auth()
             user = auth.sign_in_with_email_and_password(email, senha)
             print("Login realizado com sucesso.")
-            # Navegar para outra tela após login bem-sucedido
             self.manager.current = 'Menu'
         except Exception as e:
             print("Erro ao fazer login:", e)
@@ -71,7 +85,6 @@ class TelaEntrarLoginJuridico(Screen):
             auth = firebase.auth()
             user = auth.sign_in_with_email_and_password(email, senha)
             print("Login realizado com sucesso.")
-            # Navegar para outra tela após login bem-sucedido
             self.manager.current = 'Menu'
         except Exception as e:
             print("Erro ao fazer login:", e)
@@ -138,6 +151,8 @@ class TelaCriarContaJuridico(Screen):
             print("Conta jurídica registrada com sucesso.")
         except Exception as e:
             print("Erro ao registrar a conta jurídica:", e)
+            
+
 
 class TelaMenu(Screen):
     def __init__(self, **kwargs):
@@ -180,7 +195,6 @@ class TelaMenu(Screen):
         card.add_widget(MDLabel(text=f"Sobre: {sobre_vaga}"))
 
         self.ids.vagas_box.add_widget(card)
-
 
 class Telacriarvaga(Screen):
     especificacao = [
@@ -314,11 +328,19 @@ class Telacriarvaga(Screen):
         'Estágio'
     ]
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.selected_especificacao = None
+        self.selected_cargo = None
+        self.selected_local_de_trabalho = None
+        self.selected_localidade = None
+        self.selected_tipo_de_vaga = None
+
     def show_especificacao(self, main_button):
         dropdown = DropDown()
         for option in self.especificacao:
             btn = Button(text=option, size_hint_y=None, height=dp(44))
-            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button, 'especificacao'))
             btn.background_color = (1, 1, 1, 1)
             btn.color = (0, 0, 0, 1)
             dropdown.add_widget(btn)
@@ -328,7 +350,7 @@ class Telacriarvaga(Screen):
         dropdown = DropDown()
         for option in self.cargo:
             btn = Button(text=option, size_hint_y=None, height=dp(44))
-            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button, 'cargo'))
             btn.background_color = (1, 1, 1, 1)
             btn.color = (0, 0, 0, 1)
             dropdown.add_widget(btn)
@@ -338,7 +360,7 @@ class Telacriarvaga(Screen):
         dropdown = DropDown()
         for option in self.local_de_trabalho:
             btn = Button(text=option, size_hint_y=None, height=dp(44))
-            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button, 'local_de_trabalho'))
             btn.background_color = (1, 1, 1, 1)
             btn.color = (0, 0, 0, 1)
             dropdown.add_widget(btn)
@@ -348,7 +370,7 @@ class Telacriarvaga(Screen):
         dropdown = DropDown()
         for option in self.localidade:
             btn = Button(text=option, size_hint_y=None, height=dp(44))
-            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button, 'localidade'))
             btn.background_color = (1, 1, 1, 1)
             btn.color = (0, 0, 0, 1)
             dropdown.add_widget(btn)
@@ -358,18 +380,53 @@ class Telacriarvaga(Screen):
         dropdown = DropDown()
         for option in self.tipo_de_vaga:
             btn = Button(text=option, size_hint_y=None, height=dp(44))
-            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
+            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button, 'tipo_de_vaga'))
             btn.background_color = (1, 1, 1, 1)
             btn.color = (0, 0, 0, 1)
             dropdown.add_widget(btn)
         dropdown.open(main_button)
 
-    def select_option(self, dropdown, text, main_button):
+    def select_option(self, dropdown, text, main_button, option_type):
         main_button.text = text
         dropdown.dismiss()
-        # Mantendo a largura fixa
+
         main_button.size_hint_x = None
         main_button.width = dp(200)
+
+        if option_type == 'especificacao':
+            self.selected_especificacao = text
+        elif option_type == 'cargo':
+            self.selected_cargo = text
+        elif option_type == 'local_de_trabalho':
+            self.selected_local_de_trabalho = text
+        elif option_type == 'localidade':
+            self.selected_localidade = text
+        elif option_type == 'tipo_de_vaga':
+            self.selected_tipo_de_vaga = text
+
+    def salvar_vaga(self):
+        if not all([self.selected_especificacao, self.selected_cargo, self.selected_local_de_trabalho, self.selected_localidade, self.selected_tipo_de_vaga]):
+            print("Por favor, preencha todos os campos.")
+            return
+        
+        sobre_vaga = self.ids.sobre_vaga.text
+
+        try:
+            data = {
+                "especificacao": self.selected_especificacao,
+                "cargo": self.selected_cargo,
+                "local_de_trabalho": self.selected_local_de_trabalho,
+                "localidade": self.selected_localidade,
+                "tipo_de_vaga": self.selected_tipo_de_vaga,
+                "sobre_vaga": sobre_vaga
+            }
+            if not database:
+                print("Erro: Conexão com o banco de dados não configurada.")
+                return
+            database.child("posts").push(data)
+            print("Vaga salva com sucesso.")
+        except Exception as e:
+            print("Erro ao salvar a vaga:", e)
 
 class TelaPublicacoes(Screen):
      pass
