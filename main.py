@@ -23,7 +23,6 @@ from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
 from kivy.uix.image import Image
 from kivy.clock import Clock
-from kivy.animation import Animation
 import pyrebase
 
 firebaseConfig = {
