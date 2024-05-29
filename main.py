@@ -38,26 +38,25 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
 
-class SplashScreen(Screen):
-    def __init__(self, **kwargs):
-        super(SplashScreen, self).__init__(**kwargs)
-        self.image = Image(source='logo.png', size_hint=(0.9, 0.9),
-                           pos_hint={'center_x': 0.5, 'center_y': 0.55})
-        self.add_widget(self.image)
-
-    def on_enter(self):
-        Clock.schedule_once(self.dismiss_screen, 8)
-
-    def dismiss_screen(self, dt):
-        self.manager.current = 'Entrar_login'  
-
 class TelaEntrarLogin(Screen):
+    def show_dialog_Errologin(self, message):
+        self.dialog = MDDialog(
+            text=message,
+            buttons=[
+                MDFlatButton(
+                    text="Fechar",
+                    on_release=lambda *args: self.dialog.dismiss()
+                )
+            ]
+        )
+        self.dialog.open()
+
     def Login(self):
         email = self.ids.email.text
         senha = self.ids.senha.text
         
         if not email or not senha:
-            print("Por favor, preencha todos os campos.")
+            self.show_dialog_Errologin("Por favor, preencha todos os campos.")
             return
         
         try:
@@ -67,16 +66,38 @@ class TelaEntrarLogin(Screen):
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
         except Exception as e:
-            print("Erro ao fazer login:", e)
+            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
 
 class TelaEntrarLoginJuridico(Screen):
-     def LoginJuridico(self):
+    def show_dialog_ErroCadastro(self, message):
+        self.dialog = MDDialog(
+            text=message,
+            buttons=[
+                MDFlatButton(
+                    text="Fechar",
+                    on_release=lambda *args: self.dialog.dismiss()
+                )
+            ]
+        )
+        self.dialog.open()
+    def show_dialog_Errologin(self, message):
+        self.dialog = MDDialog(
+            text=message,
+            buttons=[
+                MDFlatButton(
+                    text="Fechar",
+                    on_release=lambda *args: self.dialog.dismiss()
+                )
+            ]
+        )
+        self.dialog.open()
+    def LoginJuridico(self):
         cnpj = self.ids.cnpj.text
         email = self.ids.email.text
         senha = self.ids.senha.text
         
         if not all([cnpj, email, senha]):
-            print("Por favor, preencha todos os campos.")
+            self.show_dialog_Errologin("Por favor, preencha todos os campos.")
             return
         
         try:
@@ -86,9 +107,20 @@ class TelaEntrarLoginJuridico(Screen):
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
         except Exception as e:
-            print("Erro ao fazer login:", e)
+            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
 
 class TelaCriarConta(Screen):
+    def show_dialog_ErroCadastro(self, message):
+        self.dialog = MDDialog(
+            text=message,
+            buttons=[
+                MDFlatButton(
+                    text="Fechar",
+                    on_release=lambda *args: self.dialog.dismiss()
+                )
+            ]
+        )
+        self.dialog.open()
     def Cadastra(self):
         nome = self.ids.nome.text
         nome_social = self.ids.nome_social.text
@@ -99,15 +131,15 @@ class TelaCriarConta(Screen):
         data_nascimento = self.ids.data_nascimento.text
         
         if not all([nome, cpf, email, senha, confirmar_senha, data_nascimento]):
-            print("Por favor, preencha todos os campos.")
+            self.show_dialog_ErroCadastro("Por favor, preencha todos os campos.")
             return
         
         if senha != confirmar_senha:
-            print("As senhas não coincidem.")
+            self.show_dialog_ErroCadastro("As senhas não coincidem.")
             return
         
         try:
-            firebase = pyrebase.initialize_app(firebaseConfig)
+            firebase = pyrebase.initialize_app(firebaseConfig)                               
             auth = firebase.auth()
             user = auth.create_user_with_email_and_password(email, senha)
             db = firebase.database()
@@ -121,10 +153,21 @@ class TelaCriarConta(Screen):
             db.child("users").child(user["localId"]).set(data)
             print("Usuário registrado com sucesso.")
         except Exception as e:
-            print("Erro ao registrar o usuário:", e)
+            self.show_dialog_ErroCadastro(f"Erro ao registrar o usuário: {e}")
 
 class TelaCriarContaJuridico(Screen):
-     def CadastrarJuridico(self):
+    def show_dialog_ErroCadastro(self, message):
+        self.dialog = MDDialog(
+            text=message,
+            buttons=[
+                MDFlatButton(
+                    text="Fechar",
+                    on_release=lambda *args: self.dialog.dismiss()
+                )
+            ]
+        )
+        self.dialog.open()
+    def CadastrarJuridico(self):
         nome_empresa = self.ids.nome_empresa.text
         email = self.ids.email.text
         senha = self.ids.senha.text
@@ -132,7 +175,7 @@ class TelaCriarContaJuridico(Screen):
         cnpj = self.ids.cnpj.text
         
         if not all([nome_empresa, email, senha, telefone, cnpj]):
-            print("Por favor, preencha todos os campos.")
+            self.show_dialog_ErroCadastro("Por favor, preencha todos os campos.")
             return
         
         try:
@@ -149,9 +192,7 @@ class TelaCriarContaJuridico(Screen):
             db.child("users_juridicos").child(user["localId"]).set(data)
             print("Conta jurídica registrada com sucesso.")
         except Exception as e:
-            print("Erro ao registrar a conta jurídica:", e)
-            
-
+            self.show_dialog_ErroCadastro(f"Erro ao registrar a conta jurídica: {e}")
 
 class TelaMenu(Screen):
     def __init__(self, **kwargs):
