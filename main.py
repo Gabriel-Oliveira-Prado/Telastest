@@ -21,8 +21,7 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
-from kivy.uix.image import Image
-from kivy.clock import Clock
+from kivy.properties import StringProperty
 import pyrebase
 
 firebaseConfig = {
@@ -37,6 +36,8 @@ firebaseConfig = {
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
+auth = firebase.auth()
+
 
 class TelaEntrarLogin(Screen):
     def show_dialog_Errologin(self, message):
@@ -67,6 +68,7 @@ class TelaEntrarLogin(Screen):
             self.manager.current = 'Menu'
         except Exception as e:
             self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
+
 
 class TelaEntrarLoginJuridico(Screen):
     def show_dialog_ErroCadastro(self, message):
@@ -154,7 +156,6 @@ class TelaCriarConta(Screen):
             print("Usuário registrado com sucesso.")
         except Exception as e:
             self.show_dialog_ErroCadastro(f"Erro ao registrar o usuário: {e}")
-
 class TelaCriarContaJuridico(Screen):
     def show_dialog_ErroCadastro(self, message):
         self.dialog = MDDialog(
@@ -205,36 +206,57 @@ class TelaMenu(Screen):
             self.ids.vagas_box.clear_widgets() 
             if vagas:
                 for key, vaga in vagas.items():
-                    self.adicionar_vaga(vaga)
+                    # Criar uma lista de vagas com animação suave
+                    self.ids.vagas_box.add_widget(
+                        VagaCard(
+                            especificacao=vaga.get('especificacao', 'N/A'),
+                            cargo=vaga.get('cargo', 'N/A'),
+                            local_de_trabalho=vaga.get('local_de_trabalho', 'N/A'),
+                            localidade=vaga.get('localidade', 'N/A'),
+                            tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
+                            sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
+                            user_name=vaga.get('user_name', 'Nome do usuário não encontrado'),
+                            on_press=lambda x: self.mostrar_detalhes_vaga(key) # Adicionar callback para exibir detalhes da vaga
+                        )
+                    )
             else:
                 print("Nenhuma vaga encontrada.")
         except Exception as e:
             print("Erro ao carregar vagas:", e)
 
-    def adicionar_vaga(self, vaga):
-        especificacao = vaga.get('especificacao', 'N/A')
-        cargo = vaga.get('cargo', 'N/A')
-        local_de_trabalho = vaga.get('local_de_trabalho', 'N/A')
-        localidade = vaga.get('localidade', 'N/A')
-        tipo_de_vaga = vaga.get('tipo_de_vaga', 'N/A')
-        sobre_vaga = vaga.get('sobre_vaga', 'N/A')
+    def mostrar_detalhes_vaga(self, key):   
+        vaga = database.child("posts").child(key).get().val()
+        self.manager.current = 'DetalhesVaga' 
+        self.manager.get_screen('DetalhesVaga').set_vaga(vaga) 
 
-        card = MDCard(
-            orientation='vertical',
-            size_hint=(1, None),
-            height=dp(180),
-            pos_hint={"center_x": 0.5},
-            padding=dp(10),
-            spacing=dp(10),
-        )
-        card.add_widget(MDLabel(text=f"Especificação: {especificacao}"))
-        card.add_widget(MDLabel(text=f"Cargo: {cargo}"))
-        card.add_widget(MDLabel(text=f"Local de Trabalho: {local_de_trabalho}"))
-        card.add_widget(MDLabel(text=f"Localidade: {localidade}"))
-        card.add_widget(MDLabel(text=f"Tipo de Vaga: {tipo_de_vaga}"))
-        card.add_widget(MDLabel(text=f"Sobre: {sobre_vaga}"))
+class VagaCard(MDCard):
+    especificacao = StringProperty()
+    cargo = StringProperty()
+    local_de_trabalho = StringProperty()
+    localidade = StringProperty()
+    tipo_de_vaga = StringProperty()
+    sobre_vaga = StringProperty()
+    user_name = StringProperty()
 
-        self.ids.vagas_box.add_widget(card)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = 'vertical'
+        self.size_hint = (1, None)
+        self.height = dp(180)
+        self.adaptive_height = True
+        self.pos_hint = {"center_x": 0.5}
+        self.padding = dp(10)
+        self.spacing = dp(30)
+
+        # Adicionar os widgets do cartão
+        self.add_widget(MDLabel(text=f"Usuário: {self.user_name}"))
+        self.add_widget(MDLabel(text=f"Especificação: {self.especificacao}"))
+        self.add_widget(MDLabel(text=f"Cargo: {self.cargo}"))
+        self.add_widget(MDLabel(text=f"Local de Trabalho: {self.local_de_trabalho}"))
+        self.add_widget(MDLabel(text=f"Localidade: {self.localidade}"))
+        self.add_widget(MDLabel(text=f"Tipo de Vaga: {self.tipo_de_vaga}"))
+        self.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
+
 
 class Telacriarvaga(Screen):
     especificacao = [
@@ -429,7 +451,6 @@ class Telacriarvaga(Screen):
     def select_option(self, dropdown, text, main_button, option_type):
         main_button.text = text
         dropdown.dismiss()
-
         main_button.size_hint_x = None
         main_button.width = dp(200)
 
@@ -450,19 +471,26 @@ class Telacriarvaga(Screen):
             return
         
         sobre_vaga = self.ids.sobre_vaga.text
+        
 
         try:
+            user_info = database.child("users").child().get().val()  
+            user_name = user_info.get("nome", "Nome não encontrado")  
+
             data = {
                 "especificacao": self.selected_especificacao,
                 "cargo": self.selected_cargo,
                 "local_de_trabalho": self.selected_local_de_trabalho,
                 "localidade": self.selected_localidade,
                 "tipo_de_vaga": self.selected_tipo_de_vaga,
-                "sobre_vaga": sobre_vaga
+                "sobre_vaga": sobre_vaga,
+                "user_name": user_name  
             }
+
             if not database:
                 print("Erro: Conexão com o banco de dados não configurada.")
                 return
+
             database.child("posts").push(data)
             print("Vaga salva com sucesso.")
         except Exception as e:
@@ -486,7 +514,7 @@ class Telaconfignotificacoes(Screen):
         self.load_settings()
 
     def load_settings(self):
-        settings = database.child("users").child("user_id").child("notification_settings").get().val()
+        settings = database.child("users").child("user_Config_notig").child("notification_settings").get().val()
         if settings:
             self.vagas = settings.get('vagas', False)
             self.contratacao = settings.get('contratacao', False)
@@ -502,7 +530,7 @@ class Telaconfignotificacoes(Screen):
             'mencoes': self.mencoes,
             'publicar_comentar': self.publicar_comentar,
         }
-        database.child("users").child("user_id").child("notification_settings").set(settings)
+        database.child("users").child("user_Config_notig").child("notification_settings").set(settings)
 
 class TelaconfigPrivacidadeDados(Screen):
     pass

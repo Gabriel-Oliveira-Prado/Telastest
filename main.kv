@@ -698,8 +698,7 @@ ScreenManager:
 
 <TelaPublicacoes>:
     name: 'Publicacoes'
-    background_color: '#FFFFFF'
-
+    background_color:'#FFFFFF'   
     MDIconButton:
         icon: 'arrow-left'
         theme_text_color: 'Custom'
@@ -756,7 +755,7 @@ ScreenManager:
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
-                spacing: 25
+                spacing:25
 
                 MDTextField:
                     id: publicacao_text
@@ -945,7 +944,7 @@ ScreenManager:
                     hint_text: "Descreva sobre a vaga"
                     multiline: True
                     mode: "rectangle"
-                    max_text_length: 1500
+                    max_text_length: 250
                     font_size: sp(14)
                     size_hint_y: None
                     height: self.minimum_height
@@ -2009,3 +2008,12 @@ ScreenManager:
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        
+    
+    
+        
+            
+
+        
+    
