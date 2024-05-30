@@ -12,7 +12,7 @@ from kivy.properties import BooleanProperty
 from kivy.lang import Builder
 from kivymd.uix.list import OneLineIconListItem
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDFlatButton, MDRaisedButton
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.selectioncontrol import MDSwitch
@@ -67,7 +67,7 @@ class TelaEntrarLogin(Screen):
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
         except Exception as e:
-            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
+            self.show_dialog_Errologin(f"Erro ao fazer login")
 
 
 class TelaEntrarLoginJuridico(Screen):
@@ -109,7 +109,7 @@ class TelaEntrarLoginJuridico(Screen):
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
         except Exception as e:
-            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
+            self.show_dialog_Errologin(f"Erro ao fazer login")
 
 class TelaCriarConta(Screen):
     def show_dialog_ErroCadastro(self, message):
@@ -123,6 +123,23 @@ class TelaCriarConta(Screen):
             ]
         )
         self.dialog.open()
+
+    def show_dialog_SuccessCadastro(self, message):
+        self.dialog = MDDialog(
+            text=message,
+            buttons=[
+                MDFlatButton(
+                    text="Fechar",
+                    on_release=self.on_success_dialog_close
+                )
+            ]
+        )
+        self.dialog.open()
+
+    def on_success_dialog_close(self, *args):
+        self.dialog.dismiss()
+        self.manager.current = 'Entrar_login'
+    
     def Cadastra(self):
         nome = self.ids.nome.text
         nome_social = self.ids.nome_social.text
@@ -145,17 +162,20 @@ class TelaCriarConta(Screen):
             auth = firebase.auth()
             user = auth.create_user_with_email_and_password(email, senha)
             db = firebase.database()
+            uid = user['localId'] 
             data = {
                 "nome": nome,
                 "nome_social": nome_social,
                 "cpf": cpf,
                 "email": email,
-                "data_nascimento": data_nascimento
+                "data_nascimento": data_nascimento,
+                "uid": uid  
             }
-            db.child("users").child(user["localId"]).set(data)
-            print("Usuário registrado com sucesso.")
+            db.child("users").child(uid).set(data) 
+            self.show_dialog_SuccessCadastro("Usuário registrado com sucesso.")
         except Exception as e:
             self.show_dialog_ErroCadastro(f"Erro ao registrar o usuário: {e}")
+
 class TelaCriarContaJuridico(Screen):
     def show_dialog_ErroCadastro(self, message):
         self.dialog = MDDialog(
@@ -168,6 +188,23 @@ class TelaCriarContaJuridico(Screen):
             ]
         )
         self.dialog.open()
+    
+    def show_dialog_SuccessCadastro(self, message):
+        self.dialog = MDDialog(
+            text=message,
+            buttons=[
+                MDFlatButton(
+                    text="Fechar",
+                    on_release=self.on_success_dialog_close
+                )
+            ]
+        )
+        self.dialog.open()
+
+    def on_success_dialog_close(self, *args):
+        self.dialog.dismiss()
+        self.manager.current = 'Entrar_Login_jurídico' 
+    
     def CadastrarJuridico(self):
         nome_empresa = self.ids.nome_empresa.text
         email = self.ids.email.text
@@ -191,7 +228,7 @@ class TelaCriarContaJuridico(Screen):
                 "cnpj": cnpj
             }
             db.child("users_juridicos").child(user["localId"]).set(data)
-            print("Conta jurídica registrada com sucesso.")
+            self.show_dialog_SuccessCadastro("Conta jurídica registrada com sucesso.")
         except Exception as e:
             self.show_dialog_ErroCadastro(f"Erro ao registrar a conta jurídica: {e}")
 
@@ -206,7 +243,6 @@ class TelaMenu(Screen):
             self.ids.vagas_box.clear_widgets() 
             if vagas:
                 for key, vaga in vagas.items():
-                    # Criar uma lista de vagas com animação suave
                     self.ids.vagas_box.add_widget(
                         VagaCard(
                             especificacao=vaga.get('especificacao', 'N/A'),
@@ -216,7 +252,7 @@ class TelaMenu(Screen):
                             tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
                             sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
                             user_name=vaga.get('user_name', 'Nome do usuário não encontrado'),
-                            on_press=lambda x: self.mostrar_detalhes_vaga(key) # Adicionar callback para exibir detalhes da vaga
+                            on_press=lambda x: self.mostrar_detalhes_vaga(key)
                         )
                     )
             else:
@@ -237,6 +273,7 @@ class VagaCard(MDCard):
     tipo_de_vaga = StringProperty()
     sobre_vaga = StringProperty()
     user_name = StringProperty()
+    vaga_id = StringProperty() 
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -248,7 +285,6 @@ class VagaCard(MDCard):
         self.padding = dp(10)
         self.spacing = dp(30)
 
-        # Adicionar os widgets do cartão
         self.add_widget(MDLabel(text=f"Usuário: {self.user_name}"))
         self.add_widget(MDLabel(text=f"Especificação: {self.especificacao}"))
         self.add_widget(MDLabel(text=f"Cargo: {self.cargo}"))
@@ -256,6 +292,28 @@ class VagaCard(MDCard):
         self.add_widget(MDLabel(text=f"Localidade: {self.localidade}"))
         self.add_widget(MDLabel(text=f"Tipo de Vaga: {self.tipo_de_vaga}"))
         self.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
+
+        candidatura_button = MDRaisedButton(
+            text="Enviar Candidatura",
+            pos_hint={'center_x': 0.5},
+            size_hint_x=None,
+            width=dp(200),
+            on_press=lambda x: self.enviar_candidatura()
+        )
+        self.add_widget(candidatura_button)
+
+    def enviar_candidatura(self):
+        dialog = MDDialog(
+            title="Candidatura Enviada",
+            text=f"Candidatura enviada para a vaga: {self.user_name}",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_press=lambda x: dialog.dismiss()
+                )
+            ]
+        )
+        dialog.open()
 
 
 class Telacriarvaga(Screen):

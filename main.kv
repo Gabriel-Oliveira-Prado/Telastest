@@ -63,11 +63,11 @@ ScreenManager:
             hint_text: "Digite seu Email" 
             icon_right: "account"
             size_hint_x: None
-            width: dp(200)  
+            width: dp(200)
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#000000"  
+            line_color_normal: "#000000" 
         MDTextField:
             id: senha
             password: True
@@ -535,6 +535,7 @@ ScreenManager:
                             halign: 'center'
 
                     MDBottomNavigationItem:
+                        id: screen_3
                         name: 'screen 3'
                         text: 'Vagas'
                         icon: 'briefcase-variant'
@@ -552,6 +553,7 @@ ScreenManager:
                                 padding: dp(10)
 
                                 MDTextField:
+                                    id:search_field
                                     hint_text: "Pesquisar"
                                     mode: "round"
                                     halign: 'left'
