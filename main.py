@@ -21,7 +21,9 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
+from kivy.uix.image import Image
 import pyrebase
+from collections import OrderedDict
 
 firebaseConfig = {
     'apiKey': "AIzaSyA3gOHi9Q6aHQ5seN5S9bbNmQpPQFMGXFs",
@@ -248,7 +250,6 @@ class TelaMenu(Screen):
     def carregar_vagas(self):
         print(f"App.user_uid: {App.user_uid}")
         try:
-            # Verifica o tipo de usuário (physical ou juridical)
             if self.user_type == "physical":
                 user_info = database.child("users").child(App.user_uid).get().val()
             elif self.user_type == "juridical":
@@ -333,7 +334,16 @@ class VagaCard(MDCard):
         self.add_widget(MDLabel(text=f"Local de Trabalho: {self.local_de_trabalho}"))
         self.add_widget(MDLabel(text=f"Localidade: {self.localidade}"))
         self.add_widget(MDLabel(text=f"Tipo de Vaga: {self.tipo_de_vaga}"))
-        self.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
+
+        sobre_card = MDCard(
+            orientation='vertical',
+            padding=dp(10),
+            size_hint_y=None,
+            height=dp(60),
+            pos_hint={'center_x': 0.5}
+        )
+        sobre_card.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
+        self.add_widget(sobre_card)
 
         candidatura_button = MDRaisedButton(
             text="Enviar Candidatura",
@@ -621,6 +631,7 @@ class Telaconfignotificacoes(Screen):
     mensagens = BooleanProperty(False)
     mencoes = BooleanProperty(False)
     publicar_comentar = BooleanProperty(False)
+    user_info = StringProperty('') 
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -628,15 +639,19 @@ class Telaconfignotificacoes(Screen):
 
     def on_pre_enter(self, *args):
         self.load_settings()
+        self.load_user_info()
 
     def load_settings(self):
-        settings = database.child("users").child("user_Config_notig").child("notification_settings").get().val()
-        if settings:
-            self.vagas = settings.get('vagas', False)
-            self.contratacao = settings.get('contratacao', False)
-            self.mensagens = settings.get('mensagens', False)
-            self.mencoes = settings.get('mencoes', False)
-            self.publicar_comentar = settings.get('publicar_comentar', False)
+        user_settings = database.child("users").child(App.user_uid).child("notification_settings").get().val()
+        if user_settings:
+            self.vagas = user_settings.get('vagas', False)
+            self.contratacao = user_settings.get('contratacao', False)
+            self.mensagens = user_settings.get('mensagens', False)
+            self.mencoes = user_settings.get('mencoes', False)
+            self.publicar_comentar = user_settings.get('publicar_comentar', False)
+        else:
+
+            self.save_settings() 
 
     def save_settings(self):
         settings = {
@@ -646,8 +661,27 @@ class Telaconfignotificacoes(Screen):
             'mencoes': self.mencoes,
             'publicar_comentar': self.publicar_comentar,
         }
-        database.child("users").child("user_Config_notig").child("notification_settings").set(settings)
+        database.child("users").child(App.user_uid).child("notification_settings").set(settings)
 
+    def load_user_info(self):
+        try:
+            user_info = database.child("users").child(App.user_uid).get().val()
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                self.user_info = "Usuário não encontrado." 
+                return
+
+            self.user_info = f"Nome: {user_info.get('nome', 'N/A')}\n"
+            self.user_info += f"CPF: {user_info.get('cpf', 'N/A')}\n"
+            self.user_info += f"Data de Nascimento: {user_info.get('data_nascimento', 'N/A')}\n"
+            self.user_info += f"Email: {user_info.get('email', 'N/A')}\n"
+            self.user_info += f"Nome Social: {user_info.get('nome_social', 'N/A')}"
+        except Exception as e:
+            print("Erro ao carregar informações do usuário:", e)
+
+    def update_notification_setting(self, key, value):
+        setattr(self, key, value)
+        self.save_settings()
 class TelaconfigPrivacidadeDados(Screen):
     pass
 
@@ -664,7 +698,23 @@ class TelaSalvos(Screen):
     pass
 
 class Telanotificacoes(Screen):
-    pass
+    def load_user_info(self):
+        try:
+            user_info = database.child("users").child(App.user_uid).get().val()
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                self.user_info = "Usuário não encontrado." 
+                return
+
+            self.user_info = f"Nome: {user_info.get('nome', 'N/A')}\n"
+            self.user_info += f"CPF: {user_info.get('cpf', 'N/A')}\n"
+            self.user_info += f"Data de Nascimento: {user_info.get('data_nascimento', 'N/A')}\n"
+            self.user_info += f"Email: {user_info.get('email', 'N/A')}\n"
+            self.user_info += f"Nome Social: {user_info.get('nome_social', 'N/A')}"
+
+            self.ids.user_info_label.text = self.user_info
+        except Exception as e:
+            print("Erro ao carregar informações do usuário:", e)
 
 class TelaChat(Screen):
     pass
@@ -680,7 +730,6 @@ class TelaTrocarSenha(Screen):
 
 class Telanumerostelefone(Screen):
     pass
-
 
 class ItemConfirm(OneLineIconListItem):
     pass
@@ -722,7 +771,6 @@ class App(MDApp):
         self.screen_manager.add_widget(TelaTrocarSenha(name='Trocar_Senha'))
         self.screen_manager.add_widget(Telanumerostelefone(name='Números_telefone'))
         self.screen_manager.add_widget(Telacriarvaga(name='CriarVaga')) 
-
         self.theme_cls.primary_palette = "Indigo"
         return Builder.load_file("main.kv")
 

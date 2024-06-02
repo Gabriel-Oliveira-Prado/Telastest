@@ -1503,6 +1503,18 @@ ScreenManager:
                 size: self.size
                 pos: self.pos
 
+        MDCard:
+            id: user_info_card
+            orientation: 'vertical'
+            padding: '10dp'
+            size_hint_x: None
+            width: dp(350)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}  # Posicionamento do card
+            MDLabel:
+                id: user_info_label
+                halign: "center"
+                font_size: '14sp'
+
 <TelaChat>:
     name: 'chat'
     MDNavigationLayout:
