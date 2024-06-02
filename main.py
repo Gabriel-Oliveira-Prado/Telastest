@@ -8,7 +8,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.metrics import dp
 import os
-from kivy.properties import BooleanProperty
+from kivy.properties import BooleanProperty, StringProperty
 from kivy.lang import Builder
 from kivymd.uix.list import OneLineIconListItem
 from kivymd.uix.dialog import MDDialog
@@ -21,7 +21,6 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
-from kivy.properties import StringProperty
 import pyrebase
 
 firebaseConfig = {
@@ -64,11 +63,12 @@ class TelaEntrarLogin(Screen):
             firebase = pyrebase.initialize_app(firebaseConfig)
             auth = firebase.auth()
             user = auth.sign_in_with_email_and_password(email, senha)
+            App.user_uid = user['localId'] 
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
+            self.manager.get_screen('Menu').user_type = "physical" 
         except Exception as e:
-            self.show_dialog_Errologin(f"Erro ao fazer login")
-
+            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
 
 class TelaEntrarLoginJuridico(Screen):
     def show_dialog_ErroCadastro(self, message):
@@ -82,6 +82,7 @@ class TelaEntrarLoginJuridico(Screen):
             ]
         )
         self.dialog.open()
+
     def show_dialog_Errologin(self, message):
         self.dialog = MDDialog(
             text=message,
@@ -93,6 +94,7 @@ class TelaEntrarLoginJuridico(Screen):
             ]
         )
         self.dialog.open()
+
     def LoginJuridico(self):
         cnpj = self.ids.cnpj.text
         email = self.ids.email.text
@@ -106,11 +108,13 @@ class TelaEntrarLoginJuridico(Screen):
             firebase = pyrebase.initialize_app(firebaseConfig)
             auth = firebase.auth()
             user = auth.sign_in_with_email_and_password(email, senha)
+            App.user_uid = user['localId']  
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
+            self.manager.get_screen('Menu').user_type = "juridical" 
         except Exception as e:
-            self.show_dialog_Errologin(f"Erro ao fazer login")
-
+            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
+            
 class TelaCriarConta(Screen):
     def show_dialog_ErroCadastro(self, message):
         self.dialog = MDDialog(
@@ -169,7 +173,8 @@ class TelaCriarConta(Screen):
                 "cpf": cpf,
                 "email": email,
                 "data_nascimento": data_nascimento,
-                "uid": uid  
+                "uid": uid,
+                "type": "physical"
             }
             db.child("users").child(uid).set(data) 
             self.show_dialog_SuccessCadastro("Usuário registrado com sucesso.")
@@ -225,7 +230,8 @@ class TelaCriarContaJuridico(Screen):
                 "nome_empresa": nome_empresa,
                 "email": email,
                 "telefone": telefone,
-                "cnpj": cnpj
+                "cnpj": cnpj,
+                "type": "juridical"
             }
             db.child("users_juridicos").child(user["localId"]).set(data)
             self.show_dialog_SuccessCadastro("Conta jurídica registrada com sucesso.")
@@ -233,12 +239,30 @@ class TelaCriarContaJuridico(Screen):
             self.show_dialog_ErroCadastro(f"Erro ao registrar a conta jurídica: {e}")
 
 class TelaMenu(Screen):
+    user_type = StringProperty()
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.on_enter = self.carregar_vagas
 
     def carregar_vagas(self):
+        print(f"App.user_uid: {App.user_uid}")
         try:
+            # Verifica o tipo de usuário (physical ou juridical)
+            if self.user_type == "physical":
+                user_info = database.child("users").child(App.user_uid).get().val()
+            elif self.user_type == "juridical":
+                user_info = database.child("users_juridicos").child(App.user_uid).get().val()
+            else:
+                print("Erro: Tipo de usuário desconhecido.")
+                return
+
+            print(f"user_info: {user_info}") 
+
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                return  
+
             vagas = database.child("posts").get().val()
             self.ids.vagas_box.clear_widgets() 
             if vagas:
@@ -263,7 +287,25 @@ class TelaMenu(Screen):
     def mostrar_detalhes_vaga(self, key):   
         vaga = database.child("posts").child(key).get().val()
         self.manager.current = 'DetalhesVaga' 
-        self.manager.get_screen('DetalhesVaga').set_vaga(vaga) 
+        self.manager.get_screen('DetalhesVaga').set_vaga(vaga)  
+
+    def show_dialog_need_juridical(self):
+        self.dialog = MDDialog(
+            text="Você precisa ser uma conta jurídica para criar vagas.",
+            buttons=[
+                MDFlatButton(
+                    text="OK",
+                    on_release=lambda *args: self.dialog.dismiss()
+                )
+            ]
+        )
+        self.dialog.open()
+
+    def criar_vaga(self):
+        if self.user_type == "juridical":
+            self.manager.current = 'CriarVaga'
+        else:
+            self.show_dialog_need_juridical()
 
 class VagaCard(MDCard):
     especificacao = StringProperty()
@@ -314,7 +356,6 @@ class VagaCard(MDCard):
             ]
         )
         dialog.open()
-
 
 class Telacriarvaga(Screen):
     especificacao = [
@@ -529,11 +570,28 @@ class Telacriarvaga(Screen):
             return
         
         sobre_vaga = self.ids.sobre_vaga.text
-        
+
+        if not hasattr(App, 'user_uid'):
+            print("Erro: Usuário não está logado.")
+            return
 
         try:
-            user_info = database.child("users").child().get().val()  
-            user_name = user_info.get("nome", "Nome não encontrado")  
+            if self.manager.get_screen('Menu').user_type == "physical":
+                user_info = database.child("users").child(App.user_uid).get().val()
+            elif self.manager.get_screen('Menu').user_type == "juridical":
+                user_info = database.child("users_juridicos").child(App.user_uid).get().val()
+            else:
+                print("Erro: Tipo de usuário desconhecido.")
+                return
+
+            print(f"App.user_uid: {App.user_uid}")
+            print(f"user_info: {user_info}") 
+
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                return
+
+            user_name = user_info.get("nome", "Nome não encontrado")    
 
             data = {
                 "especificacao": self.selected_especificacao,
@@ -555,7 +613,7 @@ class Telacriarvaga(Screen):
             print("Erro ao salvar a vaga:", e)
 
 class TelaPublicacoes(Screen):
-     pass
+    pass
 
 class Telaconfignotificacoes(Screen):
     vagas = BooleanProperty(False)
@@ -638,6 +696,7 @@ class LimitedMDTextField(MDTextField):
         return super().insert_text(substring, from_undo=from_undo)
 
 class App(MDApp):
+    user_uid = None
     dialog = None
 
     data = {
@@ -645,10 +704,25 @@ class App(MDApp):
     }
 
     def build(self):
-        Window.size = (dp(360), dp(640))  
+        Window.size = (dp(360), dp(640))
         Window.clearcolor = (1, 1, 1, 1)
         self.screen_manager = ScreenManager()
         self.screen_manager.add_widget(Telaconfignotificacoes(name='config_notificacoes'))
+        self.screen_manager.add_widget(TelaEntrarLogin(name='Entrar_login'))
+        self.screen_manager.add_widget(TelaEntrarLoginJuridico(name='Entrar_Login_jurídico'))
+        self.screen_manager.add_widget(TelaCriarConta(name='Criar_conta'))
+        self.screen_manager.add_widget(TelaCriarContaJuridico(name='Criar_conta_Jurídica'))
+        self.screen_manager.add_widget(TelaMenu(name='Menu'))
+        self.screen_manager.add_widget(TelaPublicacoes(name='Publicacoes'))
+        self.screen_manager.add_widget(TelaSalvos(name='Salvos'))
+        self.screen_manager.add_widget(Telanotificacoes(name='Notificacoes'))
+        self.screen_manager.add_widget(TelaChat(name='chat'))
+        self.screen_manager.add_widget(TelaInformacoesPerfil(name='informações_adicionais'))
+        self.screen_manager.add_widget(TelaEnderecoemail(name='Endereço_email'))
+        self.screen_manager.add_widget(TelaTrocarSenha(name='Trocar_Senha'))
+        self.screen_manager.add_widget(Telanumerostelefone(name='Números_telefone'))
+        self.screen_manager.add_widget(Telacriarvaga(name='CriarVaga')) 
+
         self.theme_cls.primary_palette = "Indigo"
         return Builder.load_file("main.kv")
 
@@ -680,17 +754,6 @@ class App(MDApp):
 
     def switch_screen(self, screen_name):
         pass
-
-    def showquem_pode_ver(self, main_button):
-        self.quem_pode_ver = ['            Todos            ', 'Apenas Empresas']  
-        dropdown = DropDown()
-        for option in self.quem_pode_ver:
-            btn = Button(text=option, size_hint_y=None, height=dp(44))
-            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
-            btn.background_color = (1, 1, 1, 1)
-            btn.color = (1, 1, 1, 1)
-            dropdown.add_widget(btn)
-        dropdown.open(main_button)
 
     def menu_callback(self, instance):
         Snackbar(text=instance.text).open()
