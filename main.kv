@@ -734,6 +734,7 @@ ScreenManager:
             publicacao_text.text = ""
             app.root.transition.direction = 'right'
             app.root.current = 'Menu'
+            app.root.get_screen('Menu').add_publicacao(app.publicacao_text)
         
     MDBoxLayout:
         orientation: 'horizontal'

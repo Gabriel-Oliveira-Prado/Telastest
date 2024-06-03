@@ -243,11 +243,6 @@ class TelaCriarContaJuridico(Screen):
 class TelaMenu(Screen):
     user_type = StringProperty()
     publicacao_text = StringProperty('')
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_enter = self.carregar_vagas
-        self.on_enter = self.carregar_publicacoes
     
     def carregar_publicacoes(self):
         """Carrega as publicações do Firebase."""
@@ -360,6 +355,11 @@ class TelaMenu(Screen):
             self.manager.current = 'CriarVaga'
         else:
             self.show_dialog_need_juridical()
+        
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.on_enter = self.carregar_vagas
+        self.on_enter = self.carregar_publicacoes
     
         
 class VagaCard(MDCard):
