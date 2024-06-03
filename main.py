@@ -242,10 +242,63 @@ class TelaCriarContaJuridico(Screen):
 
 class TelaMenu(Screen):
     user_type = StringProperty()
+    publicacao_text = StringProperty('')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.on_enter = self.carregar_vagas
+        self.on_enter = self.carregar_publicacoes
+    
+    def carregar_publicacoes(self):
+        """Carrega as publicações do Firebase."""
+        try:
+            publicacoes = database.child("publicacoes").get().val()
+            self.ids.publicacoes_box.clear_widgets() 
+            if publicacoes:
+                for key, publicacao in publicacoes.items():
+                    card = MDCard(
+                        orientation='vertical',
+                        padding='10dp',
+                        size_hint_y=None,
+                        height=dp(100),  
+                        pos_hint= {'center_x': 0.5} 
+                    )
+                    label = MDLabel(
+                        text=f"{publicacao['user_name']}: {publicacao['text']}",
+                        font_size= dp(14),
+                        halign= 'center'
+                    )
+                    card.add_widget(label)
+                    self.ids.publicacoes_box.add_widget(card)
+        except Exception as e:
+            print(f"Erro ao carregar publicações: {e}")
+
+    def add_publicacao(self, publicacao):
+        """Cria um MDCard com a publicação."""
+        user_name = "Usuário Desconhecido"  
+        text = publicacao                  
+
+        try:
+            user_name, text = publicacao.split(":", 1) 
+            user_name = user_name.strip()         
+            text = text.strip()                      
+        except ValueError:
+            pass 
+
+        card = MDCard(
+            orientation='vertical',
+            padding='10dp',
+            size_hint_y=None,
+            height=dp(100),  
+            pos_hint={'center_x': 0.5}  
+        )
+        label = MDLabel(
+            text=f"{user_name}: {text}",
+            font_size= dp(14),
+            halign= 'center'
+        )
+        card.add_widget(label)
+        self.ids.publicacoes_grid.add_widget(card)
 
     def carregar_vagas(self):
         print(f"App.user_uid: {App.user_uid}")
@@ -307,7 +360,8 @@ class TelaMenu(Screen):
             self.manager.current = 'CriarVaga'
         else:
             self.show_dialog_need_juridical()
-
+    
+        
 class VagaCard(MDCard):
     especificacao = StringProperty()
     cargo = StringProperty()
@@ -623,7 +677,28 @@ class Telacriarvaga(Screen):
             print("Erro ao salvar a vaga:", e)
 
 class TelaPublicacoes(Screen):
-    pass
+    def publicar(self):
+        """Salva a publicação no Firebase."""
+        publicacao_text = self.ids.publicacao_text.text
+        if not publicacao_text:
+            return  
+
+        try:
+            user_info = database.child("users").child(App.user_uid).get().val()
+            user_name = user_info.get("nome", "Nome não encontrado") 
+
+            data = {
+                "user_name": user_name,
+                "text": publicacao_text,
+                "timestamp": firebase.database().serverTimestamp()
+            }
+    
+            database.child("publicacoes").push(data)  
+            print("Publicação salva com sucesso.")
+            print(f"Dados da publicação: {data}")  
+            self.ids.publicacao_text.text = ""  
+        except Exception as e:
+            print(f"Erro ao salvar a publicação: {e}")
 
 class Telaconfignotificacoes(Screen):
     vagas = BooleanProperty(False)

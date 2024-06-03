@@ -500,6 +500,13 @@ ScreenManager:
                         halign: 'center'
                         on_tab_press: app.switch_screen('Menu')
 
+                        MDGridLayout:
+                            id: publicacoes_grid
+                            adaptive_height: True
+                            cols: 1
+                            padding: dp(10)
+                            spacing: dp(10)
+
                         MDFloatingActionButton:
                             icon: "pencil"
                             md_bg_color: app.theme_cls.primary_color
@@ -723,7 +730,7 @@ ScreenManager:
         text: 'Publicar'
         pos_hint: {'center_x': 0.8,'center_y': 0.95}
         on_release: 
-            app.root.get_screen('Menu').update_publicacoes(publicacao_text.text)
+            app.publicacao_text = publicacao_text.text 
             publicacao_text.text = ""
             app.root.transition.direction = 'right'
             app.root.current = 'Menu'
