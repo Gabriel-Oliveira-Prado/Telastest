@@ -243,28 +243,46 @@ class TelaCriarContaJuridico(Screen):
 class TelaMenu(Screen):
     user_type = StringProperty()
     publicacao_text = StringProperty('')
-    
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.on_enter = self.carregar_vagas
+        self.on_enter = self.carregar_publicacoes  # Ordena a ordem das chamadas
+
     def carregar_publicacoes(self):
-        """Carrega as publicações do Firebase."""
+        """Carrega as publicações do Firebase e atualiza a tela."""
         try:
             publicacoes = database.child("publicacoes").get().val()
-            self.ids.publicacoes_box.clear_widgets() 
+            self.ids.publicacoes_box.clear_widgets()
+
             if publicacoes:
                 for key, publicacao in publicacoes.items():
+                    # Indentação correta!
                     card = MDCard(
                         orientation='vertical',
                         padding='10dp',
                         size_hint_y=None,
                         height=dp(100),  
-                        pos_hint= {'center_x': 0.5} 
+                        pos_hint={'center_x': 0.5}
                     )
                     label = MDLabel(
                         text=f"{publicacao['user_name']}: {publicacao['text']}",
-                        font_size= dp(14),
-                        halign= 'center'
+                        font_size=dp(14),
+                        halign='center'
                     )
                     card.add_widget(label)
                     self.ids.publicacoes_box.add_widget(card)
+
+            else:
+                print("Nó 'publicacoes' vazio, adicionando publicação de exemplo...")
+            example_publication = {
+                "user_name": "Usuário de Teste",
+                "text": "Primeira publicação de teste!",
+                "timestamp": firebase.database().serverTimestamp()
+            }
+            database.child("publicacoes").push(example_publication)
+            self.carregar_publicacoes()
+
         except Exception as e:
             print(f"Erro ao carregar publicações: {e}")
 
@@ -356,10 +374,7 @@ class TelaMenu(Screen):
         else:
             self.show_dialog_need_juridical()
         
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_enter = self.carregar_vagas
-        self.on_enter = self.carregar_publicacoes
+    
     
         
 class VagaCard(MDCard):
@@ -693,10 +708,12 @@ class TelaPublicacoes(Screen):
                 "timestamp": firebase.database().serverTimestamp()
             }
     
+            # Salva a publicação no Firebase
             database.child("publicacoes").push(data)  
+
             print("Publicação salva com sucesso.")
             print(f"Dados da publicação: {data}")  
-            self.ids.publicacao_text.text = ""  
+            self.ids.publicacao_text.text = ""  # Limpa o campo de texto
         except Exception as e:
             print(f"Erro ao salvar a publicação: {e}")
 

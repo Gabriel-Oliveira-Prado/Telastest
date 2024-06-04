@@ -252,9 +252,9 @@ class TelaMenu(Screen):
     def carregar_dados(self):
         """Carrega as vagas."""
         self.carregar_vagas()
-        self.carregar_publicacoes()  # Adicione esta linha
+        self.carregar_publicacoes()   
 
-    def carregar_publicacoes(self):  # Adicione este método
+    def carregar_publicacoes(self):  
         publicacoes = database.child("publicacoes").get().val()
         self.ids.publicacoes_box.clear_widgets()
         if publicacoes:
@@ -693,7 +693,6 @@ class TelaPublicacoes(Screen):
             print(f"Dados da publicação: {data}")
             self.ids.publicacao_text.text = ""
 
-            # Atualize as publicações após a publicação bem-sucedida
             self.manager.get_screen('Menu').carregar_publicacoes()
         except Exception as e:
             print(f"Erro ao salvar a publicação: {e}")
