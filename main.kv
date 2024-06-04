@@ -462,61 +462,59 @@ ScreenManager:
         ScreenManager:
             Screen:
                 name: 'menu_screen'
-                BoxLayout:
-                    orientation: 'vertical'
+                MDScrollViewRefreshLayout:
+                    id: refresh_layout
+                    refresh_callback: app.refresh_callback
+                    root_layout: root
+                    size_hint: 1, 0.9
+                    canvas.before:
+                        Color:
+                            rgba: 0.0, 0.0, 0.75, 1
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
 
-                    MDScrollViewRefreshLayout:
-                        id: refresh_layout
-                        refresh_callback: app.refresh_callback
-                        size_hint: 1, 0.9
-                        canvas.before:
-                            Color:
-                                rgba: 0.0, 0.0, 0.75, 1
-                            Rectangle:
-                                size: self.size
-                                pos: self.pos
+                    refreshing: True
+                    refresh_timeout: 1.5
+                    color: 0, 0, 1, 1
 
-                        refreshing: True
-                        refresh_timeout: 1.5
-                        color: 0, 0, 1, 1
+                    MDGridLayout:
+                        id: box
+                        adaptive_height: True
+                        cols: 1
+                        padding: dp(10)
+                        spacing: dp(10)
+
+                MDBottomNavigation:
+                    background_color: 1, 1, 1, 1  
+                    selected_color_background: app.theme_cls.primary_color
+                    text_color_active: 0, 0, 0, 1
+                    height: dp(64)  
+                    spacing: 5
+
+                    MDBottomNavigationItem:
+                        id: screen_1
+                        name: 'screen 1'
+                        text: 'Menu'
+                        icon: 'home'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('Menu')
 
                         MDGridLayout:
-                            id: box
+                            id: publicacoes_grid
                             adaptive_height: True
                             cols: 1
                             padding: dp(10)
                             spacing: dp(10)
 
-                            ScrollView: 
-                                MDList:
-                                    id: publicacoes_box
-                                    adaptive_height: True
-                                    padding: dp(10)
-                                    spacing: dp(10)
-
-                    MDBottomNavigation:
-                        background_color: 1, 1, 1, 1
-                        selected_color_background: app.theme_cls.primary_color
-                        text_color_active: 0, 0, 0, 1
-                        height: dp(64)
-                        spacing: 5
-
-                        MDBottomNavigationItem:
-                            id: screen_1
-                            name: 'screen 1'
-                            text: 'Menu'
-                            icon: 'home'
-                            halign: 'center'
-                            on_tab_press: app.switch_screen('Menu')
-
-                            MDFloatingActionButton:
-                                icon: "pencil"
-                                md_bg_color: app.theme_cls.primary_color
-                                pos_hint: {'center_x': 0.88, 'center_y': 0.09}
-                                elevation: 0
-                                on_release:
-                                    app.root.transition.direction = "up"
-                                    app.root.current = 'Publicacoes'
+                        MDFloatingActionButton:
+                            icon: "pencil"
+                            md_bg_color: app.theme_cls.primary_color
+                            pos_hint: {'center_x': 0.88, 'center_y': 0.09}
+                            elevation: 0
+                            on_release: 
+                                app.root.transition.direction = "up"
+                                app.root.current = 'Publicacoes'
 
                     MDBottomNavigationItem:
                         name: 'screen 2'

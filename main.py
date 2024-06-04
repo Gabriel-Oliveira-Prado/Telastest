@@ -254,9 +254,7 @@ class TelaMenu(Screen):
         self.carregar_publicacoes()
 
     def carregar_publicacoes(self):
-        """Carrega as publicações do Firebase."""
-        print(f"App.user_uid: {App.user_uid}")
-
+        """Carrega as publicações do Firebase e as exibe na tela."""
         try:
             if self.user_type == "physical":
                 user_info = database.child("users").child(App.user_uid).get().val()
@@ -266,14 +264,12 @@ class TelaMenu(Screen):
                 print("Erro: Tipo de usuário desconhecido.")
                 return
 
-            print(f"user_info: {user_info}")
-
             if user_info is None:
                 print("Erro: Dados do usuário não encontrados.")
                 return
 
             publicacoes = database.child("publicacoes").get().val()
-            print("Publicações do Firebase:", publicacoes)  # Imprima os dados para depuração
+            print("Publicações do Firebase:", publicacoes)
 
             self.ids.publicacoes_box.clear_widgets()
 
@@ -290,7 +286,6 @@ class TelaMenu(Screen):
 
         except Exception as e:
             print("Erro ao carregar publicações:", e)
-
     def carregar_vagas(self):
         print(f"App.user_uid: {App.user_uid}")
         try:
