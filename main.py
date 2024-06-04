@@ -243,57 +243,53 @@ class TelaCriarContaJuridico(Screen):
 class TelaMenu(Screen):
     user_type = StringProperty()
     publicacao_text = StringProperty('')
-    
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.on_enter = self.carregar_dados  # Chame uma única função para carregar os dados
+
+    def carregar_dados(self):
+        """Carrega as vagas e publicações."""
+        self.carregar_vagas()
+        self.carregar_publicacoes()
+
     def carregar_publicacoes(self):
         """Carrega as publicações do Firebase."""
+        print(f"App.user_uid: {App.user_uid}")
+
         try:
+            if self.user_type == "physical":
+                user_info = database.child("users").child(App.user_uid).get().val()
+            elif self.user_type == "juridical":
+                user_info = database.child("users_juridicos").child(App.user_uid).get().val()
+            else:
+                print("Erro: Tipo de usuário desconhecido.")
+                return
+
+            print(f"user_info: {user_info}")
+
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                return
+
             publicacoes = database.child("publicacoes").get().val()
-            self.ids.publicacoes_box.clear_widgets() 
+            print("Publicações do Firebase:", publicacoes)  # Imprima os dados para depuração
+
+            self.ids.publicacoes_box.clear_widgets()
+
             if publicacoes:
                 for key, publicacao in publicacoes.items():
-                    card = MDCard(
-                        orientation='vertical',
-                        padding='10dp',
-                        size_hint_y=None,
-                        height=dp(100),  
-                        pos_hint= {'center_x': 0.5} 
+                    self.ids.publicacoes_box.add_widget(
+                        PublicacaoCard(
+                            user_name=publicacao.get('user_name', 'Nome do usuário não encontrado'),
+                            texto_publicacao=publicacao.get('text', '')
+                        )
                     )
-                    label = MDLabel(
-                        text=f"{publicacao['user_name']}: {publicacao['text']}",
-                        font_size= dp(14),
-                        halign= 'center'
-                    )
-                    card.add_widget(label)
-                    self.ids.publicacoes_box.add_widget(card)
+            else:
+                print("Nenhuma publicação encontrada.")
+
         except Exception as e:
-            print(f"Erro ao carregar publicações: {e}")
-
-    def add_publicacao(self, publicacao):
-        """Cria um MDCard com a publicação."""
-        user_name = "Usuário Desconhecido"  
-        text = publicacao                  
-
-        try:
-            user_name, text = publicacao.split(":", 1) 
-            user_name = user_name.strip()         
-            text = text.strip()                      
-        except ValueError:
-            pass 
-
-        card = MDCard(
-            orientation='vertical',
-            padding='10dp',
-            size_hint_y=None,
-            height=dp(100),  
-            pos_hint={'center_x': 0.5}  
-        )
-        label = MDLabel(
-            text=f"{user_name}: {text}",
-            font_size= dp(14),
-            halign= 'center'
-        )
-        card.add_widget(label)
-        self.ids.publicacoes_grid.add_widget(card)
+            print("Erro ao carregar publicações:", e)
 
     def carregar_vagas(self):
         print(f"App.user_uid: {App.user_uid}")
@@ -306,14 +302,14 @@ class TelaMenu(Screen):
                 print("Erro: Tipo de usuário desconhecido.")
                 return
 
-            print(f"user_info: {user_info}") 
+            print(f"user_info: {user_info}")
 
             if user_info is None:
                 print("Erro: Dados do usuário não encontrados.")
-                return  
+                return
 
             vagas = database.child("posts").get().val()
-            self.ids.vagas_box.clear_widgets() 
+            self.ids.vagas_box.clear_widgets()
             if vagas:
                 for key, vaga in vagas.items():
                     self.ids.vagas_box.add_widget(
@@ -332,6 +328,7 @@ class TelaMenu(Screen):
                 print("Nenhuma vaga encontrada.")
         except Exception as e:
             print("Erro ao carregar vagas:", e)
+
 
     def mostrar_detalhes_vaga(self, key):   
         vaga = database.child("posts").child(key).get().val()
@@ -355,12 +352,28 @@ class TelaMenu(Screen):
             self.manager.current = 'CriarVaga'
         else:
             self.show_dialog_need_juridical()
-        
+
+class PublicacaoCard(MDCard):
+    user_name = StringProperty()
+    texto_publicacao = StringProperty()
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.on_enter = self.carregar_vagas
-        self.on_enter = self.carregar_publicacoes
-    
+        self.orientation = 'vertical'
+        self.padding = dp(10)
+        self.size_hint_y = None
+        self.height = self.minimum_height
+
+        user_label = MDLabel(
+            text=f"{self.user_name}:", 
+            font_style="Subtitle1"
+        )
+        self.add_widget(user_label)
+
+        texto_label = MDLabel(
+            text=self.texto_publicacao 
+        )
+        self.add_widget(texto_label)
         
 class VagaCard(MDCard):
     especificacao = StringProperty()
@@ -699,6 +712,9 @@ class TelaPublicacoes(Screen):
             self.ids.publicacao_text.text = ""  
         except Exception as e:
             print(f"Erro ao salvar a publicação: {e}")
+
+        self.manager.get_screen('Menu').carregar_publicacoes()
+        self.manager.current = 'Menu'
 
 class Telaconfignotificacoes(Screen):
     vagas = BooleanProperty(False)
