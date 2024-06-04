@@ -347,28 +347,31 @@ class TelaMenu(Screen):
             self.manager.current = 'CriarVaga'
         else:
             self.show_dialog_need_juridical()
+    
+    def update_publicacoes(self):
+        """Atualiza a lista de publicações na tela Menu."""
+        self.carregar_publicacoes()  # Chame a função existente para carregar as publicações
 
 class PublicacaoCard(MDCard):
     user_name = StringProperty()
     texto_publicacao = StringProperty()
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(**kwargs) 
         self.orientation = 'vertical'
         self.padding = dp(10)
         self.size_hint_y = None
         self.height = self.minimum_height
-
         user_label = MDLabel(
-            text=f"{self.user_name}:", 
+            text=f"{self.user_name}:",
             font_style="Subtitle1"
         )
-        self.add_widget(user_label)
+        super().add_widget(user_label) 
 
         texto_label = MDLabel(
-            text=self.texto_publicacao 
+            text=self.texto_publicacao
         )
-        self.add_widget(texto_label)
+        super().add_widget(texto_label)  
         
 class VagaCard(MDCard):
     especificacao = StringProperty()
@@ -689,26 +692,29 @@ class TelaPublicacoes(Screen):
         """Salva a publicação no Firebase."""
         publicacao_text = self.ids.publicacao_text.text
         if not publicacao_text:
-            return  
+            return
 
         try:
             user_info = database.child("users").child(App.user_uid).get().val()
-            user_name = user_info.get("nome", "Nome não encontrado") 
+            user_name = user_info.get("nome", "Nome não encontrado")
 
             data = {
                 "user_name": user_name,
                 "text": publicacao_text,
                 "timestamp": firebase.database().serverTimestamp()
             }
-    
-            database.child("publicacoes").push(data)  
+
+            database.child("publicacoes").push(data)
             print("Publicação salva com sucesso.")
-            print(f"Dados da publicação: {data}")  
-            self.ids.publicacao_text.text = ""  
+            print(f"Dados da publicação: {data}")
+            self.ids.publicacao_text.text = ""
         except Exception as e:
             print(f"Erro ao salvar a publicação: {e}")
 
-        self.manager.get_screen('Menu').carregar_publicacoes()
+        # Atualiza as publicações na tela Menu
+        app = MDApp.get_running_app()
+        app.root.get_screen('Menu').update_publicacoes()
+
         self.manager.current = 'Menu'
 
 class Telaconfignotificacoes(Screen):

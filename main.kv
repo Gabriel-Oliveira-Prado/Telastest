@@ -730,7 +730,7 @@ ScreenManager:
         text: 'Publicar'
         pos_hint: {'center_x': 0.8,'center_y': 0.95}
         on_release: 
-            app.root.get_screen('Menu').update_publicacoes(root.ids.publicacao_text)
+            app.root.get_screen('Menu').update_publicacoes()  # Remova o argumento extra
             root.ids.publicacao_text.text = ""
             app.root.transition.direction = 'right'
             app.root.current = 'Menu'
