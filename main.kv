@@ -500,17 +500,18 @@ ScreenManager:
                         halign: 'center'
                         on_tab_press: app.switch_screen('Menu')
 
-                        MDGridLayout:
-                            id: publicacoes_grid
-                            adaptive_height: True
-                            cols: 1
-                            padding: dp(10)
-                            spacing: dp(10)
+                        ScrollView: 
+                            MDGridLayout:
+                                id: publicacoes_box
+                                adaptive_height: True
+                                cols: 1
+                                padding: dp(20)
+                                spacing: dp(20)
 
                         MDFloatingActionButton:
                             icon: "pencil"
                             md_bg_color: app.theme_cls.primary_color
-                            pos_hint: {'center_x': 0.88, 'center_y': 0.09}
+                            pos_hint: {'center_x': 0.88, 'center_y': 0.1}
                             elevation: 0
                             on_release: 
                                 app.root.transition.direction = "up"
@@ -730,10 +731,9 @@ ScreenManager:
         text: 'Publicar'
         pos_hint: {'center_x': 0.8,'center_y': 0.95}
         on_release: 
-            app.root.get_screen('Menu').update_publicacoes()  # Remova o argumento extra
-            root.ids.publicacao_text.text = ""
-            app.root.transition.direction = 'right'
-            app.root.current = 'Menu'
+            root.ids.publicacao_text.text = ""  
+            app.root.transition.direction = 'right'  
+            app.root.current = 'Menu'  
 
         
     MDBoxLayout:
