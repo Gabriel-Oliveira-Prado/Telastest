@@ -18,6 +18,14 @@ ScreenManager:
     TelaTrocarSenha:
     Telanumerostelefone:
     Telacriarvaga:
+    SplashScreen:
+
+<SplashScreen>
+    name: 'tela de carregamento'
+    Image:
+        source: 'logo.png'
+        size_hint: (0.9, 0.9)
+        pos_hint: {'center_x': 0.5, 'center_y': 0.55}
 
 <TelaEntrarLogin>:
     name: 'Entrar_login'
@@ -32,70 +40,70 @@ ScreenManager:
         pos_hint: {'center_x': 0.74, 'center_y': 0.07}
         custom_color: "Gray"
         theme_text_color: "Custom"
-        text_color: 0, 0, 0, 1 
+        text_color: 0, 0, 0, 1
         md_bg_color: "#FDFAF3"
         icon_color: 0, 0, 0, 1
-        on_release: 
+        on_release:
             app.root.transition.direction = "left"
             app.root.current = 'Entrar_Login_jurídico'
-    
+
     MDCard:
         size_hint: None, None
-        size: dp(260), dp(350) 
+        size: dp(260), dp(350)
         pos_hint: {'center_x': 0.5, 'center_y': 0.6}
         elevation: 0
         orientation: 'vertical'
         padding: dp(15)
         spacing: dp(10)
-        md_bg_color: 0, 0, 0, 0  
-        radius: [dp(10)]  
+        md_bg_color: 0, 0, 0, 0
+        radius: [dp(10)]
         MDLabel:
             theme_text_color: "Custom"
             text_color: '#000000'
             text: "Login"
-            font_size: dp(30)  
+            font_size: dp(30)
             halign: "center"
             size_hint_y: None
             height: self.texture_size[1]
             padding_y: dp(5)
         MDTextField:
             id: email
-            hint_text: "Digite seu Email" 
+            hint_text: "Digite seu Email"
             icon_right: "account"
             size_hint_x: None
             width: dp(200)
-            font_size: dp(14)  
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#000000" 
+            line_color_normal: "#000000"
         MDTextField:
             id: senha
             password: True
             hint_text: "Digite sua Senha"
             icon_right: "account-key"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14) 
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#000000"           
+            line_color_normal: "#000000"
         MDTextButton:
             text: "Esqueceu a senha?"
             theme_text_color: "Custom"
-            text_color: 0, 0, 0, 1 
+            text_color: 0, 0, 0, 1
             font_size: "12sp"
             pos_hint: {"center_x": 0.5}
             on_release: app.open_link("https://workinweb.netlify.app/")
         MDFloatLayout:
             spacing:10
             pos_hint: {'center_y': 0.5}
-            MDRaisedButton:  
+            MDRaisedButton:
                 text: "     Entrar     "
                 custom_color: "Gray"
                 theme_text_color: "Custom"
-                text_color: 0, 0, 0, 1 
+                text_color: 0, 0, 0, 1
                 md_bg_color: "#FDFAF3"
-                font_size: dp(14) 
+                font_size: dp(14)
                 pos_hint: {'center_x': 0.25, 'center_y': 0.65}
                 on_release:
                     root.Login()
@@ -124,48 +132,48 @@ ScreenManager:
         pos_hint: {'center_x': 0.74, 'center_y': 0.07}
         custom_color: "Gray"
         theme_text_color: "Custom"
-        text_color: 0, 0, 0, 1 
+        text_color: 0, 0, 0, 1
         md_bg_color: "#FDFAF3"
         icon_color: 0, 0, 0, 1
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Entrar_login'
     MDCard:
         size_hint: None, None
-        size: dp(260), dp(350) 
+        size: dp(260), dp(350)
         pos_hint: {'center_x': 0.5, 'center_y': 0.6}
         elevation: 0
         orientation: 'vertical'
         padding: dp(15)
         spacing: dp(10)
-        md_bg_color: 0, 0, 0, 0  
-        radius: [dp(10)]  
+        md_bg_color: 0, 0, 0, 0
+        radius: [dp(10)]
         MDLabel:
             theme_text_color: "Custom"
             text_color: '#000000'
             text: "Login"
-            font_size: dp(30)  
+            font_size: dp(30)
             halign: "center"
             size_hint_y: None
             height: self.texture_size[1]
             padding_y: dp(5)
         MDTextField:
-            hint_text: "CNPJ" 
+            hint_text: "CNPJ"
             id: cnpj
             icon_right: "account-tie"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: '#000000'       
+            line_color_normal: '#000000'
         MDTextField:
-            hint_text: "Digite seu Email" 
+            hint_text: "Digite seu Email"
             id: email
             icon_right: "email"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             line_color_normal: '#000000'
@@ -175,11 +183,11 @@ ScreenManager:
             id: senha
             icon_right: "account-key"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14) 
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: '#000000'           
+            line_color_normal: '#000000'
         MDTextButton:
             text: "Esqueceu a senha?"
             theme_text_color: "Custom"
@@ -190,13 +198,13 @@ ScreenManager:
         MDFloatLayout:
             spacing:10
             pos_hint: {'center_y': 0.5}
-            MDRaisedButton:  
+            MDRaisedButton:
                 text: "     Entrar     "
                 custom_color: "Gray"
                 theme_text_color: "Custom"
-                text_color: 0, 0, 0, 1 
+                text_color: 0, 0, 0, 1
                 md_bg_color: "#FDFAF3"
-                font_size: dp(14) 
+                font_size: dp(14)
                 pos_hint: {'center_x': 0.25, 'center_y': 0.65}
                 on_release: root.LoginJuridico()
             MDRaisedButton:
@@ -217,17 +225,17 @@ ScreenManager:
     Image:
         source: 'backgroundworkin.png'
         allow_stretch: True
-        keep_ratio: False   
+        keep_ratio: False
     MDRectangleFlatIconButton:
         icon: 'store-edit'
         text: 'Conta jurídica'
         pos_hint: {'center_x': 0.74, 'center_y': 0.07}
         custom_color: "Gray"
         theme_text_color: "Custom"
-        text_color: 0, 0, 0, 1 
+        text_color: 0, 0, 0, 1
         md_bg_color: "#FDFAF3"
         icon_color: 0, 0, 0, 1
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Criar_conta_Jurídica'
     MDIconButton:
@@ -235,66 +243,66 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
-            app.root.current = 'Entrar_login'  
+            app.root.current = 'Entrar_login'
     MDCard:
         size_hint: None, None
-        size: dp(250), dp(500)  
+        size: dp(250), dp(500)
         pos_hint: {'center_x': 0.5, 'center_y': 0.50}
         elevation: 0
         orientation: 'vertical'
         padding: dp(15)
         spacing: dp(5)
-        md_bg_color: 0, 0, 0, 0  
-        radius: [dp(10)]  
-        mode: "round"  
+        md_bg_color: 0, 0, 0, 0
+        radius: [dp(10)]
+        mode: "round"
         MDLabel:
             text: "Criar conta"
             theme_text_color: "Custom"
             text_color: '#000000'
-            font_size: dp(30)  
+            font_size: dp(30)
             halign: "center"
             size_hint_y: None
             height: self.texture_size[1]
             padding_y: dp(5)
         MDTextField:
             id: nome
-            hint_text: "Nome Completo:" 
+            hint_text: "Nome Completo:"
             icon_right: "rename"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             line_color_normal: '#000000'
         MDTextField:
             id: nome_social
-            hint_text: "Nome Social:" 
+            hint_text: "Nome Social:"
             icon_right: "rename-outline"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             line_color_normal: '#000000'
         MDTextField:
             id: email
-            hint_text: "Email:" 
+            hint_text: "Email:"
             icon_right: "email"
             size_hint_x: None
-            width: dp(200) 
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal:  '#000000'       
+            line_color_normal:  '#000000'
         MDTextField:
             id: cpf
             hint_text: "CPF"
             icon_right: "card-account-details-outline"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             input_filter: "int"
@@ -307,8 +315,8 @@ ScreenManager:
             hint_text: "Digite sua Senha"
             icon_right: "key"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             line_color_normal: '#000000'
@@ -318,8 +326,8 @@ ScreenManager:
             hint_text: "Confirmar Senha"
             icon_right: "key-chain"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             line_color_normal: '#000000'
@@ -327,24 +335,24 @@ ScreenManager:
             id: data_nascimento
             icon_right: "calendar-month"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             line_color_normal: "#FDFAF3"
             hint_text: "dd/mm/yyyy"
             date_format: "dd/mm/yyyy"
             date_interval: "01/01/1900", "01/01/2020"
-            validator: "date"     
+            validator: "date"
         MDRaisedButton:
             text: "Criar conta"
             theme_text_color: "Custom"
             text_color: 0, 0, 0, 1
-            md_bg_color: "#FDFAF3"  
+            md_bg_color: "#FDFAF3"
             width: dp(200)
-            font_size: dp(14)  
-            pos_hint: {'center_x': 0.5}     
-            on_release: root.Cadastra()   
+            font_size: dp(14)
+            pos_hint: {'center_x': 0.5}
+            on_release: root.Cadastra()
 
 <TelaCriarContaJuridico>:
     name: 'Criar_conta_Jurídica'
@@ -359,7 +367,7 @@ ScreenManager:
         pos_hint: {'center_x': 0.74, 'center_y': 0.07}
         custom_color: "Gray"
         theme_text_color: "Custom"
-        text_color: 0, 0, 0, 1 
+        text_color: 0, 0, 0, 1
         md_bg_color: "#FDFAF3"
         icon_color: 0, 0, 0, 1
         on_release:
@@ -370,66 +378,66 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
-            app.root.current = 'Entrar_Login_jurídico'  
+            app.root.current = 'Entrar_Login_jurídico'
     MDCard:
         size_hint: None, None
-        size: dp(250), dp(500)  
+        size: dp(250), dp(500)
         pos_hint: {'center_x': 0.5, 'center_y': 0.58}
         elevation: 0
         orientation: 'vertical'
         padding: dp(15)
         spacing: dp(10)
-        md_bg_color: 0, 0, 0, 0  
-        radius: [dp(10)]  
-        mode: "round"     
+        md_bg_color: 0, 0, 0, 0
+        radius: [dp(10)]
+        mode: "round"
         MDLabel:
             text: "Criar conta jurídica"
             theme_text_color: "Custom"
             text_color: '#000000'
-            font_size: dp(30)  
+            font_size: dp(30)
             halign: "center"
             size_hint_y: None
             height: self.texture_size[1]
             padding_y: dp(5)
         MDTextField:
             id: nome_empresa
-            hint_text: "Nome da Empresa" 
+            hint_text: "Nome da Empresa"
             icon_right: "store-edit"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
-            mode: "rectangle"          
+            mode: "rectangle"
             line_color_normal: '#000000'
         MDTextField:
             id: email
-            hint_text: "Email:" 
+            hint_text: "Email:"
             icon_right: "email"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
-            mode: "rectangle"            
+            mode: "rectangle"
             line_color_normal: '#000000'
         MDTextField:
             id: senha
-            hint_text: "Senha:" 
+            hint_text: "Senha:"
             icon_right: "key"
             size_hint_x: None
-            width: dp(200) 
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
-            mode: "rectangle"    
-            line_color_normal: '#000000'   
+            mode: "rectangle"
+            line_color_normal: '#000000'
         MDTextField:
             id: telefone
             hint_text: "Telefone"
             icon_right: "phone"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             input_filter: "int"
@@ -440,19 +448,19 @@ ScreenManager:
             hint_text: "CNPJ"
             icon_right: "store"
             size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
+            width: dp(200)
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             max_text_length: 14
-            line_color_normal: '#000000'         
+            line_color_normal: '#000000'
         MDRaisedButton:
             text: "Criar Conta"
             theme_text_color: "Custom"
             text_color: 0, 0, 0, 1
             md_bg_color: "#FDFAF3"
             width: dp(200)
-            font_size: dp(14)  
+            font_size: dp(14)
             pos_hint: {'center_x': 0.5}
             on_release: root.CadastrarJuridico()
 
@@ -486,25 +494,33 @@ ScreenManager:
                         spacing: dp(10)
 
                 MDBottomNavigation:
-                    background_color: 1, 1, 1, 1  
+                    background_color: 1, 1, 1, 1
                     selected_color_background: app.theme_cls.primary_color
                     text_color_active: 0, 0, 0, 1
-                    height: dp(64)  
+                    height: dp(64)
                     spacing: 5
 
                     MDBottomNavigationItem:
+                        id: screen_1
                         name: 'screen 1'
                         text: 'Menu'
                         icon: 'home'
                         halign: 'center'
                         on_tab_press: app.switch_screen('Menu')
 
+                        MDGridLayout:
+                            id: publicacoes_grid
+                            adaptive_height: True
+                            cols: 1
+                            padding: dp(10)
+                            spacing: dp(10)
+
                         MDFloatingActionButton:
                             icon: "pencil"
                             md_bg_color: app.theme_cls.primary_color
                             pos_hint: {'center_x': 0.88, 'center_y': 0.09}
                             elevation: 0
-                            on_release: 
+                            on_release:
                                 app.root.transition.direction = "up"
                                 app.root.current = 'Publicacoes'
 
@@ -513,7 +529,7 @@ ScreenManager:
                         text: 'Pesquisar'
                         icon: 'magnify'
                         halign: 'center'
-                        on_tab_press: app.switch_screen('Pesquisar') 
+                        on_tab_press: app.switch_screen('Pesquisar')
 
                         FloatLayout:
                             size_hint: None, None
@@ -529,7 +545,7 @@ ScreenManager:
                                 width: dp(200)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 icon_left: 'magnify'
-                        
+
                         MDLabel:
                             text: 'Pesquisar'
                             halign: 'center'
@@ -540,7 +556,7 @@ ScreenManager:
                         text: 'Vagas'
                         icon: 'briefcase-variant'
                         halign: 'center'
-                        on_tab_press: 
+                        on_tab_press:
                             app.switch_screen('Vagas')
                             root.carregar_vagas()
 
@@ -562,23 +578,21 @@ ScreenManager:
                                     width: dp(200)
                                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                     icon_left: 'magnify'
-                                
+
                                 MDIconButton:
                                     icon: "briefcase-variant"
                                     theme_text_color: "Custom"
-                                    text_color: 0, 0, 0, 1  
+                                    text_color: 0, 0, 0, 1
                                     pos_hint: {'center_x': 0.11, 'center_y': 0.5}
-                                    on_release:
-                                        app.root.transition.direction = 'right'
-                                        app.root.current = 'criar_vaga'
+                                    on_release: root.criar_vaga()
 
                                 MDIconButton:
                                     icon: "filter"
                                     theme_text_color: "Custom"
-                                    text_color: 0, 0, 0, 1  
+                                    text_color: 0, 0, 0, 1
                                     pos_hint: {'center_x': 0.88 , 'center_y': 0.5}
 
-                            ScrollView: 
+                            ScrollView:
                                 MDGridLayout:
                                     id: vagas_box
                                     adaptive_height: True
@@ -590,7 +604,7 @@ ScreenManager:
             id: nav_drawer
             size_hint_y: 1
             spacing: 10
-            background_color: 1, 1, 1, 1  
+            background_color: 1, 1, 1, 1
 
             FloatLayout:
                 spacing: 14
@@ -598,11 +612,11 @@ ScreenManager:
 
                 MDList:
                     pos_hint: {'center_x': 0.4, 'center_y': 0.27}
-                            
+
                     ConfigItem:
                         text: "Perfil"
                         description: "Editar Perfil"
-                        on_release: 
+                        on_release:
                             app.root.transition.direction = "right"
                             app.root.current = 'config_Perfil'
                         IconLeftWidget:
@@ -610,7 +624,7 @@ ScreenManager:
                     ConfigItem:
                         text: "Segurança"
                         description: "Configurações de segurança do aplicativo"
-                        on_release: 
+                        on_release:
                             app.root.transition.direction = "right"
                             app.root.current = 'Config_Segurança'
                         IconLeftWidget:
@@ -618,7 +632,7 @@ ScreenManager:
                     ConfigItem:
                         text: "Privacidade de Dados"
                         description: "Controle de privacidade e segurança de dados"
-                        on_release: 
+                        on_release:
                             app.root.transition.direction = "right"
                             app.root.current = 'Config_Privacidade_Dados'
                         IconLeftWidget:
@@ -626,12 +640,12 @@ ScreenManager:
                     ConfigItem:
                         text: "Notificações"
                         description: "Gerencie as notificações do aplicativo"
-                        on_release: 
+                        on_release:
                             app.root.transition.direction = "right"
                             app.root.current = 'config_notificacoes'
                         IconLeftWidget:
                             icon: "bell-cog"
-                        
+
                     ConfigItem:
                         text: "Logout"
                         description: "Sair da conta e fazer logout do aplicativo"
@@ -650,7 +664,7 @@ ScreenManager:
                 Image:
                     source: 'Background/profile.png'
                     size_hint: None, None
-                    size: dp(65), dp(65)  
+                    size: dp(65), dp(65)
                     pos_hint: {'center_x': 0.10,'center_y': 0.95}
                     pos: self.parent.pos
 
@@ -658,8 +672,8 @@ ScreenManager:
                     icon: "account-circle"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.1,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
-                    on_release: 
+                    text_color: 0, 0, 0, 1
+                    on_release:
                         app.root.transition.direction = "right"
                         app.root.current = 'config_Perfil'
 
@@ -667,15 +681,15 @@ ScreenManager:
                     icon: "web"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.3,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
+                    text_color: 0, 0, 0, 1
                     on_release: app.open_link("https://workinweb.netlify.app/")
 
                 MDIconButton:
                     icon:'bookmark-multiple'
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.5,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
-                    on_release: 
+                    text_color: 0, 0, 0, 1
+                    on_release:
                         app.root.transition.direction = "right"
                         app.root.current = 'Salvos'
 
@@ -683,8 +697,8 @@ ScreenManager:
                     icon:"bell-ring"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.7,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
-                    on_release: 
+                    text_color: 0, 0, 0, 1
+                    on_release:
                         app.root.transition.direction = "right"
                         app.root.current = 'Notificacoes'
 
@@ -692,24 +706,24 @@ ScreenManager:
                     icon:"chat"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.9,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
-                    on_release: 
+                    text_color: 0, 0, 0, 1
+                    on_release:
                         app.root.transition.direction = "right"
                         app.root.current = 'chat'
 
 
 <TelaPublicacoes>:
     name: 'Publicacoes'
-    background_color:'#FFFFFF'   
+    background_color:'#FFFFFF'
     MDIconButton:
         icon: 'arrow-left'
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Menu'
-                        
+
     MDRectangleFlatIconButton:
         text: 'Quem pode ver:'
         pos_hint: {'center_x': 0.4, 'center_y': 0.95}
@@ -719,16 +733,17 @@ ScreenManager:
         icon_color: app.theme_cls.primary_color
         icon: "eye"
         on_release: app.showquem_pode_ver(self)
-                        
+
     MDRaisedButton:
         text: 'Publicar'
         pos_hint: {'center_x': 0.8,'center_y': 0.95}
-        on_release: 
-            app.root.get_screen('Menu').update_publicacoes(publicacao_text.text)
-            publicacao_text.text = ""
+        on_release:
+            app.root.get_screen('Menu').update_publicacoes()  # Remova o argumento extra
+            root.ids.publicacao_text.text = ""
             app.root.transition.direction = 'right'
             app.root.current = 'Menu'
-        
+
+
     MDBoxLayout:
         orientation: 'horizontal'
         size_hint_y: None
@@ -738,14 +753,14 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.91}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
 
     FloatLayout:
         size_hint: None, None
-        size: dp(360), dp(640) 
+        size: dp(360), dp(640)
         pos_hint: {'center_x': 0.5, 'center_y': 0.64}
 
         ScrollView:
@@ -772,7 +787,7 @@ ScreenManager:
 
                 FloatLayout:
                     MDIconButton:
-                        icon: 'image' 
+                        icon: 'image'
                         pos_hint: {'center_x': 0.8, 'center_y': 0.25}
 
                     MDIconButton:
@@ -780,7 +795,7 @@ ScreenManager:
                         pos_hint: {'center_x': 0.9, 'center_y': 0.25}
 
 <Telacriarvaga>
-    name: 'criar_vaga'
+    name: 'CriarVaga'
     MDFloatLayout:
         canvas.before:
             Color:
@@ -793,7 +808,7 @@ ScreenManager:
             theme_text_color: 'Custom'
             text_color: 0, 0, 0, 1
             pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-            on_release: 
+            on_release:
                 app.root.transition.direction = "right"
                 app.root.current = 'Menu'
         MDBoxLayout:
@@ -805,7 +820,7 @@ ScreenManager:
             pos_hint: {'center_x': 0.5, 'center_y': 0.92}
             canvas:
                 Color:
-                    rgba: 0.7, 0.7, 0.7, 1 
+                    rgba: 0.7, 0.7, 0.7, 1
                 Rectangle:
                     size: self.size
                     pos: self.pos
@@ -824,9 +839,9 @@ ScreenManager:
                 text_color: 0, 0, 0, 1
         ScrollView:
             size_hint: None, None
-            size: dp(360), dp(520) 
+            size: dp(360), dp(520)
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            do_scroll_x: False 
+            do_scroll_x: False
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
@@ -852,7 +867,7 @@ ScreenManager:
                     color: 0, 0, 0, 1
                     on_release: root.show_especificacao(button1)
                     border_color: 0, 0, 0, 1
-                    text_color: 0, 0, 0, 1    
+                    text_color: 0, 0, 0, 1
                 MDLabel:
                     text: "Cargo:"
                     font_size: dp(20)
@@ -872,7 +887,7 @@ ScreenManager:
                     color: 0, 0, 0, 1
                     on_release: root.show_cargo(button2)
                     border_color: 0, 0, 0, 1
-                    text_color: 0, 0, 0, 1         
+                    text_color: 0, 0, 0, 1
                 MDLabel:
                     text: "Local de trabalho:"
                     font_size: dp(20)
@@ -920,7 +935,7 @@ ScreenManager:
                     size_hint_x: None
                     size: dp(300), dp(20)
                     theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1       
+                    text_color: 0, 0, 0, 1
                 MDRoundFlatIconButton:
                     icon:'pencil'
                     id: button5
@@ -940,7 +955,7 @@ ScreenManager:
                     size_hint_x: None
                     size: dp(300), dp(20)
                     theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1   
+                    text_color: 0, 0, 0, 1
                 MDTextField:
                     id: sobre_vaga
                     hint_text: "Descreva sobre a vaga"
@@ -957,7 +972,10 @@ ScreenManager:
                     text: 'Publicar'
                     size_hint_x: 0.8
                     pos_hint: {'center_x': 0.5}
-                    on_release: root.salvar_vaga()
+                    on_release:
+                        root.salvar_vaga()
+                        app.root.transition.direction = 'right'
+                        app.root.current = 'Menu'
 
 <Telaconfignotificacoes>:
     name: 'config_notificacoes'
@@ -968,7 +986,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Menu'
 
@@ -1069,7 +1087,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Menu'
     FloatLayout:
@@ -1079,7 +1097,7 @@ ScreenManager:
         MDLabel:
             text: "Privacidade dos dados"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(250),dp(20)
@@ -1099,11 +1117,11 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
-                pos: self.pos               
-    
+                pos: self.pos
+
     FloatLayout:
         size_hint: None, None
         size: dp(359), dp(590)
@@ -1111,21 +1129,21 @@ ScreenManager:
         ScrollView:
             pos_hint: {'center_x': 0.5, 'center_y': 0.05}
             size_hint: None, None
-            size: dp(360), dp(640)       
+            size: dp(360), dp(640)
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
-                spacing:15                 
+                spacing:15
                 MDList:
                     pos_hint: {'center_x': 0.4, 'center_y': 0.5}
                     halign: 'left'
                     ConfigItem:
                         text: "Política de Privacidade"
                     ConfigItem:
-                        text: "Consentimento de Dados"                    
+                        text: "Consentimento de Dados"
                     ConfigItem:
-                        text: "Restrito por Localização" 
+                        text: "Restrito por Localização"
                     ConfigItem:
                         text: "Opções de Exclusão de Conta"
 
@@ -1138,7 +1156,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Menu'
     FloatLayout:
@@ -1148,7 +1166,7 @@ ScreenManager:
         MDLabel:
             text: "Visibilidade"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(150),dp(20)
@@ -1168,23 +1186,23 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
-                pos: self.pos              
+                pos: self.pos
     FloatLayout:
         size_hint: None, None
         size: dp(359), dp(590)
-        pos_hint: {'center_x': 0.5, 'center_y': 0.66}                    
+        pos_hint: {'center_x': 0.5, 'center_y': 0.66}
         MDList:
             pos_hint: {'center_x': 0.4, 'center_y': 0.6}
             halign: 'left'
             ConfigItem:
                 text: "Opções de visualização"
             ConfigItem:
-                text: "Quem poder ver"                        
+                text: "Quem poder ver"
             ConfigItem:
-                text: "Restrito por Localização"                             
+                text: "Restrito por Localização"
             ConfigItem:
                 text: "Restrito por Domínio"
 
@@ -1196,7 +1214,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Menu'
     FloatLayout:
@@ -1206,7 +1224,7 @@ ScreenManager:
         MDLabel:
             text: "Segurança"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(150),dp(20)
@@ -1226,24 +1244,24 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
     MDLabel:
         text: "Acesso a conta:"
         padding: 10
-        font_size: dp(18)  
+        font_size: dp(18)
         halign: "left"
         size_hint_x: None
         size: dp(250),dp(20)
         pos_hint: {'center_x': 0.65, 'center_y': 0.89}
         theme_text_color: 'Custom'
-        text_color: 0, 0, 0, 1                
+        text_color: 0, 0, 0, 1
     FloatLayout:
         size_hint: None, None
         size: dp(359), dp(590)
-        pos_hint: {'center_x': 0.5, 'center_y': 0.66}                       
+        pos_hint: {'center_x': 0.5, 'center_y': 0.66}
         MDList:
             pos_hint: {'center_x': 0.4, 'center_y': 0.61}
             halign: 'left'
@@ -1253,16 +1271,16 @@ ScreenManager:
                     app.root.transition.direction = "right"
                     app.root.current = 'Endereço_email'
             ConfigItem:
-                text: "Trocar Senha"    
+                text: "Trocar Senha"
                 on_release:
                     app.root.transition.direction = "right"
-                    app.root.current = 'Trocar_Senha'                             
+                    app.root.current = 'Trocar_Senha'
             ConfigItem:
                 text: "Números de telefone"
                 on_release:
                     app.root.transition.direction = "right"
-                    app.root.current = 'Números_telefone'                 
-                    
+                    app.root.current = 'Números_telefone'
+
 
 <TelaconfigPerfil>:
     name: 'config_Perfil'
@@ -1271,15 +1289,15 @@ ScreenManager:
         spacing: 14
         pos_hint: {'center_x': 0.5, 'center_y': 0.9}
         size_hint: None, None
-        size: dp(360), dp(160)                    
+        size: dp(360), dp(160)
         MDCard:
             size_hint_x: None
-            size: dp(360), dp(160)  
+            size: dp(360), dp(160)
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             elevation: 1
             orientation: 'vertical'
-            md_bg_color: 0, 0, 0, 1  
-            mode: "round"                        
+            md_bg_color: 0, 0, 0, 1
+            mode: "round"
             FitImage:
                 source: 'Background\Background.png'
                 allow_stretch: True
@@ -1292,20 +1310,20 @@ ScreenManager:
             on_release: "menu"
             size_hint: None, None
             size: dp(48), dp(48)
-            on_release: 
+            on_release:
                 app.root.transition.direction = "right"
-                app.root.current = 'Menu'               
+                app.root.current = 'Menu'
         MDIconButton:
             icon: 'camera'
             theme_text_color: "Custom"
             pos_hint: {'center_x': 0.9,'center_y': 0.7}
             size_hint: None, None
             size: dp(48), dp(48)
-            text_color: 0, 0, 0, 1  
+            text_color: 0, 0, 0, 1
             on_release: app.change_screen('Trocar_Background_Perfil')
     FloatLayout:
         size_hint: None, None
-        size: dp(100), dp(100) 
+        size: dp(100), dp(100)
         pos_hint: {'center_x': 0.2, 'center_y': 0.78}
         Image:
             source: 'Background\profile.png'
@@ -1321,13 +1339,13 @@ ScreenManager:
             pos_hint: {'center_x': 0.82,'center_y': 0.14}
             size_hint: None, None
             size: dp(48), dp(48)
-            text_color: 0, 0, 0, 1  
-            on_release: app.change_screen('Trocar_foto_Perfil')             
-    FloatLayout:                   
+            text_color: 0, 0, 0, 1
+            on_release: app.change_screen('Trocar_foto_Perfil')
+    FloatLayout:
         MDLabel:
             text: "Nome/Nome Social"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "left"
             size_hint: None, None
             size: dp(150), dp(20)
@@ -1339,11 +1357,11 @@ ScreenManager:
             text_color: 0, 0, 0, 1
             on_release:
                 app.root.transition.direction = "left"
-                app.root.current = 'informações_adicionais'   
+                app.root.current = 'informações_adicionais'
         MDLabel:
             text: "Pronome:"
             padding: 10
-            font_size: dp(15)  
+            font_size: dp(15)
             halign: "left"
             size_hint: None, None
             size: dp(150), dp(20)
@@ -1351,7 +1369,7 @@ ScreenManager:
         MDLabel:
             text: "Profissão:"
             padding: 10
-            font_size: dp(15)  
+            font_size: dp(15)
             halign: "left"
             size_hint: None, None
             size: dp(150), dp(20)
@@ -1359,11 +1377,11 @@ ScreenManager:
         MDLabel:
             text: "Localização:"
             padding: 10
-            font_size: dp(15)  
+            font_size: dp(15)
             halign: "left"
             size_hint: None, None
             size: dp(150), dp(20)
-            pos_hint: {'center_x': 0.2, 'center_y': 0.62}               
+            pos_hint: {'center_x': 0.2, 'center_y': 0.62}
         MDBoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
@@ -1373,13 +1391,13 @@ ScreenManager:
             pos_hint: {'center_x': 0.5, 'center_y': 0.59}
             canvas:
                 Color:
-                    rgba: 0.7, 0.7, 0.7, 1 
+                    rgba: 0.7, 0.7, 0.7, 1
                 Rectangle:
                     size: self.size
                     pos: self.pos
         FloatLayout:
             size_hint: None, None
-            size: dp(360), dp(400) 
+            size: dp(360), dp(400)
             pos_hint: {'center_x': 0.5, 'center_y': 0.37}
             ScrollView:
                 pos_hint: {'center_x': 0.5, 'center_y': 0.05}
@@ -1400,9 +1418,9 @@ ScreenManager:
                         size_hint_y: None
                         height: self.minimum_height
                     MDRectangleFlatIconButton:
-                        text: "Currículo:"    
+                        text: "Currículo:"
                         padding: 10
-                        font_size: dp(15)  
+                        font_size: dp(15)
                         halign: "left"
                         pos_hint: {'center_x': 0.17, 'center_y': 0.5}
                         icon: "attachment"
@@ -1420,7 +1438,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Menu'
     FloatLayout:
@@ -1430,7 +1448,7 @@ ScreenManager:
         MDLabel:
             text: "Salvos"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(150),dp(20)
@@ -1449,7 +1467,7 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -1467,9 +1485,9 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
-            app.root.current = 'Menu' 
+            app.root.current = 'Menu'
     FloatLayout:
         size_hint: None, None
         size: dp(200), dp(200)
@@ -1477,7 +1495,7 @@ ScreenManager:
         MDLabel:
             text: "Notificações"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(150),dp(20)
@@ -1496,10 +1514,22 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
+
+        MDCard:
+            id: user_info_card
+            orientation: 'vertical'
+            padding: '10dp'
+            size_hint_x: None
+            width: dp(350)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}  # Posicionamento do card
+            MDLabel:
+                id: user_info_label
+                halign: "center"
+                font_size: '14sp'
 
 <TelaChat>:
     name: 'chat'
@@ -1508,18 +1538,18 @@ ScreenManager:
             Screen:
                 background_color:  '#FFFFFF'
                 MDBottomNavigation:
-                    background_color: 1, 1, 1, 1  
+                    background_color: 1, 1, 1, 1
                     selected_color_background: app.theme_cls.primary_color
                     text_color_active: 0, 0, 0, 1
-                    height: dp(64)  
+                    height: dp(64)
                     spacing: 5
                     canvas.before:
                         Color:
-                            rgba: 0.0, 0.0, 0.75, 1  
+                            rgba: 0.0, 0.0, 0.75, 1
                         Rectangle:
                             size: self.size
                             pos: self.pos
-                                        
+
                     MDBottomNavigationItem:
                         name: 'Contatos'
                         text: 'Contatos'
@@ -1531,7 +1561,7 @@ ScreenManager:
                             theme_text_color: 'Custom'
                             text_color: 0, 0, 0, 1
                             pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-                            on_release: 
+                            on_release:
                                 app.root.transition.direction = "right"
                                 app.root.current = 'Menu'
 
@@ -1553,18 +1583,18 @@ ScreenManager:
                             MDIconButton:
                                 icon: "filter"
                                 theme_text_color: "Custom"
-                                text_color: 0, 0, 0, 1  
+                                text_color: 0, 0, 0, 1
                                 pos_hint: {'center_x': 1.2 , 'center_y': 0.5}
                         FloatLayout:
                             size_hint: None, None
                             size: dp(360), dp(640)
-                            pos_hint: {'center_x': 1, 'center_y': 0.5}         
+                            pos_hint: {'center_x': 1, 'center_y': 0.5}
                             MDFloatingActionButtonSpeedDial:
                                 root_button: None
                                 root_button_anim: True
                                 size_hint: None, None
-                                size: dp(20), dp(20)  
-                                hint_radius: dp(0)  
+                                size: dp(20), dp(20)
+                                hint_radius: dp(0)
                                 data: app.data
                                 md_bg_color: app.theme_cls.primary_color
                                 label_text_color: "black"
@@ -1587,18 +1617,18 @@ ScreenManager:
                         FloatLayout:
                             size_hint: None, None
                             size: dp(360), dp(640)
-                            pos_hint: {'center_x': 1, 'center_y': 0.5}                                       
+                            pos_hint: {'center_x': 1, 'center_y': 0.5}
                             MDFloatingActionButtonSpeedDial:
                                 root_button: None
                                 root_button_anim: True
                                 size_hint: None, None
-                                size: dp(20), dp(20)  
-                                hint_radius: dp(0)  
+                                size: dp(20), dp(20)
+                                hint_radius: dp(0)
                                 data: app.data
                                 md_bg_color: app.theme_cls.primary_color
                                 label_text_color: "black"
                                 icon: "plus"
-                                elevation: 0                                                                                   
+                                elevation: 0
                         MDTextField:
                             hint_text: "Pesquisar"
                             mode: "round"
@@ -1608,7 +1638,7 @@ ScreenManager:
                             size: dp(200), dp(200)
                             pos_hint: {'center_x': 0.5, 'center_y': 0.95}
                             icon_left: 'magnify'
-<TelaInformacoesPerfil>                       
+<TelaInformacoesPerfil>
     name: 'informações_adicionais'
     background_color:  '#FFFFFF'
     MDIconButton:
@@ -1616,7 +1646,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'config_Perfil'
     FloatLayout:
@@ -1626,7 +1656,7 @@ ScreenManager:
         MDLabel:
             text: "Informações adicionais"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(250),dp(20)
@@ -1646,13 +1676,13 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
-                pos: self.pos               
+                pos: self.pos
     FloatLayout:
         size_hint: None, None
-        size: dp(360), dp(400) 
+        size: dp(360), dp(400)
         pos_hint: {'center_x': 0.5, 'center_y': 0.7}
         ScrollView:
             pos_hint: {'center_x': 0.5, 'center_y': 0.05}
@@ -1664,114 +1694,114 @@ ScreenManager:
                 height: self.minimum_height
                 spacing:15
                 MDTextField:
-                    hint_text: "Nome/Nome Social" 
+                    hint_text: "Nome/Nome Social"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3,}
                     mode: "rectangle"
-                    line_color_normal: "#000000" 
-                    icon_right:'pencil'     
+                    line_color_normal: "#000000"
+                    icon_right:'pencil'
                 MDTextField:
-                    hint_text: "Pronomes" 
+                    hint_text: "Pronomes"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
                     line_color_normal: "#000000"
-                    icon_right:'pencil' 
+                    icon_right:'pencil'
                 MDTextField:
-                    hint_text: "Etnia" 
+                    hint_text: "Etnia"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
                     line_color_normal: "#000000"
-                    icon_right:'pencil' 
+                    icon_right:'pencil'
                 MDTextField:
-                    hint_text: "Gênero" 
+                    hint_text: "Gênero"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
                     line_color_normal: "#000000"
-                    icon_right:'pencil' 
+                    icon_right:'pencil'
                 MDTextField:
-                    hint_text: "Profissão" 
+                    hint_text: "Profissão"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
                     line_color_normal: "#000000"
-                    icon_right:'pencil' 
+                    icon_right:'pencil'
                 MDTextField:
-                    hint_text: "Localização" 
+                    hint_text: "Localização"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
-                    line_color_normal: "#000000"  
-                    icon_right:'pencil'     
+                    line_color_normal: "#000000"
+                    icon_right:'pencil'
                 MDTextField:
-                    hint_text: "Nivel de graduação" 
+                    hint_text: "Nivel de graduação"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
                     line_color_normal: "#000000"
                     helper_text:'Ex:Ensino Fundamental/Médio, Graduação, Pós-Graduação.'
-                    icon_right:'pencil' 
+                    icon_right:'pencil'
                 MDTextField:
                     hint_text: "Cursos Graduados"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
                     line_color_normal: "#000000"
-                    icon_right:'pencil' 
+                    icon_right:'pencil'
                 MDTextField:
                     hint_text: "Habilidades"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
                     line_color_normal: "#000000"
                     helper_text:'Habilidades(ex: Python,Marketing Digital, Design)'
-                    icon_right:'pencil' 
+                    icon_right:'pencil'
                 MDTextField:
                     hint_text: "Interesses"
                     size_hint_x: None
-                    width: dp(200)  
-                    font_size: dp(14)  
+                    width: dp(200)
+                    font_size: dp(14)
                     pos_hint: {'center_x': 0.3}
                     mode: "rectangle"
                     line_color_normal: "#000000"
                     helper_text:'Interesses(ex: Tecnologia, Educação, Meio Ambiente)'
-                    icon_right:'pencil' 
-                
+                    icon_right:'pencil'
+
                 MDCard:
                     size_hint: None, None
-                    size: dp(360), dp(360) 
+                    size: dp(360), dp(360)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     elevation: 0
                     orientation: 'vertical'
                     padding: dp(15)
                     spacing: dp(10)
-                    md_bg_color: 0, 0, 0, 0  
+                    md_bg_color: 0, 0, 0, 0
                     radius: [dp(10)]
                     MDFloatLayout:
                         MDLabel:
                             text: "Experiência Profissional"
                             padding: 10
-                            font_size: dp(20)  
+                            font_size: dp(20)
                             halign: "center"
                             size_hint_x: None
                             size: dp(300),dp(20)
@@ -1779,47 +1809,47 @@ ScreenManager:
                         MDTextField:
                             hint_text: "Cargo"
                             size_hint_x: None
-                            width: dp(200)  
-                            font_size: dp(14)  
+                            width: dp(200)
+                            font_size: dp(14)
                             pos_hint: {'center_x': 0.3,'center_y': 0.8}
                             mode: "rectangle"
                             line_color_normal: "#000000"
                             helper_text:'ex: Analista de Sistema, Advogado'
-                            icon_right:'pencil' 
+                            icon_right:'pencil'
                         MDTextField:
                             hint_text: "Empresa"
                             size_hint_x: None
-                            width: dp(200)  
-                            font_size: dp(14)  
+                            width: dp(200)
+                            font_size: dp(14)
                             pos_hint: {'center_x': 0.3,'center_y': 0.57}
                             mode: "rectangle"
                             line_color_normal: "#000000"
                             helper_text:'ex: Empresa XPTO'
-                            icon_right:'pencil' 
+                            icon_right:'pencil'
                         MDTextField:
                             hint_text: "Período"
                             size_hint_x: None
-                            width: dp(200)  
-                            font_size: dp(14)  
+                            width: dp(200)
+                            font_size: dp(14)
                             pos_hint: {'center_x': 0.3,'center_y': 0.34}
                             mode: "rectangle"
                             line_color_normal: "#000000"
                             helper_text:'Ex: 2020-2022'
-                            icon_right:'pencil' 
+                            icon_right:'pencil'
                         MDTextField:
-                            hint_text: "Descrição das atividades"    
+                            hint_text: "Descrição das atividades"
                             size_hint_x: None
-                            width: dp(200)  
-                            font_size: dp(14)  
+                            width: dp(200)
+                            font_size: dp(14)
                             pos_hint: {'center_x': 0.3,'center_y': 0.11}
                             mode: "rectangle"
                             line_color_normal: "#000000"
                             helper_text:'Detalhe sua responsabilidade e projeto'
-                            icon_right:'pencil' 
-                        
+                            icon_right:'pencil'
+
                 MDCard:
                     size_hint: None, None
-                    size: dp(360), dp(300) 
+                    size: dp(360), dp(300)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     elevation: 4
                     orientation: 'vertical'
@@ -1831,36 +1861,36 @@ ScreenManager:
                         MDLabel:
                             text: "Adicionar Rede Social"
                             padding: 10
-                            font_size: dp(20)  
+                            font_size: dp(20)
                             halign: "center"
                             size_hint_x: None
                             size: dp(300),dp(20)
                             pos_hint: {'center_x': 0.5,'center_y': 0.95}
                         MDTextField:
-                            hint_text: "URL do Instagram"    
+                            hint_text: "URL do Instagram"
                             size_hint_x: None
-                            width: dp(200)  
-                            font_size: dp(14)  
+                            width: dp(200)
+                            font_size: dp(14)
                             pos_hint: {'center_x': 0.5,'center_y': 0.8}
                             mode: "rectangle"
                             line_color_normal: "#000000"
                             icon_left:'instagram'
                             line_color_focus: "#000000"
                         MDTextField:
-                            hint_text: "URL do Linkedin"    
+                            hint_text: "URL do Linkedin"
                             size_hint_x: None
-                            width: dp(200)  
-                            font_size: dp(14)  
+                            width: dp(200)
+                            font_size: dp(14)
                             pos_hint: {'center_x': 0.5,'center_y': 0.55}
                             mode: "rectangle"
                             line_color_normal: "#000000"
                             icon_left:'linkedin'
                             line_color_focus: "#000000"
                         MDTextField:
-                            hint_text: "URL do GitHub"    
+                            hint_text: "URL do GitHub"
                             size_hint_x: None
-                            width: dp(200)  
-                            font_size: dp(14)  
+                            width: dp(200)
+                            font_size: dp(14)
                             pos_hint: {'center_x': 0.5,'center_y': 0.3}
                             mode: "rectangle"
                             line_color_normal: "#000000"
@@ -1880,7 +1910,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Config_Segurança'
     FloatLayout:
@@ -1890,7 +1920,7 @@ ScreenManager:
         MDLabel:
             text: "Endereço de email"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(150),dp(20)
@@ -1910,7 +1940,7 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -1928,7 +1958,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Config_Segurança'
     FloatLayout:
@@ -1938,7 +1968,7 @@ ScreenManager:
         MDLabel:
             text: "Trocar Senha"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(150),dp(20)
@@ -1958,7 +1988,7 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -1976,7 +2006,7 @@ ScreenManager:
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-        on_release: 
+        on_release:
             app.root.transition.direction = "right"
             app.root.current = 'Config_Segurança'
     FloatLayout:
@@ -1986,7 +2016,7 @@ ScreenManager:
         MDLabel:
             text: "Números de telefone"
             padding: 10
-            font_size: dp(20)  
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
             size: dp(150),dp(20)
@@ -2006,7 +2036,7 @@ ScreenManager:
         pos_hint: {'center_x': 0.5, 'center_y': 0.92}
         canvas:
             Color:
-                rgba: 0.7, 0.7, 0.7, 1 
+                rgba: 0.7, 0.7, 0.7, 1
             Rectangle:
                 size: self.size
                 pos: self.pos
