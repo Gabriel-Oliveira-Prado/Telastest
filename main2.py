@@ -37,8 +37,7 @@ firebaseConfig = {
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
-auth = firebase.auth()
-
+auth = firebase.auth() 
 
 class TelaEntrarLogin(Screen):
     def show_dialog_Errologin(self, message):
@@ -247,17 +246,16 @@ class TelaMenu(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.on_enter = self.carregar_vagas
-        self.on_enter = self.carregar_publicacoes  # Ordena a ordem das chamadas
+        self.on_enter = self.carregar_publicacoes
 
     def carregar_publicacoes(self):
         """Carrega as publicações do Firebase e atualiza a tela."""
         try:
             publicacoes = database.child("publicacoes").get().val()
             self.ids.publicacoes_box.clear_widgets()
-
             if publicacoes:
                 for key, publicacao in publicacoes.items():
-                    # Indentação correta!
+                    
                     card = MDCard(
                         orientation='vertical',
                         padding='10dp',
@@ -278,7 +276,7 @@ class TelaMenu(Screen):
             example_publication = {
                 "user_name": "Usuário de Teste",
                 "text": "Primeira publicação de teste!",
-                "timestamp": firebase.database().serverTimestamp()
+                "timestamp": database.serverTimestamp()
             }
             database.child("publicacoes").push(example_publication)
             self.carregar_publicacoes()
@@ -374,9 +372,6 @@ class TelaMenu(Screen):
         else:
             self.show_dialog_need_juridical()
         
-    
-    
-        
 class VagaCard(MDCard):
     especificacao = StringProperty()
     cargo = StringProperty()
@@ -435,6 +430,31 @@ class VagaCard(MDCard):
             ]
         )
         dialog.open()
+
+class TelaPublicacoes(Screen):
+    def publicar(self, instance):
+        """Salva a publicação no Firebase."""
+        publicacao_text = self.ids.publicacao_text.text
+        if not publicacao_text:
+            return
+
+        try:
+            user_info = database.child("users").child(App.user_uid).get().val()
+            user_name = user_info.get("nome", "Nome não encontrado")
+
+            data = {
+                "user_name": user_name,
+                "text": publicacao_text,
+                "timestamp": database.serverTimestamp()
+            }
+
+            database.child("publicacoes").push(data)
+
+            print("Publicação salva com sucesso.")
+            print(f"Dados da publicação: {data}")
+            self.ids.publicacao_text.text = ""  
+        except Exception as e:
+            print(f"Erro ao salvar a publicação: {e}")
 
 class Telacriarvaga(Screen):
     especificacao = [
@@ -690,32 +710,6 @@ class Telacriarvaga(Screen):
             print("Vaga salva com sucesso.")
         except Exception as e:
             print("Erro ao salvar a vaga:", e)
-
-class TelaPublicacoes(Screen):
-    def publicar(self):
-        """Salva a publicação no Firebase."""
-        publicacao_text = self.ids.publicacao_text.text
-        if not publicacao_text:
-            return  
-
-        try:
-            user_info = database.child("users").child(App.user_uid).get().val()
-            user_name = user_info.get("nome", "Nome não encontrado") 
-
-            data = {
-                "user_name": user_name,
-                "text": publicacao_text,
-                "timestamp": firebase.database().serverTimestamp()
-            }
-    
-            # Salva a publicação no Firebase
-            database.child("publicacoes").push(data)  
-
-            print("Publicação salva com sucesso.")
-            print(f"Dados da publicação: {data}")  
-            self.ids.publicacao_text.text = ""  # Limpa o campo de texto
-        except Exception as e:
-            print(f"Erro ao salvar a publicação: {e}")
 
 class Telaconfignotificacoes(Screen):
     vagas = BooleanProperty(False)

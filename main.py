@@ -22,6 +22,7 @@ from kivy.uix.button import Button
 from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
 from kivy.uix.image import Image
+from kivy.clock import Clock
 import pyrebase
 from collections import OrderedDict
 
@@ -39,7 +40,16 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
 auth = firebase.auth()
 
-
+class SplashScreen(Screen):
+    def __init__(self, **kwargs):
+        super(SplashScreen, self).__init__(**kwargs)
+        self.image = Image(source='telainicial.png', size_hint=(0.5, 0.5),
+                           pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        self.add_widget(self.image)
+    def on_enter(self):
+        Clock.schedule_once(self.dismiss_screen, 8)
+    def dismiss_screen(self, dt):
+        self.manager.current = 'Entrar_login'    
 
 class TelaEntrarLogin(Screen):
     def show_dialog_Errologin(self, message):
@@ -772,23 +782,7 @@ class TelaSalvos(Screen):
     pass
 
 class Telanotificacoes(Screen):
-    def load_user_info(self):
-        try:
-            user_info = database.child("users").child(App.user_uid).get().val()
-            if user_info is None:
-                print("Erro: Dados do usuário não encontrados.")
-                self.user_info = "Usuário não encontrado." 
-                return
-
-            self.user_info = f"Nome: {user_info.get('nome', 'N/A')}\n"
-            self.user_info += f"CPF: {user_info.get('cpf', 'N/A')}\n"
-            self.user_info += f"Data de Nascimento: {user_info.get('data_nascimento', 'N/A')}\n"
-            self.user_info += f"Email: {user_info.get('email', 'N/A')}\n"
-            self.user_info += f"Nome Social: {user_info.get('nome_social', 'N/A')}"
-
-            self.ids.user_info_label.text = self.user_info
-        except Exception as e:
-            print("Erro ao carregar informações do usuário:", e)
+   pass
 
 class TelaChat(Screen):
     pass

@@ -18,6 +18,24 @@ ScreenManager:
     TelaTrocarSenha:
     Telanumerostelefone:
     Telacriarvaga:
+    SplashScreen:
+    
+<SplashScreen>:
+    name: 'splash'
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(20)
+        Image:
+            source: 'telainicial.png'
+            size_hint: None, None
+            size: dp(200), dp(200)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        MDSpinner:
+            size_hint: None, None
+            size: dp(46), dp(46)
+            pos_hint: {'center_x': 0.5}
+            active: True
 
 <TelaEntrarLogin>:
     name: 'Entrar_login'
@@ -505,6 +523,7 @@ ScreenManager:
                                 id: publicacoes_box
                                 adaptive_height: True
                                 cols: 1
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.5}
                                 padding: dp(20)
                                 spacing: dp(20)
 
