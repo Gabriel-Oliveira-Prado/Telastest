@@ -8,7 +8,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.metrics import dp
 import os
-from kivy.properties import BooleanProperty
+from kivy.properties import BooleanProperty, StringProperty
 from kivy.lang import Builder
 from kivymd.uix.list import OneLineIconListItem
 from kivymd.uix.dialog import MDDialog
@@ -21,8 +21,9 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
 from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
-from kivy.properties import StringProperty
+from kivy.uix.image import Image
 import pyrebase
+from collections import OrderedDict
 
 firebaseConfig = {
     'apiKey': "AIzaSyA3gOHi9Q6aHQ5seN5S9bbNmQpPQFMGXFs",
@@ -64,11 +65,12 @@ class TelaEntrarLogin(Screen):
             firebase = pyrebase.initialize_app(firebaseConfig)
             auth = firebase.auth()
             user = auth.sign_in_with_email_and_password(email, senha)
+            App.user_uid = user['localId'] 
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
+            self.manager.get_screen('Menu').user_type = "physical" 
         except Exception as e:
-            self.show_dialog_Errologin(f"Erro ao fazer login")
-
+            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
 
 class TelaEntrarLoginJuridico(Screen):
     def show_dialog_ErroCadastro(self, message):
@@ -82,6 +84,7 @@ class TelaEntrarLoginJuridico(Screen):
             ]
         )
         self.dialog.open()
+
     def show_dialog_Errologin(self, message):
         self.dialog = MDDialog(
             text=message,
@@ -93,6 +96,7 @@ class TelaEntrarLoginJuridico(Screen):
             ]
         )
         self.dialog.open()
+
     def LoginJuridico(self):
         cnpj = self.ids.cnpj.text
         email = self.ids.email.text
@@ -106,11 +110,13 @@ class TelaEntrarLoginJuridico(Screen):
             firebase = pyrebase.initialize_app(firebaseConfig)
             auth = firebase.auth()
             user = auth.sign_in_with_email_and_password(email, senha)
+            App.user_uid = user['localId']  
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
+            self.manager.get_screen('Menu').user_type = "juridical" 
         except Exception as e:
-            self.show_dialog_Errologin(f"Erro ao fazer login")
-
+            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
+            
 class TelaCriarConta(Screen):
     def show_dialog_ErroCadastro(self, message):
         self.dialog = MDDialog(
@@ -169,7 +175,8 @@ class TelaCriarConta(Screen):
                 "cpf": cpf,
                 "email": email,
                 "data_nascimento": data_nascimento,
-                "uid": uid  
+                "uid": uid,
+                "type": "physical"
             }
             db.child("users").child(uid).set(data) 
             self.show_dialog_SuccessCadastro("Usuário registrado com sucesso.")
@@ -225,7 +232,8 @@ class TelaCriarContaJuridico(Screen):
                 "nome_empresa": nome_empresa,
                 "email": email,
                 "telefone": telefone,
-                "cnpj": cnpj
+                "cnpj": cnpj,
+                "type": "juridical"
             }
             db.child("users_juridicos").child(user["localId"]).set(data)
             self.show_dialog_SuccessCadastro("Conta jurídica registrada com sucesso.")
@@ -233,12 +241,95 @@ class TelaCriarContaJuridico(Screen):
             self.show_dialog_ErroCadastro(f"Erro ao registrar a conta jurídica: {e}")
 
 class TelaMenu(Screen):
+    user_type = StringProperty()
+    publicacao_text = StringProperty('')
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.on_enter = self.carregar_vagas
+        self.on_enter = self.carregar_publicacoes  # Ordena a ordem das chamadas
+
+    def carregar_publicacoes(self):
+        """Carrega as publicações do Firebase e atualiza a tela."""
+        try:
+            publicacoes = database.child("publicacoes").get().val()
+            self.ids.publicacoes_box.clear_widgets()
+
+            if publicacoes:
+                for key, publicacao in publicacoes.items():
+                    # Indentação correta!
+                    card = MDCard(
+                        orientation='vertical',
+                        padding='10dp',
+                        size_hint_y=None,
+                        height=dp(100),  
+                        pos_hint={'center_x': 0.5}
+                    )
+                    label = MDLabel(
+                        text=f"{publicacao['user_name']}: {publicacao['text']}",
+                        font_size=dp(14),
+                        halign='center'
+                    )
+                    card.add_widget(label)
+                    self.ids.publicacoes_box.add_widget(card)
+
+            else:
+                print("Nó 'publicacoes' vazio, adicionando publicação de exemplo...")
+            example_publication = {
+                "user_name": "Usuário de Teste",
+                "text": "Primeira publicação de teste!",
+                "timestamp": firebase.database().serverTimestamp()
+            }
+            database.child("publicacoes").push(example_publication)
+            self.carregar_publicacoes()
+
+        except Exception as e:
+            print(f"Erro ao carregar publicações: {e}")
+
+    def add_publicacao(self, publicacao):
+        """Cria um MDCard com a publicação."""
+        user_name = "Usuário Desconhecido"  
+        text = publicacao                  
+
+        try:
+            user_name, text = publicacao.split(":", 1) 
+            user_name = user_name.strip()         
+            text = text.strip()                      
+        except ValueError:
+            pass 
+
+        card = MDCard(
+            orientation='vertical',
+            padding='10dp',
+            size_hint_y=None,
+            height=dp(100),  
+            pos_hint={'center_x': 0.5}  
+        )
+        label = MDLabel(
+            text=f"{user_name}: {text}",
+            font_size= dp(14),
+            halign= 'center'
+        )
+        card.add_widget(label)
+        self.ids.publicacoes_grid.add_widget(card)
 
     def carregar_vagas(self):
+        print(f"App.user_uid: {App.user_uid}")
         try:
+            if self.user_type == "physical":
+                user_info = database.child("users").child(App.user_uid).get().val()
+            elif self.user_type == "juridical":
+                user_info = database.child("users_juridicos").child(App.user_uid).get().val()
+            else:
+                print("Erro: Tipo de usuário desconhecido.")
+                return
+
+            print(f"user_info: {user_info}") 
+
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                return  
+
             vagas = database.child("posts").get().val()
             self.ids.vagas_box.clear_widgets() 
             if vagas:
@@ -263,8 +354,29 @@ class TelaMenu(Screen):
     def mostrar_detalhes_vaga(self, key):   
         vaga = database.child("posts").child(key).get().val()
         self.manager.current = 'DetalhesVaga' 
-        self.manager.get_screen('DetalhesVaga').set_vaga(vaga) 
+        self.manager.get_screen('DetalhesVaga').set_vaga(vaga)  
 
+    def show_dialog_need_juridical(self):
+        self.dialog = MDDialog(
+            text="Você precisa ser uma conta jurídica para criar vagas.",
+            buttons=[
+                MDFlatButton(
+                    text="OK",
+                    on_release=lambda *args: self.dialog.dismiss()
+                )
+            ]
+        )
+        self.dialog.open()
+
+    def criar_vaga(self):
+        if self.user_type == "juridical":
+            self.manager.current = 'CriarVaga'
+        else:
+            self.show_dialog_need_juridical()
+        
+    
+    
+        
 class VagaCard(MDCard):
     especificacao = StringProperty()
     cargo = StringProperty()
@@ -291,7 +403,16 @@ class VagaCard(MDCard):
         self.add_widget(MDLabel(text=f"Local de Trabalho: {self.local_de_trabalho}"))
         self.add_widget(MDLabel(text=f"Localidade: {self.localidade}"))
         self.add_widget(MDLabel(text=f"Tipo de Vaga: {self.tipo_de_vaga}"))
-        self.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
+
+        sobre_card = MDCard(
+            orientation='vertical',
+            padding=dp(10),
+            size_hint_y=None,
+            height=dp(60),
+            pos_hint={'center_x': 0.5}
+        )
+        sobre_card.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
+        self.add_widget(sobre_card)
 
         candidatura_button = MDRaisedButton(
             text="Enviar Candidatura",
@@ -314,7 +435,6 @@ class VagaCard(MDCard):
             ]
         )
         dialog.open()
-
 
 class Telacriarvaga(Screen):
     especificacao = [
@@ -529,11 +649,28 @@ class Telacriarvaga(Screen):
             return
         
         sobre_vaga = self.ids.sobre_vaga.text
-        
+
+        if not hasattr(App, 'user_uid'):
+            print("Erro: Usuário não está logado.")
+            return
 
         try:
-            user_info = database.child("users").child().get().val()  
-            user_name = user_info.get("nome", "Nome não encontrado")  
+            if self.manager.get_screen('Menu').user_type == "physical":
+                user_info = database.child("users").child(App.user_uid).get().val()
+            elif self.manager.get_screen('Menu').user_type == "juridical":
+                user_info = database.child("users_juridicos").child(App.user_uid).get().val()
+            else:
+                print("Erro: Tipo de usuário desconhecido.")
+                return
+
+            print(f"App.user_uid: {App.user_uid}")
+            print(f"user_info: {user_info}") 
+
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                return
+
+            user_name = user_info.get("nome", "Nome não encontrado")    
 
             data = {
                 "especificacao": self.selected_especificacao,
@@ -555,7 +692,30 @@ class Telacriarvaga(Screen):
             print("Erro ao salvar a vaga:", e)
 
 class TelaPublicacoes(Screen):
-     pass
+    def publicar(self):
+        """Salva a publicação no Firebase."""
+        publicacao_text = self.ids.publicacao_text.text
+        if not publicacao_text:
+            return  
+
+        try:
+            user_info = database.child("users").child(App.user_uid).get().val()
+            user_name = user_info.get("nome", "Nome não encontrado") 
+
+            data = {
+                "user_name": user_name,
+                "text": publicacao_text,
+                "timestamp": firebase.database().serverTimestamp()
+            }
+    
+            # Salva a publicação no Firebase
+            database.child("publicacoes").push(data)  
+
+            print("Publicação salva com sucesso.")
+            print(f"Dados da publicação: {data}")  
+            self.ids.publicacao_text.text = ""  # Limpa o campo de texto
+        except Exception as e:
+            print(f"Erro ao salvar a publicação: {e}")
 
 class Telaconfignotificacoes(Screen):
     vagas = BooleanProperty(False)
@@ -563,6 +723,7 @@ class Telaconfignotificacoes(Screen):
     mensagens = BooleanProperty(False)
     mencoes = BooleanProperty(False)
     publicar_comentar = BooleanProperty(False)
+    user_info = StringProperty('') 
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -570,15 +731,19 @@ class Telaconfignotificacoes(Screen):
 
     def on_pre_enter(self, *args):
         self.load_settings()
+        self.load_user_info()
 
     def load_settings(self):
-        settings = database.child("users").child("user_Config_notig").child("notification_settings").get().val()
-        if settings:
-            self.vagas = settings.get('vagas', False)
-            self.contratacao = settings.get('contratacao', False)
-            self.mensagens = settings.get('mensagens', False)
-            self.mencoes = settings.get('mencoes', False)
-            self.publicar_comentar = settings.get('publicar_comentar', False)
+        user_settings = database.child("users").child(App.user_uid).child("notification_settings").get().val()
+        if user_settings:
+            self.vagas = user_settings.get('vagas', False)
+            self.contratacao = user_settings.get('contratacao', False)
+            self.mensagens = user_settings.get('mensagens', False)
+            self.mencoes = user_settings.get('mencoes', False)
+            self.publicar_comentar = user_settings.get('publicar_comentar', False)
+        else:
+
+            self.save_settings() 
 
     def save_settings(self):
         settings = {
@@ -588,8 +753,27 @@ class Telaconfignotificacoes(Screen):
             'mencoes': self.mencoes,
             'publicar_comentar': self.publicar_comentar,
         }
-        database.child("users").child("user_Config_notig").child("notification_settings").set(settings)
+        database.child("users").child(App.user_uid).child("notification_settings").set(settings)
 
+    def load_user_info(self):
+        try:
+            user_info = database.child("users").child(App.user_uid).get().val()
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                self.user_info = "Usuário não encontrado." 
+                return
+
+            self.user_info = f"Nome: {user_info.get('nome', 'N/A')}\n"
+            self.user_info += f"CPF: {user_info.get('cpf', 'N/A')}\n"
+            self.user_info += f"Data de Nascimento: {user_info.get('data_nascimento', 'N/A')}\n"
+            self.user_info += f"Email: {user_info.get('email', 'N/A')}\n"
+            self.user_info += f"Nome Social: {user_info.get('nome_social', 'N/A')}"
+        except Exception as e:
+            print("Erro ao carregar informações do usuário:", e)
+
+    def update_notification_setting(self, key, value):
+        setattr(self, key, value)
+        self.save_settings()
 class TelaconfigPrivacidadeDados(Screen):
     pass
 
@@ -606,7 +790,23 @@ class TelaSalvos(Screen):
     pass
 
 class Telanotificacoes(Screen):
-    pass
+    def load_user_info(self):
+        try:
+            user_info = database.child("users").child(App.user_uid).get().val()
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                self.user_info = "Usuário não encontrado." 
+                return
+
+            self.user_info = f"Nome: {user_info.get('nome', 'N/A')}\n"
+            self.user_info += f"CPF: {user_info.get('cpf', 'N/A')}\n"
+            self.user_info += f"Data de Nascimento: {user_info.get('data_nascimento', 'N/A')}\n"
+            self.user_info += f"Email: {user_info.get('email', 'N/A')}\n"
+            self.user_info += f"Nome Social: {user_info.get('nome_social', 'N/A')}"
+
+            self.ids.user_info_label.text = self.user_info
+        except Exception as e:
+            print("Erro ao carregar informações do usuário:", e)
 
 class TelaChat(Screen):
     pass
@@ -623,7 +823,6 @@ class TelaTrocarSenha(Screen):
 class Telanumerostelefone(Screen):
     pass
 
-
 class ItemConfirm(OneLineIconListItem):
     pass
 
@@ -638,6 +837,7 @@ class LimitedMDTextField(MDTextField):
         return super().insert_text(substring, from_undo=from_undo)
 
 class App(MDApp):
+    user_uid = None
     dialog = None
 
     data = {
@@ -645,10 +845,24 @@ class App(MDApp):
     }
 
     def build(self):
-        Window.size = (dp(360), dp(640))  
+        Window.size = (dp(360), dp(640))
         Window.clearcolor = (1, 1, 1, 1)
         self.screen_manager = ScreenManager()
         self.screen_manager.add_widget(Telaconfignotificacoes(name='config_notificacoes'))
+        self.screen_manager.add_widget(TelaEntrarLogin(name='Entrar_login'))
+        self.screen_manager.add_widget(TelaEntrarLoginJuridico(name='Entrar_Login_jurídico'))
+        self.screen_manager.add_widget(TelaCriarConta(name='Criar_conta'))
+        self.screen_manager.add_widget(TelaCriarContaJuridico(name='Criar_conta_Jurídica'))
+        self.screen_manager.add_widget(TelaMenu(name='Menu'))
+        self.screen_manager.add_widget(TelaPublicacoes(name='Publicacoes'))
+        self.screen_manager.add_widget(TelaSalvos(name='Salvos'))
+        self.screen_manager.add_widget(Telanotificacoes(name='Notificacoes'))
+        self.screen_manager.add_widget(TelaChat(name='chat'))
+        self.screen_manager.add_widget(TelaInformacoesPerfil(name='informações_adicionais'))
+        self.screen_manager.add_widget(TelaEnderecoemail(name='Endereço_email'))
+        self.screen_manager.add_widget(TelaTrocarSenha(name='Trocar_Senha'))
+        self.screen_manager.add_widget(Telanumerostelefone(name='Números_telefone'))
+        self.screen_manager.add_widget(Telacriarvaga(name='CriarVaga')) 
         self.theme_cls.primary_palette = "Indigo"
         return Builder.load_file("main.kv")
 
@@ -680,17 +894,6 @@ class App(MDApp):
 
     def switch_screen(self, screen_name):
         pass
-
-    def showquem_pode_ver(self, main_button):
-        self.quem_pode_ver = ['            Todos            ', 'Apenas Empresas']  
-        dropdown = DropDown()
-        for option in self.quem_pode_ver:
-            btn = Button(text=option, size_hint_y=None, height=dp(44))
-            btn.bind(on_release=lambda btn: self.select_option(dropdown, btn.text, main_button))
-            btn.background_color = (1, 1, 1, 1)
-            btn.color = (1, 1, 1, 1)
-            dropdown.add_widget(btn)
-        dropdown.open(main_button)
 
     def menu_callback(self, instance):
         Snackbar(text=instance.text).open()
