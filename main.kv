@@ -1,4 +1,5 @@
 ScreenManager:
+    SplashScreen:
     TelaEntrarLogin:
     TelaEntrarLoginJuridico:
     TelaCriarConta:
@@ -19,17 +20,28 @@ ScreenManager:
     Telanumerostelefone:
     Telacriarvaga:
 
+    
+<SplashScreen>:
+    name: 'splash'
+    
+
 <TelaEntrarLogin>:
     name: 'Entrar_login'
     background_color: '#FFFFFF'
     Image:
-        source: 'backgroundworkin.png'
+        source: 'WORKINbackgroundinicial.png'
         allow_stretch: True
-        keep_ratio: False
+        keep_ratio: False  
+    MDLabel:
+        theme_text_color: "Custom"
+        text_color: '#FFFFFF'
+        text: 'Mudar para'
+        halign: "center"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.13}
     MDRectangleFlatIconButton:
         icon: 'account-tie'
         text: 'Pessoa jurídica'
-        pos_hint: {'center_x': 0.74, 'center_y': 0.07}
+        pos_hint: {'center_x': 0.5, 'center_y': 0.07}
         custom_color: "Gray"
         theme_text_color: "Custom"
         text_color: 0, 0, 0, 1 
@@ -38,7 +50,6 @@ ScreenManager:
         on_release: 
             app.root.transition.direction = "left"
             app.root.current = 'Entrar_Login_jurídico'
-    
     MDCard:
         size_hint: None, None
         size: dp(260), dp(350) 
@@ -51,7 +62,7 @@ ScreenManager:
         radius: [dp(10)]  
         MDLabel:
             theme_text_color: "Custom"
-            text_color: '#000000'
+            text_color: '#FFFFFF'
             text: "Login"
             font_size: dp(30)  
             halign: "center"
@@ -61,28 +72,38 @@ ScreenManager:
         MDTextField:
             id: email
             hint_text: "Digite seu Email" 
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
             icon_right: "account"
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             size_hint_x: None
             width: dp(200)
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#000000" 
+            line_color_normal: "#FFFFFF" 
+            border: [1, 1, 1, 1]
         MDTextField:
             id: senha
             password: True
             hint_text: "Digite sua Senha"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
             icon_right: "account-key"
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1  
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14) 
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#000000"           
+            line_color_normal: "#FFFFFF"
+            border: [1, 1, 1, 1]          
         MDTextButton:
             text: "Esqueceu a senha?"
             theme_text_color: "Custom"
-            text_color: 0, 0, 0, 1 
+            text_color: 1, 1, 1, 1 
             font_size: "12sp"
             pos_hint: {"center_x": 0.5}
             on_release: app.open_link("https://workinweb.netlify.app/")
@@ -115,13 +136,19 @@ ScreenManager:
     name: 'Entrar_Login_jurídico'
     background_color:  '#FFFFFF'
     Image:
-        source: 'backgroundworkin.png'
+        source: 'WORKINbackgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
+    MDLabel:
+        theme_text_color: "Custom"
+        text_color: '#FFFFFF'
+        text: 'Mudar para'
+        halign: "center"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.13}
     MDRectangleFlatIconButton:
         icon: 'account'
         text: 'Pessoa Física'
-        pos_hint: {'center_x': 0.74, 'center_y': 0.07}
+        pos_hint: {'center_x': 0.5, 'center_y': 0.07}
         custom_color: "Gray"
         theme_text_color: "Custom"
         text_color: 0, 0, 0, 1 
@@ -142,7 +169,7 @@ ScreenManager:
         radius: [dp(10)]  
         MDLabel:
             theme_text_color: "Custom"
-            text_color: '#000000'
+            text_color: "#FFFFFF"
             text: "Login"
             font_size: dp(30)  
             halign: "center"
@@ -153,25 +180,37 @@ ScreenManager:
             hint_text: "CNPJ" 
             id: cnpj
             icon_right: "account-tie"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1  
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: '#000000'       
+            line_color_normal: "#FFFFFF"      
         MDTextField:
             hint_text: "Digite seu Email" 
             id: email
             icon_right: "email"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: '#000000'
+            line_color_normal: "#FFFFFF"
         MDTextField:
             password: True
             hint_text: "Digite sua Senha"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             id: senha
             icon_right: "account-key"
             size_hint_x: None
@@ -179,11 +218,11 @@ ScreenManager:
             font_size: dp(14) 
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: '#000000'           
+            line_color_normal: "#FFFFFF"          
         MDTextButton:
             text: "Esqueceu a senha?"
             theme_text_color: "Custom"
-            text_color: 0, 0, 0, 1
+            text_color: 1, 1, 1, 1
             font_size: "12sp"
             pos_hint: {"center_x": 0.5}
             on_release: app.open_link("https://workinweb.netlify.app/")
@@ -215,13 +254,19 @@ ScreenManager:
     name: 'Criar_conta'
     background_color: '#FFFFFF'
     Image:
-        source: 'backgroundworkin.png'
+        source: 'WORKINbackgroundinicial.png'
         allow_stretch: True
-        keep_ratio: False   
+        keep_ratio: False
+    MDLabel:
+        theme_text_color: "Custom"
+        text_color: '#FFFFFF'
+        text: 'Mudar para'
+        halign: "center"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.13}   
     MDRectangleFlatIconButton:
         icon: 'store-edit'
         text: 'Conta jurídica'
-        pos_hint: {'center_x': 0.74, 'center_y': 0.07}
+        pos_hint: {'center_x': 0.5, 'center_y': 0.07}
         custom_color: "Gray"
         theme_text_color: "Custom"
         text_color: 0, 0, 0, 1 
@@ -240,7 +285,7 @@ ScreenManager:
             app.root.current = 'Entrar_login'  
     MDCard:
         size_hint: None, None
-        size: dp(250), dp(500)  
+        size: dp(250), dp(400)  
         pos_hint: {'center_x': 0.5, 'center_y': 0.50}
         elevation: 0
         orientation: 'vertical'
@@ -252,7 +297,7 @@ ScreenManager:
         MDLabel:
             text: "Criar conta"
             theme_text_color: "Custom"
-            text_color: '#000000'
+            text_color: '#FFFFFF'
             font_size: dp(30)  
             halign: "center"
             size_hint_y: None
@@ -262,36 +307,52 @@ ScreenManager:
             id: nome
             hint_text: "Nome Completo:" 
             icon_right: "rename"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: '#000000'
+            line_color_normal: '#FFFFFF'
         MDTextField:
             id: nome_social
             hint_text: "Nome Social:" 
             icon_right: "rename-outline"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: '#000000'
+            line_color_normal: '#FFFFFF'
         MDTextField:
             id: email
             hint_text: "Email:" 
             icon_right: "email"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             size_hint_x: None
             width: dp(200) 
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal:  '#000000'       
+            line_color_normal:  '#FFFFFF'       
         MDTextField:
             id: cpf
             hint_text: "CPF"
             icon_right: "card-account-details-outline"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
@@ -300,38 +361,35 @@ ScreenManager:
             input_filter: "int"
             input_type: "number"
             max_text_length: 11
-            line_color_normal: '#000000'
+            line_color_normal: '#FFFFFF'
         MDTextField:
             id: senha
             password: True
             hint_text: "Digite sua Senha"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             icon_right: "key"
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: '#000000'
-        MDTextField:
-            id: confirmar_senha
-            password: True
-            hint_text: "Confirmar Senha"
-            icon_right: "key-chain"
-            size_hint_x: None
-            width: dp(200)  
-            font_size: dp(14)  
-            pos_hint: {'center_x': 0.5}
-            mode: "rectangle"
-            line_color_normal: '#000000'
+            line_color_normal: '#FFFFFF'
         MDTextField:
             id: data_nascimento
             icon_right: "calendar-month"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1 
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
-            line_color_normal: "#FDFAF3"
+            line_color_normal: '#FFFFFF'
             hint_text: "dd/mm/yyyy"
             date_format: "dd/mm/yyyy"
             date_interval: "01/01/1900", "01/01/2020"
@@ -350,13 +408,19 @@ ScreenManager:
     name: 'Criar_conta_Jurídica'
     background_color: '#FFFFFF'
     Image:
-        source: 'backgroundworkin.png'
+        source: 'WORKINbackgroundinicial.png'
         allow_stretch: True
         keep_ratio: False
+    MDLabel:
+        theme_text_color: "Custom"
+        text_color: '#FFFFFF'
+        text: 'Mudar para'
+        halign: "center"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.13}
     MDRectangleFlatIconButton:
         icon: 'account-plus'
         text: 'Conta Física'
-        pos_hint: {'center_x': 0.74, 'center_y': 0.07}
+        pos_hint: {'center_x': 0.5, 'center_y': 0.07}
         custom_color: "Gray"
         theme_text_color: "Custom"
         text_color: 0, 0, 0, 1 
@@ -387,7 +451,7 @@ ScreenManager:
         MDLabel:
             text: "Criar conta jurídica"
             theme_text_color: "Custom"
-            text_color: '#000000'
+            text_color: '#FFFFFF'
             font_size: dp(30)  
             halign: "center"
             size_hint_y: None
@@ -397,36 +461,52 @@ ScreenManager:
             id: nome_empresa
             hint_text: "Nome da Empresa" 
             icon_right: "store-edit"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"          
-            line_color_normal: '#000000'
+            line_color_normal: '#FFFFFF'
         MDTextField:
             id: email
             hint_text: "Email:" 
             icon_right: "email"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"            
-            line_color_normal: '#000000'
+            line_color_normal: '#FFFFFF'
         MDTextField:
             id: senha
             hint_text: "Senha:" 
             icon_right: "key"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1
             size_hint_x: None
             width: dp(200) 
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"    
-            line_color_normal: '#000000'   
+            line_color_normal: '#FFFFFF'   
         MDTextField:
             id: telefone
             hint_text: "Telefone"
             icon_right: "phone"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
@@ -434,18 +514,22 @@ ScreenManager:
             mode: "rectangle"
             input_filter: "int"
             input_type: "number"
-            line_color_normal: '#000000'
+            line_color_normal: '#FFFFFF'
         MDTextField:
             id: cnpj
             hint_text: "CNPJ"
             icon_right: "store"
+            hint_text_color_normal: 0.85, 0.85, 0.85, 1
+            text_color: 1, 1, 1, 1
+            text_color_focus: 1, 1, 1, 1 
+            icon_right_color_normal: 1, 1, 1, 1
             size_hint_x: None
             width: dp(200)  
             font_size: dp(14)  
             pos_hint: {'center_x': 0.5}
             mode: "rectangle"
             max_text_length: 14
-            line_color_normal: '#000000'         
+            line_color_normal: '#FFFFFF'         
         MDRaisedButton:
             text: "Criar Conta"
             theme_text_color: "Custom"
@@ -505,6 +589,7 @@ ScreenManager:
                                 id: publicacoes_box
                                 adaptive_height: True
                                 cols: 1
+                                pos_hint: {'center_x': 0.8, 'center_y': 0.5}
                                 padding: dp(20)
                                 spacing: dp(20)
 
@@ -592,6 +677,12 @@ ScreenManager:
                                     cols: 1
                                     padding: dp(20)
                                     spacing: dp(20)
+                                    canvas.before:
+                                        Color:
+                                            rgba: 32/255, 9/255, 88/255, 1  # Cor #200958 (R, G, B, Alpha)
+                                        Rectangle:
+                                            size: self.size
+                                            pos: self.pos
 
         MDNavigationDrawer:
             id: nav_drawer
@@ -1291,6 +1382,7 @@ ScreenManager:
             md_bg_color: 0, 0, 0, 1  
             mode: "round"                        
             FitImage:
+                id: fit_image
                 source: 'Background\Background.png'
                 allow_stretch: True
                 keep_ratio: False
@@ -1312,7 +1404,7 @@ ScreenManager:
             size_hint: None, None
             size: dp(48), dp(48)
             text_color: 0, 0, 0, 1  
-            on_release: app.change_screen('Trocar_Background_Perfil')
+            on_release: root.open_file_chooser()
     FloatLayout:
         size_hint: None, None
         size: dp(100), dp(100) 
@@ -1403,6 +1495,15 @@ ScreenManager:
                     MDTextField:
                         hint_text: "Sobre Mim"
                         helper_text: "Descreva um pouco sobre você"
+                        multiline: True
+                        mode: "rectangle"
+                        max_text_length: 500
+                        font_size: sp(14)
+                        size_hint_y: None
+                        height: self.minimum_height
+                    MDTextField:
+                        hint_text: "Bio"
+                        helper_text: "Bio"
                         multiline: True
                         mode: "rectangle"
                         max_text_length: 500

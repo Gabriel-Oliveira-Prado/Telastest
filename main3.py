@@ -22,12 +22,6 @@ from kivy.uix.button import Button
 from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
 from kivy.uix.image import Image
-from kivy.clock import Clock
-from kivymd.uix.spinner import MDSpinner
-from kivy.uix.filechooser import FileChooserIconView
-from kivy.uix.popup import Popup
-from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.button import MDIconButton
 import pyrebase
 from collections import OrderedDict
 
@@ -45,21 +39,6 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 database = firebase.database()
 auth = firebase.auth()
 
-class SplashScreen(Screen):
-    def __init__(self, **kwargs):
-        super(SplashScreen, self).__init__(**kwargs)
-        self.image = Image(source='logo.png', size_hint=(0.5, 0.7),
-                           pos_hint={'center_x': 0.5, 'center_y': 0.7})
-        self.spinner = MDSpinner(size_hint=(None, None), size=(dp(36), dp(36)),
-                                 pos_hint={'center_x': 0.5, 'center_y': 0.4})
-        self.add_widget(self.image)
-        self.add_widget(self.spinner)
-
-    def on_enter(self):
-        Clock.schedule_once(self.dismiss_screen, 1)
-
-    def dismiss_screen(self, dt):
-        self.manager.current = 'Entrar_login'   
 
 class TelaEntrarLogin(Screen):
     def show_dialog_Errologin(self, message):
@@ -91,7 +70,7 @@ class TelaEntrarLogin(Screen):
             self.manager.current = 'Menu'
             self.manager.get_screen('Menu').user_type = "physical" 
         except Exception as e:
-            self.show_dialog_Errologin(f"Erro ao fazer login")
+            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
 
 class TelaEntrarLoginJuridico(Screen):
     def show_dialog_ErroCadastro(self, message):
@@ -136,7 +115,7 @@ class TelaEntrarLoginJuridico(Screen):
             self.manager.current = 'Menu'
             self.manager.get_screen('Menu').user_type = "juridical" 
         except Exception as e:
-            self.show_dialog_Errologin(f"Erro ao fazer login")
+            self.show_dialog_Errologin(f"Erro ao fazer login: {e}")
             
 class TelaCriarConta(Screen):
     def show_dialog_ErroCadastro(self, message):
@@ -202,7 +181,7 @@ class TelaCriarConta(Screen):
             db.child("users").child(uid).set(data) 
             self.show_dialog_SuccessCadastro("Usuário registrado com sucesso.")
         except Exception as e:
-            self.show_dialog_ErroCadastro(f"Erro ao registrar o usuário")
+            self.show_dialog_ErroCadastro(f"Erro ao registrar o usuário: {e}")
 
 class TelaCriarContaJuridico(Screen):
     def show_dialog_ErroCadastro(self, message):
@@ -259,88 +238,62 @@ class TelaCriarContaJuridico(Screen):
             db.child("users_juridicos").child(user["localId"]).set(data)
             self.show_dialog_SuccessCadastro("Conta jurídica registrada com sucesso.")
         except Exception as e:
-            self.show_dialog_ErroCadastro(f"Erro ao registrar a conta jurídica")
+            self.show_dialog_ErroCadastro(f"Erro ao registrar a conta jurídica: {e}")
 
 class TelaMenu(Screen):
     user_type = StringProperty()
     publicacao_text = StringProperty('')
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_enter = self.carregar_dados  
-
-    def carregar_dados(self):
-        """Carrega as vagas e publicações."""
-        print(f"App.user_uid: {App.user_uid}")
-        try:
-            if self.user_type == "physical":
-                user_info = database.child("users").child(App.user_uid).get().val()
-            elif self.user_type == "juridical":
-                user_info = database.child("users_juridicos").child(App.user_uid).get().val()
-            else:
-                print("Erro: Tipo de usuário desconhecido.")
-                return
-
-            print(f"user_info: {user_info}")
-
-            if user_info is None:
-                print("Erro: Dados do usuário não encontrados.")
-                return
-
-            vagas = database.child("posts").get().val()
-            self.ids.vagas_box.clear_widgets()
-            if vagas:
-                for key, vaga in vagas.items():
-                    self.ids.vagas_box.add_widget(
-                        VagaCard(
-                            especificacao=vaga.get('especificacao', 'N/A'),
-                            cargo=vaga.get('cargo', 'N/A'),
-                            local_de_trabalho=vaga.get('local_de_trabalho', 'N/A'),
-                            localidade=vaga.get('localidade', 'N/A'),
-                            tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
-                            sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
-                            user_name=vaga.get('user_name', 'Nome do usuário não encontrado'),
-                            on_press=lambda x: self.mostrar_detalhes_vaga(key)
-                        )
-                    )
-            else:
-                print("Nenhuma vaga encontrada.")
-
-            self.carregar_publicacoes()  
-
-        except Exception as e:
-            print("Erro ao carregar vagas:", e)
-
-
+    
     def carregar_publicacoes(self):
-        print(f"App.user_uid: {App.user_uid}")  
+        """Carrega as publicações do Firebase."""
         try:
             publicacoes = database.child("publicacoes").get().val()
-
-            print(f"Publicações: {publicacoes}")
-
-            self.ids.publicacoes_box.clear_widgets()
+            self.ids.publicacoes_box.clear_widgets() 
             if publicacoes:
                 for key, publicacao in publicacoes.items():
-                    self.ids.publicacoes_box.add_widget(
-                        PublicacaoCard(
-                            user_name=publicacao.get('user_name', 'Nome do usuário não encontrado'),
-                            texto_publicacao=publicacao.get('text', 'N/A'),
-                            on_press=lambda x: self.mostrar_detalhes_publicacao(key)
-                        )
+                    card = MDCard(
+                        orientation='vertical',
+                        padding='10dp',
+                        size_hint_y=None,
+                        height=dp(100),  
+                        pos_hint= {'center_x': 0.5} 
                     )
-            else:
-                print("Nenhuma publicação encontrada.")
-
+                    label = MDLabel(
+                        text=f"{publicacao['user_name']}: {publicacao['text']}",
+                        font_size= dp(14),
+                        halign= 'center'
+                    )
+                    card.add_widget(label)
+                    self.ids.publicacoes_box.add_widget(card)
         except Exception as e:
-            print("Erro ao carregar publicações:", e)
+            print(f"Erro ao carregar publicações: {e}")
 
+    def add_publicacao(self, publicacao):
+        """Cria um MDCard com a publicação."""
+        user_name = "Usuário Desconhecido"  
+        text = publicacao                  
 
-    def mostrar_detalhes_publicacao(self, key):
-        publicacao = database.child("publicacoes").child(key).get().val()
-        self.manager.current = 'DetalhesPublicacao'
-        self.manager.get_screen('DetalhesPublicacao').set_publicacao(publicacao)
+        try:
+            user_name, text = publicacao.split(":", 1) 
+            user_name = user_name.strip()         
+            text = text.strip()                      
+        except ValueError:
+            pass 
 
+        card = MDCard(
+            orientation='vertical',
+            padding='10dp',
+            size_hint_y=None,
+            height=dp(100),  
+            pos_hint={'center_x': 0.5}  
+        )
+        label = MDLabel(
+            text=f"{user_name}: {text}",
+            font_size= dp(14),
+            halign= 'center'
+        )
+        card.add_widget(label)
+        self.ids.publicacoes_grid.add_widget(card)
 
     def carregar_vagas(self):
         print(f"App.user_uid: {App.user_uid}")
@@ -353,14 +306,14 @@ class TelaMenu(Screen):
                 print("Erro: Tipo de usuário desconhecido.")
                 return
 
-            print(f"user_info: {user_info}")
+            print(f"user_info: {user_info}") 
 
             if user_info is None:
                 print("Erro: Dados do usuário não encontrados.")
-                return
+                return  
 
             vagas = database.child("posts").get().val()
-            self.ids.vagas_box.clear_widgets()
+            self.ids.vagas_box.clear_widgets() 
             if vagas:
                 for key, vaga in vagas.items():
                     self.ids.vagas_box.add_widget(
@@ -379,7 +332,6 @@ class TelaMenu(Screen):
                 print("Nenhuma vaga encontrada.")
         except Exception as e:
             print("Erro ao carregar vagas:", e)
-
 
     def mostrar_detalhes_vaga(self, key):   
         vaga = database.child("posts").child(key).get().val()
@@ -403,33 +355,12 @@ class TelaMenu(Screen):
             self.manager.current = 'CriarVaga'
         else:
             self.show_dialog_need_juridical()
-
-
-class PublicacaoCard(MDCard):
-    user_name = StringProperty()
-    texto_publicacao = StringProperty()
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs) 
-        self.orientation = 'vertical'
-        self.padding = dp(10)
-        self.size_hint_x = 0.5
-        self.size_hint_y = None
-        self.height = self.minimum_height
         
-        user_label = MDLabel(
-            text=f"{self.user_name}:",
-            font_size="16sp",
-            font_name="Roboto-Bold"
-        )
-        self.add_widget(user_label) 
-
-        texto_label = MDLabel(
-            text=self.texto_publicacao,
-            font_size="14sp",
-            font_name="Roboto-Regular"
-        )
-        self.add_widget(texto_label)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.on_enter = self.carregar_vagas
+        self.on_enter = self.carregar_publicacoes
+    
         
 class VagaCard(MDCard):
     especificacao = StringProperty()
@@ -439,7 +370,7 @@ class VagaCard(MDCard):
     tipo_de_vaga = StringProperty()
     sobre_vaga = StringProperty()
     user_name = StringProperty()
-    vaga_id = StringProperty()
+    vaga_id = StringProperty() 
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -447,7 +378,7 @@ class VagaCard(MDCard):
         self.size_hint = (1, None)
         self.height = dp(180)
         self.adaptive_height = True
-        self.pos_hint = {"center_x": 0.5,}
+        self.pos_hint = {"center_x": 0.5}
         self.padding = dp(10)
         self.spacing = dp(30)
 
@@ -460,54 +391,27 @@ class VagaCard(MDCard):
 
         sobre_card = MDCard(
             orientation='vertical',
-            padding=dp(15),
+            padding=dp(10),
             size_hint_y=None,
-            spacing= 10,
-            height=dp(80),
+            height=dp(60),
             pos_hint={'center_x': 0.5}
         )
         sobre_card.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
         self.add_widget(sobre_card)
 
-        button_layout = BoxLayout(orientation='horizontal', padding=dp(10),
-                                  size_hint_y=None, height=dp(60),
-                                  pos_hint={'center_x': 0.5})
-                                  
         candidatura_button = MDRaisedButton(
             text="Enviar Candidatura",
+            pos_hint={'center_x': 0.5},
             size_hint_x=None,
             width=dp(200),
-            md_bg_color=[85/255, 9/255, 203/255, 1],
-            pos_hint={"center_x": 0.5},
             on_press=lambda x: self.enviar_candidatura()
         )
-        salvar_button = MDIconButton(
-            icon="bookmark-multiple",
-            size_hint_x=None,
-            width=dp(48),
-            pos_hint={"center_x": 0.9},
-            on_press=lambda x: self.salvarvagas_dialog()
-        )
-        button_layout.add_widget(candidatura_button)
-        button_layout.add_widget(salvar_button)
-        self.add_widget(button_layout)
+        self.add_widget(candidatura_button)
 
     def enviar_candidatura(self):
         dialog = MDDialog(
             title="Candidatura Enviada",
             text=f"Candidatura enviada para a vaga: {self.user_name}",
-            buttons=[
-                MDRaisedButton(
-                    text="OK",
-                    on_press=lambda x: dialog.dismiss()
-                )
-            ]
-        )
-        dialog.open()
-    def salvarvagas_dialog(self):
-        dialog = MDDialog(
-            title="Vaga Salva",
-            text="A vaga foi salva com sucesso.",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -774,40 +678,27 @@ class Telacriarvaga(Screen):
 
 class TelaPublicacoes(Screen):
     def publicar(self):
+        """Salva a publicação no Firebase."""
         publicacao_text = self.ids.publicacao_text.text
         if not publicacao_text:
-            return
+            return  
 
         try:
             user_info = database.child("users").child(App.user_uid).get().val()
-            user_name = user_info.get("nome", "Nome não encontrado")
+            user_name = user_info.get("nome", "Nome não encontrado") 
 
-            # Criando um objeto Publicacao
-            nova_publicacao = Publicacao(user_name, publicacao_text)
-
-            # Salvando a publicação no Firebase
-            publicacao_ref = database.child("publicacoes").push(nova_publicacao.to_dict())
-            print(f"Publicação salva com sucesso. ID: {publicacao_ref.key}")
-            self.ids.publicacao_text.text = ""
-
-            # Atualiza a tela Menu
-            self.manager.get_screen('Menu').carregar_publicacoes() 
+            data = {
+                "user_name": user_name,
+                "text": publicacao_text,
+                "timestamp": firebase.database().serverTimestamp()
+            }
+    
+            database.child("publicacoes").push(data)  
+            print("Publicação salva com sucesso.")
+            print(f"Dados da publicação: {data}")  
+            self.ids.publicacao_text.text = ""  
         except Exception as e:
             print(f"Erro ao salvar a publicação: {e}")
-
-        # Direciona para a tela Menu após a publicação ser salva
-        self.manager.current = 'Menu'
-
-class Publicacao:
-    def __init__(self, user_name, text):
-        self.user_name = user_name
-        self.text = text
-
-    def to_dict(self):
-        return {
-            "user_name": self.user_name,
-            "text": self.text
-        }
 
 class Telaconfignotificacoes(Screen):
     vagas = BooleanProperty(False)
@@ -819,12 +710,10 @@ class Telaconfignotificacoes(Screen):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.load_settings()
 
     def on_pre_enter(self, *args):
-        if not App.user_uid:
-            return
-
-        self.load_settings() 
+        self.load_settings()
         self.load_user_info()
 
     def load_settings(self):
@@ -836,6 +725,7 @@ class Telaconfignotificacoes(Screen):
             self.mencoes = user_settings.get('mencoes', False)
             self.publicar_comentar = user_settings.get('publicar_comentar', False)
         else:
+
             self.save_settings() 
 
     def save_settings(self):
@@ -877,27 +767,29 @@ class TelaconfigSeguranca(Screen):
     pass
 
 class TelaconfigPerfil(Screen):
-    def open_file_chooser(self):
-        file_chooser = FileChooserIconView()
-        file_chooser.path = os.path.expanduser("~")  
-        file_chooser.filters = ["*.png", "*.jpg", "*.jpeg"]
-
-        popup = Popup(title="Selecione uma imagem", content=file_chooser, size_hint=(0.9, 0.9))
-        file_chooser.bind(on_submit=lambda instance: self.on_file_chosen(instance.selection[0], popup))
-        popup.open()
-
-    def on_file_chosen(self, selected_file, popup):
-        if selected_file:
-            self.ids.fit_image.source = selected_file
-        popup.dismiss()
-
-
+    pass
 
 class TelaSalvos(Screen):
     pass
 
 class Telanotificacoes(Screen):
-   pass
+    def load_user_info(self):
+        try:
+            user_info = database.child("users").child(App.user_uid).get().val()
+            if user_info is None:
+                print("Erro: Dados do usuário não encontrados.")
+                self.user_info = "Usuário não encontrado." 
+                return
+
+            self.user_info = f"Nome: {user_info.get('nome', 'N/A')}\n"
+            self.user_info += f"CPF: {user_info.get('cpf', 'N/A')}\n"
+            self.user_info += f"Data de Nascimento: {user_info.get('data_nascimento', 'N/A')}\n"
+            self.user_info += f"Email: {user_info.get('email', 'N/A')}\n"
+            self.user_info += f"Nome Social: {user_info.get('nome_social', 'N/A')}"
+
+            self.ids.user_info_label.text = self.user_info
+        except Exception as e:
+            print("Erro ao carregar informações do usuário:", e)
 
 class TelaChat(Screen):
     pass
