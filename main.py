@@ -23,6 +23,11 @@ from kivy.uix.switch import Switch
 from kivymd.uix.card import MDCard
 from kivy.uix.image import Image
 from kivy.clock import Clock
+from kivymd.uix.spinner import MDSpinner
+from kivy.uix.filechooser import FileChooserIconView
+from kivy.uix.popup import Popup
+from kivy.uix.boxlayout import BoxLayout
+from kivymd.uix.button import MDIconButton
 import pyrebase
 from collections import OrderedDict
 
@@ -43,13 +48,18 @@ auth = firebase.auth()
 class SplashScreen(Screen):
     def __init__(self, **kwargs):
         super(SplashScreen, self).__init__(**kwargs)
-        self.image = Image(source='telainicial.png', size_hint=(0.5, 0.5),
-                           pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        self.image = Image(source='logo.png', size_hint=(0.5, 0.7),
+                           pos_hint={'center_x': 0.5, 'center_y': 0.7})
+        self.spinner = MDSpinner(size_hint=(None, None), size=(dp(36), dp(36)),
+                                 pos_hint={'center_x': 0.5, 'center_y': 0.4})
         self.add_widget(self.image)
+        self.add_widget(self.spinner)
+
     def on_enter(self):
-        Clock.schedule_once(self.dismiss_screen, 8)
+        Clock.schedule_once(self.dismiss_screen, 1)
+
     def dismiss_screen(self, dt):
-        self.manager.current = 'Entrar_login'    
+        self.manager.current = 'Entrar_login'   
 
 class TelaEntrarLogin(Screen):
     def show_dialog_Errologin(self, message):
@@ -303,11 +313,10 @@ class TelaMenu(Screen):
 
 
     def carregar_publicacoes(self):
-        print(f"App.user_uid: {App.user_uid}")  # Verifique se o ID do usuário está correto
+        print(f"App.user_uid: {App.user_uid}")  
         try:
             publicacoes = database.child("publicacoes").get().val()
 
-            # Imprima os dados das publicações (para depuração)
             print(f"Publicações: {publicacoes}")
 
             self.ids.publicacoes_box.clear_widgets()
@@ -430,7 +439,7 @@ class VagaCard(MDCard):
     tipo_de_vaga = StringProperty()
     sobre_vaga = StringProperty()
     user_name = StringProperty()
-    vaga_id = StringProperty() 
+    vaga_id = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -438,7 +447,7 @@ class VagaCard(MDCard):
         self.size_hint = (1, None)
         self.height = dp(180)
         self.adaptive_height = True
-        self.pos_hint = {"center_x": 0.5}
+        self.pos_hint = {"center_x": 0.5,}
         self.padding = dp(10)
         self.spacing = dp(30)
 
@@ -451,27 +460,54 @@ class VagaCard(MDCard):
 
         sobre_card = MDCard(
             orientation='vertical',
-            padding=dp(10),
+            padding=dp(15),
             size_hint_y=None,
-            height=dp(60),
+            spacing= 10,
+            height=dp(80),
             pos_hint={'center_x': 0.5}
         )
         sobre_card.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
         self.add_widget(sobre_card)
 
+        button_layout = BoxLayout(orientation='horizontal', padding=dp(10),
+                                  size_hint_y=None, height=dp(60),
+                                  pos_hint={'center_x': 0.5})
+                                  
         candidatura_button = MDRaisedButton(
             text="Enviar Candidatura",
-            pos_hint={'center_x': 0.5},
             size_hint_x=None,
             width=dp(200),
+            md_bg_color=[85/255, 9/255, 203/255, 1],
+            pos_hint={"center_x": 0.5},
             on_press=lambda x: self.enviar_candidatura()
         )
-        self.add_widget(candidatura_button)
+        salvar_button = MDIconButton(
+            icon="bookmark-multiple",
+            size_hint_x=None,
+            width=dp(48),
+            pos_hint={"center_x": 0.9},
+            on_press=lambda x: self.salvarvagas_dialog()
+        )
+        button_layout.add_widget(candidatura_button)
+        button_layout.add_widget(salvar_button)
+        self.add_widget(button_layout)
 
     def enviar_candidatura(self):
         dialog = MDDialog(
             title="Candidatura Enviada",
             text=f"Candidatura enviada para a vaga: {self.user_name}",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_press=lambda x: dialog.dismiss()
+                )
+            ]
+        )
+        dialog.open()
+    def salvarvagas_dialog(self):
+        dialog = MDDialog(
+            title="Vaga Salva",
+            text="A vaga foi salva com sucesso.",
             buttons=[
                 MDRaisedButton(
                     text="OK",
@@ -783,15 +819,11 @@ class Telaconfignotificacoes(Screen):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # Remova a chamada de load_settings() aqui
 
     def on_pre_enter(self, *args):
-        # Verifique se o usuário está autenticado
         if not App.user_uid:
-            # Redirecione para a tela de login se necessário
             return
 
-        # Carrega as configurações de notificações
         self.load_settings() 
         self.load_user_info()
 
@@ -845,7 +877,21 @@ class TelaconfigSeguranca(Screen):
     pass
 
 class TelaconfigPerfil(Screen):
-    pass
+    def open_file_chooser(self):
+        file_chooser = FileChooserIconView()
+        file_chooser.path = os.path.expanduser("~")  
+        file_chooser.filters = ["*.png", "*.jpg", "*.jpeg"]
+
+        popup = Popup(title="Selecione uma imagem", content=file_chooser, size_hint=(0.9, 0.9))
+        file_chooser.bind(on_submit=lambda instance: self.on_file_chosen(instance.selection[0], popup))
+        popup.open()
+
+    def on_file_chosen(self, selected_file, popup):
+        if selected_file:
+            self.ids.fit_image.source = selected_file
+        popup.dismiss()
+
+
 
 class TelaSalvos(Screen):
     pass
