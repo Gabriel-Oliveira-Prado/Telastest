@@ -176,17 +176,12 @@ class TelaCriarConta(Screen):
         cpf = self.ids.cpf.text
         email = self.ids.email.text
         senha = self.ids.senha.text
-        confirmar_senha = self.ids.confirmar_senha.text
         data_nascimento = self.ids.data_nascimento.text
-        
-        if not all([nome, cpf, email, senha, confirmar_senha, data_nascimento]):
+
+        if not all([nome, cpf, email, senha, data_nascimento]):
             self.show_dialog_ErroCadastro("Por favor, preencha todos os campos.")
             return
-        
-        if senha != confirmar_senha:
-            self.show_dialog_ErroCadastro("As senhas não coincidem.")
-            return
-        
+
         try:
             firebase = pyrebase.initialize_app(firebaseConfig)                               
             auth = firebase.auth()
@@ -205,7 +200,8 @@ class TelaCriarConta(Screen):
             db.child("users").child(uid).set(data) 
             self.show_dialog_SuccessCadastro("Usuário registrado com sucesso.")
         except Exception as e:
-            self.show_dialog_ErroCadastro(f"Erro ao registrar o usuário")
+            print(f"Erro ao registrar o usuário: {str(e)}")
+            self.show_dialog_ErroCadastro("Erro ao registrar o usuário")
 
 class TelaCriarContaJuridico(Screen):
     def show_dialog_ErroCadastro(self, message):
@@ -237,13 +233,13 @@ class TelaCriarContaJuridico(Screen):
         self.manager.current = 'Entrar_Login_jurídico' 
     
     def CadastrarJuridico(self):
-        nome_empresa = self.ids.nome_empresa.text
+        nome = self.ids.nome_empresa.text 
         email = self.ids.email.text
         senha = self.ids.senha.text
         telefone = self.ids.telefone.text
         cnpj = self.ids.cnpj.text
         
-        if not all([nome_empresa, email, senha, telefone, cnpj]):
+        if not all([nome, email, senha, telefone, cnpj]):
             self.show_dialog_ErroCadastro("Por favor, preencha todos os campos.")
             return
         
@@ -253,7 +249,7 @@ class TelaCriarContaJuridico(Screen):
             user = auth.create_user_with_email_and_password(email, senha)
             db = firebase.database()
             data = {
-                "nome_empresa": nome_empresa,
+                "nome_empresa": nome,
                 "email": email,
                 "telefone": telefone,
                 "cnpj": cnpj,
@@ -267,6 +263,7 @@ class TelaCriarContaJuridico(Screen):
 class TelaMenu(Screen):
     user_type = StringProperty()
     publicacao_text = StringProperty('')
+    user_name = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -290,7 +287,7 @@ class TelaMenu(Screen):
                 print("Erro: Dados do usuário não encontrados.")
                 return
 
-            self.carregar_vagas()  
+            self.user_name = user_info.get('nome', 'Nome não encontrado')
             self.carregar_publicacoes()  
 
         except Exception as e:
@@ -353,49 +350,6 @@ class TelaMenu(Screen):
         self.manager.get_screen('DetalhesPublicacao').set_publicacao(publicacao)
 
 
-    def carregar_vagas(self):
-        print(f"App.user_uid: {App.user_uid}")
-        try:
-            if self.user_type == "physical":
-                user_info = database.child("users").child(App.user_uid).get().val()
-            elif self.user_type == "juridical":
-                user_info = database.child("users_juridicos").child(App.user_uid).get().val()
-            else:
-                print("Erro: Tipo de usuário desconhecido.")
-                return
-
-            print(f"user_info: {user_info}")
-
-            if user_info is None:
-                print("Erro: Dados do usuário não encontrados.")
-                return
-
-            vagas = database.child("posts").get().val()
-            self.ids.vagas_box.clear_widgets()
-            if vagas:
-                for key, vaga in vagas.items():
-                    user_id = vaga.get('user_id') 
-                    user_name = database.child("users_juridicos").child(user_id).child('nome_empresa').get().val() 
-                    user_name = user_name if user_name else 'Nome do usuário não encontrado'
-
-                    self.ids.vagas_box.add_widget(
-                        VagaCard(
-                            especificacao=vaga.get('especificacao', 'N/A'),
-                            cargo=vaga.get('cargo', 'N/A'),
-                            local_de_trabalho=vaga.get('local_de_trabalho', 'N/A'),
-                            localidade=vaga.get('localidade', 'N/A'),
-                            tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
-                            sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
-                            user_name=user_name, 
-                            on_press=lambda x: self.mostrar_detalhes_vaga(key)
-                        )
-                    )
-            else:
-                print("Nenhuma vaga encontrada.")
-        except Exception as e:
-            print("Erro ao carregar vagas:", e)
-
-
     def mostrar_detalhes_vaga(self, key):   
         vaga = database.child("posts").child(key).get().val()
         self.manager.current = 'DetalhesVaga' 
@@ -447,9 +401,7 @@ class PublicacaoCard(MDCard):
             adaptive_height=True
         )
         self.add_widget(texto_label)
-
-        
-        
+    
 class VagaCard(MDCard):
     especificacao = StringProperty()
     cargo = StringProperty()
@@ -487,7 +439,7 @@ class VagaCard(MDCard):
         )
         sobre_card.add_widget(MDLabel(text=f"Descrição da vaga: {self.sobre_vaga}"))
         self.add_widget(sobre_card)
-        self.add_widget(MDLabel(text=f" - {self.user_name}"))
+        
 
         button_layout = BoxLayout(orientation='horizontal', padding=dp(10),
                                   size_hint_y=None, height=dp(60),

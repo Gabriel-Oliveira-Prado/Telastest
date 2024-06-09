@@ -718,13 +718,12 @@ ScreenManager:
                         IconLeftWidget:
                             icon: "logout"
                 MDLabel:
-                    id:Username
-                    text: "Username"
+                    text: root.user_name
                     font_size: dp(20)
-                    halign: "center"
+                    halign: "right"
                     size_hint_y: None
                     height: self.texture_size[1]
-                    pos_hint: {'center_x': 0.45, 'center_y': 0.94}
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.94}
 
                 Image:
                     source: 'Background/profile.png'
