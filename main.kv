@@ -546,34 +546,12 @@ ScreenManager:
         ScreenManager:
             Screen:
                 name: 'menu_screen'
-                MDScrollViewRefreshLayout:
-                    id: refresh_layout
-                    refresh_callback: app.refresh_callback
-                    root_layout: root
-                    size_hint: 1, 0.9
-                    canvas.before:
-                        Color:
-                            rgba: 0.0, 0.0, 0.75, 1
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-
-                    refreshing: True
-                    refresh_timeout: 1.5
-                    color: 0, 0, 1, 1
-
-                    MDGridLayout:
-                        id: box
-                        adaptive_height: True
-                        cols: 1
-                        padding: dp(10)
-                        spacing: dp(10)
 
                 MDBottomNavigation:
-                    background_color: 1, 1, 1, 1  
+                    md_bg_color: [0.0, 0.0, 0.5, 1]
                     selected_color_background: app.theme_cls.primary_color
                     text_color_active: 0, 0, 0, 1
-                    height: dp(64)  
+                    height: dp(64)
                     spacing: 5
 
                     MDBottomNavigationItem:
@@ -582,7 +560,138 @@ ScreenManager:
                         text: 'Menu'
                         icon: 'home'
                         halign: 'center'
-                        on_tab_press: app.switch_screen('Menu')
+                        on_tab_press: app.switch_screen('menu_screen')
+
+                        FloatLayout:
+                            size_hint: None, None
+                            size: dp(200), dp(200)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+
+                            MDTextField:
+                                hint_text: "Pesquisar"
+                                mode: "round"
+                                halign: 'left'
+                                padding: 10
+                                size_hint_x: None
+                                width: dp(400)
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                icon_left: 'magnify'
+                        FloatLayout:
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                padding: dp(16)
+                                spacing: dp(16)
+                                size_hint_y: None
+                                height: self.minimum_height
+                                pos_hint: {"center_x": .5, "top": 0.9}  # Ajusta a posição para mais próximo do topo
+
+                                GridLayout:
+                                    cols: 2
+                                    spacing: dp(20)
+                                    size_hint: None, None
+                                    size: dp(328), dp(328)
+                                    pos_hint: {"center_x": .55}
+
+                                    MDBoxLayout:
+                                        orientation: 'vertical'
+                                        size_hint: None, None
+                                        size: dp(120), dp(120)
+                                        md_bg_color: 0.2, 0.0, 0.6, 1
+                                        radius: [12, 12, 12, 12]
+                                        MDIconButton:
+                                            icon: "pencil"
+                                            pos_hint: {"center_x": .5, "center_y": .5}
+                                            icon_size: "45sp"
+                                            theme_text_color: "Custom"
+                                            text_color: 1, 1, 1, 1
+                                            on_release: app.root.current='Publicacoes'
+                                        MDLabel:
+                                            text: "Publique!"
+                                            halign: "center"
+                                            theme_text_color: "Custom"
+                                            text_color: 1, 1, 1, 1
+                                            pos_hint: {"center_x": .5, "center_y": .5}
+
+                                    MDBoxLayout:
+                                        orientation: 'vertical'
+                                        size_hint: None, None
+                                        size: dp(120), dp(120)
+                                        md_bg_color: 0.2, 0.0, 0.6, 1
+                                        radius: [12, 12, 12, 12]
+                                        MDIconButton:
+                                            icon: "chat"
+                                            pos_hint: {"center_x": .5, "center_y": .5}
+                                            icon_size: "45sp"
+                                            theme_text_color: "Custom"
+                                            text_color: 1, 1, 1, 1
+                                            on_release: app.root.current='chat'
+                                        MDLabel:
+                                            text: "Chat"
+                                            halign: "center"
+                                            theme_text_color: "Custom"
+                                            text_color: 1, 1, 1, 1
+                                            pos_hint: {"center_x": .5, "center_y": .5}
+
+                                    MDBoxLayout:
+                                        orientation: 'vertical'
+                                        size_hint: None, None
+                                        size: dp(120), dp(120)
+                                        md_bg_color: 0.2, 0.0, 0.6, 1
+                                        radius: [12, 12, 12, 12]
+                                        MDIconButton:
+                                            icon: "bookmark-multiple"
+                                            pos_hint: {"center_x": .5, "center_y": .5}
+                                            icon_size: "45sp"
+                                            theme_text_color: "Custom"
+                                            text_color: 1, 1, 1, 1
+                                            on_release: app.root.current='Salvos'
+                                        MDLabel:
+                                            text: "Salvos"
+                                            halign: "center"
+                                            theme_text_color: "Custom"
+                                            text_color: 1, 1, 1, 1
+                                            pos_hint: {"center_x": .5, "center_y": .5}
+
+                                    MDBoxLayout:
+                                        orientation: 'vertical'
+                                        size_hint: None, None
+                                        size: dp(120), dp(120)
+                                        md_bg_color: 0.2, 0.0, 0.6, 1
+                                        radius: [12, 12, 12, 12]
+
+                                        MDIconButton:
+                                            icon: "web"
+                                            pos_hint: {"center_x": .5, "center_y": .5}
+                                            icon_size: "45sp"
+                                            theme_text_color: "Custom"
+                                            text_color: 1, 1, 1, 1
+                                            on_release: app.open_link("https://workinweb.netlify.app/")
+                                        MDLabel:
+                                            text: "Site"
+                                            halign: "center"
+                                            theme_text_color: "Custom"
+                                            text_color: 1, 1, 1, 1
+                                            pos_hint: {"center_x": .5, "center_y": .5}
+
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint: (0.9, 0.5)  # Altere o tamanho do carousel
+                            pos_hint: {"center_x": 0.5, "center_y": 0.2}  # Centralize o carousel
+                            MDCarousel:
+                                id: carousel
+                                direction: 'right'
+                                loop: True
+
+                                AsyncImage:
+                                    source: 'C:/Users/beatr/OneDrive/Área de Trabalho/P a s t a s/for-kivy/Telastest/carrossel1.png'
+                                    allow_stretch: True
+
+                                AsyncImage:
+                                    source: 'C:/Users/beatr/OneDrive/Área de Trabalho/P a s t a s/for-kivy/Telastest/carrossel2.png'
+                                    allow_stretch: True
+
+                                AsyncImage:
+                                    source: 'C:/Users/beatr/OneDrive/Área de Trabalho/P a s t a s/for-kivy/Telastest/carrossel3.png'
 
                     MDBottomNavigationItem:
                         name: 'screen 2'
