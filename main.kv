@@ -584,6 +584,13 @@ ScreenManager:
                         halign: 'center'
                         on_tab_press: app.switch_screen('Menu')
 
+                    MDBottomNavigationItem:
+                        name: 'screen 2'
+                        text: 'Publicações'
+                        icon: 'book-open-variant'
+                        halign: 'center'
+                        on_tab_press: app.switch_screen('Publicações') 
+
                         ScrollView: 
                             MDGridLayout:
                                 id: publicacoes_box
@@ -601,32 +608,6 @@ ScreenManager:
                             on_release: 
                                 app.root.transition.direction = "up"
                                 app.root.current = 'Publicacoes'
-
-                    MDBottomNavigationItem:
-                        name: 'screen 2'
-                        text: 'Pesquisar'
-                        icon: 'magnify'
-                        halign: 'center'
-                        on_tab_press: app.switch_screen('Pesquisar') 
-
-                        FloatLayout:
-                            size_hint: None, None
-                            size: dp(200), dp(200)
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-
-                            MDTextField:
-                                hint_text: "Pesquisar"
-                                mode: "round"
-                                halign: 'left'
-                                padding: 10
-                                size_hint_x: None
-                                width: dp(200)
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                icon_left: 'magnify'
-                        
-                        MDLabel:
-                            text: 'Pesquisar'
-                            halign: 'center'
 
                     MDBottomNavigationItem:
                         id: screen_3
@@ -797,8 +778,10 @@ ScreenManager:
 
 
 <TelaPublicacoes>:
-    name: 'Publicacoes'
-    background_color:'#FFFFFF'   
+    name: 'Publicacoes'  # Nome da tela para navegação
+    publicacao_text: publicacao_text  # Liga o id ao nome da propriedade
+    publicar_button: publicar_button  # Liga o id ao nome da propriedade
+    
     MDIconButton:
         icon: 'arrow-left'
         theme_text_color: 'Custom'
@@ -819,13 +802,13 @@ ScreenManager:
         on_release: app.showquem_pode_ver(self)
                         
     MDRaisedButton:
+        id: publicar_button
         text: 'Publicar'
         pos_hint: {'center_x': 0.8,'center_y': 0.95}
         on_release: 
-            root.ids.publicacao_text.text = ""  
+            root.publicar() 
             app.root.transition.direction = 'right'  
-            app.root.current = 'Menu'  
-
+            app.root.current = 'Menu'
         
     MDBoxLayout:
         orientation: 'horizontal'
@@ -855,18 +838,14 @@ ScreenManager:
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
-                spacing:25
+                spacing: 25
 
                 MDTextField:
                     id: publicacao_text
-                    hint_text: "Compartilhe"
-                    helper_text: "escreva sobre o que quiser"
+                    hint_text: "Digite sua publicação"
                     multiline: True
-                    mode: "rectangle"
-                    max_text_length: 500
-                    font_size: sp(14)
                     size_hint_y: None
-                    height: self.minimum_height
+                    height: "100dp"
 
                 FloatLayout:
                     MDIconButton:

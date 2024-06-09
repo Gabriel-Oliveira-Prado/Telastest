@@ -28,6 +28,7 @@ from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.popup import Popup
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.button import MDIconButton
+from kivy.properties import ObjectProperty
 import pyrebase
 from collections import OrderedDict
 
@@ -78,6 +79,7 @@ class TelaEntrarLogin(Screen):
         email = self.ids.email.text
         senha = self.ids.senha.text
         
+        
         if not email or not senha:
             self.show_dialog_Errologin("Por favor, preencha todos os campos.")
             return
@@ -90,6 +92,7 @@ class TelaEntrarLogin(Screen):
             print("Login realizado com sucesso.")
             self.manager.current = 'Menu'
             self.manager.get_screen('Menu').user_type = "physical" 
+            App.get_running_app().user_type = "physical"
         except Exception as e:
             self.show_dialog_Errologin(f"Erro ao fazer login")
 
@@ -287,10 +290,24 @@ class TelaMenu(Screen):
                 print("Erro: Dados do usuário não encontrados.")
                 return
 
+            self.carregar_vagas()  
+            self.carregar_publicacoes()  
+
+        except Exception as e:
+            print("Erro ao carregar dados:", e)
+
+    def carregar_vagas(self):
+        """Carrega as vagas do Firebase."""
+        print(f"App.user_uid: {App.user_uid}")
+        try:
             vagas = database.child("posts").get().val()
             self.ids.vagas_box.clear_widgets()
             if vagas:
                 for key, vaga in vagas.items():
+                    user_id = vaga.get('user_id')
+                    user_name = database.child("users_juridicos").child(user_id).child('nome_empresa').get().val()
+                    user_name = user_name if user_name else 'Nome do usuário não encontrado'
+
                     self.ids.vagas_box.add_widget(
                         VagaCard(
                             especificacao=vaga.get('especificacao', 'N/A'),
@@ -299,42 +316,36 @@ class TelaMenu(Screen):
                             localidade=vaga.get('localidade', 'N/A'),
                             tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
                             sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
-                            user_name=vaga.get('user_name', 'Nome do usuário não encontrado'),
+                            user_name=user_name,
                             on_press=lambda x: self.mostrar_detalhes_vaga(key)
                         )
                     )
             else:
                 print("Nenhuma vaga encontrada.")
-
-            self.carregar_publicacoes()  
-
         except Exception as e:
             print("Erro ao carregar vagas:", e)
 
 
     def carregar_publicacoes(self):
-        print(f"App.user_uid: {App.user_uid}")  
+        """Carrega as publicações do Firebase."""
         try:
             publicacoes = database.child("publicacoes").get().val()
-
-            print(f"Publicações: {publicacoes}")
-
             self.ids.publicacoes_box.clear_widgets()
             if publicacoes:
                 for key, publicacao in publicacoes.items():
+                    user_name = publicacao.get('user_name', 'Nome não encontrado')
+
                     self.ids.publicacoes_box.add_widget(
                         PublicacaoCard(
-                            user_name=publicacao.get('user_name', 'Nome do usuário não encontrado'),
-                            texto_publicacao=publicacao.get('text', 'N/A'),
+                            user_name=user_name,
+                            texto_publicacao=publicacao.get('texto', 'N/A'),
                             on_press=lambda x: self.mostrar_detalhes_publicacao(key)
                         )
                     )
             else:
                 print("Nenhuma publicação encontrada.")
-
         except Exception as e:
             print("Erro ao carregar publicações:", e)
-
 
     def mostrar_detalhes_publicacao(self, key):
         publicacao = database.child("publicacoes").child(key).get().val()
@@ -363,6 +374,10 @@ class TelaMenu(Screen):
             self.ids.vagas_box.clear_widgets()
             if vagas:
                 for key, vaga in vagas.items():
+                    user_id = vaga.get('user_id') 
+                    user_name = database.child("users_juridicos").child(user_id).child('nome_empresa').get().val() 
+                    user_name = user_name if user_name else 'Nome do usuário não encontrado'
+
                     self.ids.vagas_box.add_widget(
                         VagaCard(
                             especificacao=vaga.get('especificacao', 'N/A'),
@@ -371,7 +386,7 @@ class TelaMenu(Screen):
                             localidade=vaga.get('localidade', 'N/A'),
                             tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
                             sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
-                            user_name=vaga.get('user_name', 'Nome do usuário não encontrado'),
+                            user_name=user_name, 
                             on_press=lambda x: self.mostrar_detalhes_vaga(key)
                         )
                     )
@@ -410,26 +425,30 @@ class PublicacaoCard(MDCard):
     texto_publicacao = StringProperty()
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs) 
+        super().__init__(**kwargs)
         self.orientation = 'vertical'
         self.padding = dp(10)
-        self.size_hint_x = 0.5
+        self.size_hint_x = 0.9
         self.size_hint_y = None
-        self.height = self.minimum_height
-        
+        self.height = dp(120)
+
         user_label = MDLabel(
-            text=f"{self.user_name}:",
+            text=f"usuario: {self.user_name}",
             font_size="16sp",
-            font_name="Roboto-Bold"
+            theme_text_color='Secondary'
         )
-        self.add_widget(user_label) 
+        self.add_widget(user_label)
+
 
         texto_label = MDLabel(
             text=self.texto_publicacao,
             font_size="14sp",
-            font_name="Roboto-Regular"
+            theme_text_color='Primary',
+            adaptive_height=True
         )
         self.add_widget(texto_label)
+
+        
         
 class VagaCard(MDCard):
     especificacao = StringProperty()
@@ -451,13 +470,13 @@ class VagaCard(MDCard):
         self.padding = dp(10)
         self.spacing = dp(30)
 
-        self.add_widget(MDLabel(text=f"Usuário: {self.user_name}"))
-        self.add_widget(MDLabel(text=f"Especificação: {self.especificacao}"))
-        self.add_widget(MDLabel(text=f"Cargo: {self.cargo}"))
-        self.add_widget(MDLabel(text=f"Local de Trabalho: {self.local_de_trabalho}"))
-        self.add_widget(MDLabel(text=f"Localidade: {self.localidade}"))
-        self.add_widget(MDLabel(text=f"Tipo de Vaga: {self.tipo_de_vaga}"))
-
+        self.add_widget(MDLabel(text=f" - {self.user_name}"))
+        self.add_widget(MDLabel(text=f" - {self.especificacao}"))
+        self.add_widget(MDLabel(text=f" - {self.cargo}"))
+        self.add_widget(MDLabel(text=f" - {self.local_de_trabalho}"))
+        self.add_widget(MDLabel(text=f" - {self.localidade}"))
+        self.add_widget(MDLabel(text=f" - {self.tipo_de_vaga}"))
+        
         sobre_card = MDCard(
             orientation='vertical',
             padding=dp(15),
@@ -466,8 +485,9 @@ class VagaCard(MDCard):
             height=dp(80),
             pos_hint={'center_x': 0.5}
         )
-        sobre_card.add_widget(MDLabel(text=f"Sobre: {self.sobre_vaga}"))
+        sobre_card.add_widget(MDLabel(text=f"Descrição da vaga: {self.sobre_vaga}"))
         self.add_widget(sobre_card)
+        self.add_widget(MDLabel(text=f" - {self.user_name}"))
 
         button_layout = BoxLayout(orientation='horizontal', padding=dp(10),
                                   size_hint_y=None, height=dp(60),
@@ -493,17 +513,31 @@ class VagaCard(MDCard):
         self.add_widget(button_layout)
 
     def enviar_candidatura(self):
-        dialog = MDDialog(
-            title="Candidatura Enviada",
-            text=f"Candidatura enviada para a vaga: {self.user_name}",
-            buttons=[
-                MDRaisedButton(
-                    text="OK",
-                    on_press=lambda x: dialog.dismiss()
-                )
-            ]
-        )
-        dialog.open()
+        user_type = App.get_running_app().user_type 
+        if user_type == "physical":
+            dialog = MDDialog(
+                title="Candidatura Enviada",
+                text=f"Candidatura enviada para a vaga: {self.user_name}",
+                buttons=[
+                    MDRaisedButton(
+                        text="OK",
+                        on_press=lambda x: dialog.dismiss()
+                    )
+                ]
+            )
+            dialog.open()
+        else:
+            dialog = MDDialog(
+                title="Error",
+                text="Somente contas físicas podem se candidatar a vagas.",
+                buttons=[
+                    MDRaisedButton(
+                        text="OK",
+                        on_press=lambda x: dialog.dismiss()
+                    )
+                ]
+            )
+            dialog.open()
     def salvarvagas_dialog(self):
         dialog = MDDialog(
             title="Vaga Salva",
@@ -773,42 +807,54 @@ class Telacriarvaga(Screen):
             print("Erro ao salvar a vaga:", e)
 
 class TelaPublicacoes(Screen):
+    publicacao_text = ObjectProperty(None)  
+    publicar_button = ObjectProperty(None)  
+    publicacoes_layout = ObjectProperty(None) 
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
     def publicar(self):
-        publicacao_text = self.ids.publicacao_text.text
+        publicacao_text = self.publicacao_text.text
         if not publicacao_text:
-            return
+            return  
 
         try:
-            user_info = database.child("users").child(App.user_uid).get().val()
+
+            user_info = database.child('users').child(App.user_uid).get().val()
+            if not user_info:
+                raise Exception("Usuário não encontrado no banco de dados")
+
             user_name = user_info.get("nome", "Nome não encontrado")
 
-            # Criando um objeto Publicacao
+
             nova_publicacao = Publicacao(user_name, publicacao_text)
 
-            # Salvando a publicação no Firebase
-            publicacao_ref = database.child("publicacoes").push(nova_publicacao.to_dict())
-            print(f"Publicação salva com sucesso. ID: {publicacao_ref.key}")
-            self.ids.publicacao_text.text = ""
 
-            # Atualiza a tela Menu
-            self.manager.get_screen('Menu').carregar_publicacoes() 
+            publicacao_ref = database.child('publicacoes').push(nova_publicacao.to_dict())
+            print(f"Publicação salva com sucesso. ID: {publicacao_ref['name']}")
+
+            publicacao_card = PublicacaoCard(user_name=user_name, texto_publicacao=publicacao_text)
+            self.publicacoes_layout.add_widget(publicacao_card)
+
+            self.publicacao_text.text = ""
+
+            self.manager.transition.direction = 'right'
+            self.manager.current = 'Menu'
         except Exception as e:
             print(f"Erro ao salvar a publicação: {e}")
-
-        # Direciona para a tela Menu após a publicação ser salva
-        self.manager.current = 'Menu'
-
 class Publicacao:
-    def __init__(self, user_name, text):
+    def __init__(self, user_name, texto):
         self.user_name = user_name
-        self.text = text
+        self.texto = texto
 
     def to_dict(self):
         return {
-            "user_name": self.user_name,
-            "text": self.text
+            'user_name': self.user_name,
+            'texto': self.texto,
+            'user_id': App.user_uid
         }
-
 class Telaconfignotificacoes(Screen):
     vagas = BooleanProperty(False)
     contratacao = BooleanProperty(False)
@@ -930,6 +976,7 @@ class LimitedMDTextField(MDTextField):
 class App(MDApp):
     user_uid = None
     dialog = None
+    user_type = StringProperty()
 
     data = {
         'Bloquear': 'block-helper',
@@ -954,7 +1001,7 @@ class App(MDApp):
         self.screen_manager.add_widget(TelaTrocarSenha(name='Trocar_Senha'))
         self.screen_manager.add_widget(Telanumerostelefone(name='Números_telefone'))
         self.screen_manager.add_widget(Telacriarvaga(name='CriarVaga')) 
-        self.theme_cls.primary_palette = "Indigo"
+        self.theme_cls.primary_palette = "DeepPurple"
         return Builder.load_file("main.kv")
 
     def show_logout_dialog(self):
