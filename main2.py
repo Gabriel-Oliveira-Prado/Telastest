@@ -32,10 +32,6 @@ from kivymd.uix.button import MDIconButton
 from kivy.properties import ObjectProperty
 import pyrebase
 from collections import OrderedDict
-from kivy.uix.image import AsyncImage
-from kivy.utils import platform
-from kivy.utils import escape_markup
-import webbrowser
 
 firebaseConfig = {
     'apiKey': "AIzaSyA3gOHi9Q6aHQ5seN5S9bbNmQpPQFMGXFs",
@@ -272,10 +268,7 @@ class TelaMenu(Screen):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.on_enter = self.carregar_dados
-
-    def open_website(self):
-        webbrowser.open('https://workinweb.netlify.app/')
+        self.on_enter = self.carregar_dados  
 
     def carregar_dados(self):
         """Carrega as vagas e publicações."""
