@@ -313,7 +313,7 @@ class TelaMenu(Screen):
                             local_de_trabalho=vaga.get('local_de_trabalho', 'N/A'),
                             localidade=vaga.get('localidade', 'N/A'),
                             tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
-                            sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
+                            user_name=vaga.get('user_name', 'UserName'),
                             user_name=user_name,
                             on_press=lambda x: self.mostrar_detalhes_vaga(key)
                         )
@@ -346,15 +346,10 @@ class TelaMenu(Screen):
             print("Erro ao carregar publicações:", e)
 
     def mostrar_detalhes_publicacao(self, key):
-        publicacao = database.child("publicacoes").child(key).get().val()
-        self.manager.current = 'DetalhesPublicacao'
-        self.manager.get_screen('DetalhesPublicacao').set_publicacao(publicacao)
-
+        pass
 
     def mostrar_detalhes_vaga(self, key):   
-        vaga = database.child("posts").child(key).get().val()
-        self.manager.current = 'DetalhesVaga' 
-        self.manager.get_screen('DetalhesVaga').set_vaga(vaga)  
+        pass 
 
     def show_dialog_need_juridical(self):
         self.dialog = MDDialog(
