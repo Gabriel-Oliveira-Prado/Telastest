@@ -577,7 +577,7 @@ ScreenManager:
                                 halign: 'left'
                                 padding: 10
                                 size_hint_x: None
-                                width: dp(400)
+                                width: dp(350)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 icon_left: 'magnify'
                         FloatLayout:
@@ -587,7 +587,7 @@ ScreenManager:
                                 spacing: dp(16)
                                 size_hint_y: None
                                 height: self.minimum_height
-                                pos_hint: {"center_x": .5, "top": 0.6}  # Ajusta a posição para mais próximo do topo
+                                pos_hint: {"center_x": 0.47, "top": 0.65} 
 
                                 GridLayout:
                                     cols: 4
@@ -689,15 +689,15 @@ ScreenManager:
                                 loop: True
 
                                 AsyncImage:
-                                    source: 'C:/Users/beatr/OneDrive/Área de Trabalho/P a s t a s/for-kivy/Telastest/carrossel1.png'
+                                    source: 'carrossel1.png'
                                     allow_stretch: True
 
                                 AsyncImage:
-                                    source: 'C:/Users/beatr/OneDrive/Área de Trabalho/P a s t a s/for-kivy/Telastest/carrossel2.png'
+                                    source: 'carrossel2.png'
                                     allow_stretch: True
 
                                 AsyncImage:
-                                    source: 'C:/Users/beatr/OneDrive/Área de Trabalho/P a s t a s/for-kivy/Telastest/carrossel3.png'
+                                    source: 'carrossel3.png'
 
 
 
@@ -707,6 +707,10 @@ ScreenManager:
                         icon: 'book-open-variant'
                         halign: 'center'
                         on_tab_press: app.switch_screen('Publicações')
+                        Image:
+                            source: 'WORKINbackgroundinicial.png'
+                            allow_stretch: True
+                            keep_ratio: False
 
                         ScrollView:
                             MDGridLayout:
@@ -716,12 +720,7 @@ ScreenManager:
                                 pos_hint: {'center_x': 0.8, 'center_y': 0.5}
                                 padding: dp(20)
                                 spacing: dp(20)
-                                canvas.before:
-                                    Color:
-                                        rgba: 32/255, 9/255, 88/255, 1  # Cor #200958 (R, G, B, Alpha)
-                                    Rectangle:
-                                        size: self.size
-                                        pos: self.pos
+                                
 
                         MDFloatingActionButton:
                             icon: "pencil"
@@ -843,10 +842,10 @@ ScreenManager:
                 MDLabel:
                     text: root.user_name
                     font_size: dp(20)
-                    halign: "right"
+                    halign: "left"
                     size_hint_y: None
                     height: self.texture_size[1]
-                    pos_hint: {'center_x': 0.4, 'center_y': 0.94}
+                    pos_hint: {'center_x': 0.8, 'center_y': 0.94}
 
                 Image:
                     source: 'Background/profile.png'
