@@ -8,6 +8,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.metrics import dp
 import os
+from kivymd.uix.filemanager import MDFileManager
 from kivy.properties import BooleanProperty, StringProperty
 from kivy.lang import Builder
 from kivymd.uix.list import OneLineIconListItem
@@ -875,21 +876,42 @@ class TelaconfigSeguranca(Screen):
     pass
 
 class TelaconfigPerfil(Screen):
-    def open_file_chooser(self):
-        file_chooser = FileChooserIconView()
-        file_chooser.path = os.path.expanduser("~")  
-        file_chooser.filters = ["*.png", "*.jpg", "*.jpeg"]
+    large_image_path = StringProperty('Background/Backgroundcursos.png')
+    small_image_path = StringProperty('Background/profile.png')
 
-        popup = Popup(title="Selecione uma imagem", content=file_chooser, size_hint=(0.9, 0.9))
-        file_chooser.bind(on_submit=lambda instance: self.on_file_chosen(instance.selection[0], popup))
-        popup.open()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.file_manager = MDFileManager(
+            select_path=self.select_path_large,
+            exit_manager=self.exit_manager,
+            preview=True
+        )
 
-    def on_file_chosen(self, selected_file, popup):
-        if selected_file:
-            self.ids.fit_image.source = selected_file
-        popup.dismiss()
+        self.file_manager_small = MDFileManager(
+            select_path=self.select_path_small,
+            exit_manager=self.exit_manager_small,
+            preview=True
+        )
 
+    def open_file_chooser_large(self):
+        self.file_manager.show('/')
 
+    def open_file_chooser_small(self):
+        self.file_manager_small.show('/')
+
+    def select_path_large(self, path):
+        self.large_image_path = path
+        self.file_manager.close()
+
+    def select_path_small(self, path):
+        self.small_image_path = path
+        self.file_manager_small.close()
+
+    def exit_manager(self, *args):
+        self.file_manager.close()
+
+    def exit_manager_small(self, *args):
+        self.file_manager_small.close()
 
 class TelaSalvos(Screen):
     pass

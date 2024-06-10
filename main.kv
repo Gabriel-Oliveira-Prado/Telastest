@@ -542,6 +542,7 @@ ScreenManager:
 
 <TelaMenu>:
     name: 'Menu'
+
     MDNavigationLayout:
         ScreenManager:
             Screen:
@@ -560,11 +561,15 @@ ScreenManager:
                         icon: 'home'
                         halign: 'center'
                         on_tab_press: app.switch_screen('menu_screen')
+                        Image:
+                            source: 'BackgroundMenu.png'
+                            allow_stretch: True
+                            keep_ratio: False
 
                         FloatLayout:
                             size_hint: None, None
                             size: dp(200), dp(200)
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
 
                             MDTextField:
                                 hint_text: "Pesquisar"
@@ -582,25 +587,27 @@ ScreenManager:
                                 spacing: dp(16)
                                 size_hint_y: None
                                 height: self.minimum_height
-                                pos_hint: {"center_x": .5, "top": 0.9}  # Ajusta a posição para mais próximo do topo
+                                pos_hint: {"center_x": .5, "top": 0.6}  # Ajusta a posição para mais próximo do topo
 
                                 GridLayout:
-                                    cols: 2
+                                    cols: 4
                                     spacing: dp(20)
                                     size_hint: None, None
-                                    size: dp(328), dp(328)
-                                    pos_hint: {"center_x": .55}
+                                    size: dp(250), dp(250)
+                                    pos_hint: {"center_x": .4}
+
 
                                     MDBoxLayout:
                                         orientation: 'vertical'
                                         size_hint: None, None
-                                        size: dp(120), dp(120)
+                                        size: dp(70), dp(70)
                                         md_bg_color: 0.2, 0.0, 0.6, 1
                                         radius: [12, 12, 12, 12]
+
                                         MDIconButton:
                                             icon: "pencil"
                                             pos_hint: {"center_x": .5, "center_y": .5}
-                                            icon_size: "45sp"
+                                            icon_size: "30sp"
                                             theme_text_color: "Custom"
                                             text_color: 1, 1, 1, 1
                                             on_release: app.root.current='Publicacoes'
@@ -614,13 +621,13 @@ ScreenManager:
                                     MDBoxLayout:
                                         orientation: 'vertical'
                                         size_hint: None, None
-                                        size: dp(120), dp(120)
+                                        size: dp(70), dp(70)
                                         md_bg_color: 0.2, 0.0, 0.6, 1
                                         radius: [12, 12, 12, 12]
                                         MDIconButton:
                                             icon: "chat"
                                             pos_hint: {"center_x": .5, "center_y": .5}
-                                            icon_size: "45sp"
+                                            icon_size: "30sp"
                                             theme_text_color: "Custom"
                                             text_color: 1, 1, 1, 1
                                             on_release: app.root.current='chat'
@@ -634,13 +641,13 @@ ScreenManager:
                                     MDBoxLayout:
                                         orientation: 'vertical'
                                         size_hint: None, None
-                                        size: dp(120), dp(120)
+                                        size: dp(70), dp(70)
                                         md_bg_color: 0.2, 0.0, 0.6, 1
                                         radius: [12, 12, 12, 12]
                                         MDIconButton:
                                             icon: "bookmark-multiple"
                                             pos_hint: {"center_x": .5, "center_y": .5}
-                                            icon_size: "45sp"
+                                            icon_size: "30sp"
                                             theme_text_color: "Custom"
                                             text_color: 1, 1, 1, 1
                                             on_release: app.root.current='Salvos'
@@ -654,19 +661,19 @@ ScreenManager:
                                     MDBoxLayout:
                                         orientation: 'vertical'
                                         size_hint: None, None
-                                        size: dp(120), dp(120)
+                                        size: dp(70), dp(70)
                                         md_bg_color: 0.2, 0.0, 0.6, 1
                                         radius: [12, 12, 12, 12]
 
                                         MDIconButton:
-                                            icon: "web"
+                                            icon: "account"
                                             pos_hint: {"center_x": .5, "center_y": .5}
-                                            icon_size: "45sp"
+                                            icon_size: "30sp"
                                             theme_text_color: "Custom"
                                             text_color: 1, 1, 1, 1
-                                            on_release: app.open_link("https://workinweb.netlify.app/")
+                                            on_release: app.root.current = 'config_Perfil'
                                         MDLabel:
-                                            text: "Site"
+                                            text: "Perfil"
                                             halign: "center"
                                             theme_text_color: "Custom"
                                             text_color: 1, 1, 1, 1
@@ -691,17 +698,17 @@ ScreenManager:
 
                                 AsyncImage:
                                     source: 'C:/Users/beatr/OneDrive/Área de Trabalho/P a s t a s/for-kivy/Telastest/carrossel3.png'
-                        
-                        
-                        
+
+
+
                     MDBottomNavigationItem:
                         name: 'screen 2'
                         text: 'Publicações'
                         icon: 'book-open-variant'
                         halign: 'center'
-                        on_tab_press: app.switch_screen('Publicações') 
+                        on_tab_press: app.switch_screen('Publicações')
 
-                        ScrollView: 
+                        ScrollView:
                             MDGridLayout:
                                 id: publicacoes_box
                                 adaptive_height: True
@@ -709,13 +716,19 @@ ScreenManager:
                                 pos_hint: {'center_x': 0.8, 'center_y': 0.5}
                                 padding: dp(20)
                                 spacing: dp(20)
+                                canvas.before:
+                                    Color:
+                                        rgba: 32/255, 9/255, 88/255, 1  # Cor #200958 (R, G, B, Alpha)
+                                    Rectangle:
+                                        size: self.size
+                                        pos: self.pos
 
                         MDFloatingActionButton:
                             icon: "pencil"
                             md_bg_color: app.theme_cls.primary_color
                             pos_hint: {'center_x': 0.88, 'center_y': 0.1}
                             elevation: 0
-                            on_release: 
+                            on_release:
                                 app.root.transition.direction = "up"
                                 app.root.current = 'Publicacoes'
 
@@ -725,7 +738,7 @@ ScreenManager:
                         text: 'Vagas'
                         icon: 'briefcase-variant'
                         halign: 'center'
-                        on_tab_press: 
+                        on_tab_press:
                             app.switch_screen('Vagas')
                             root.carregar_vagas()
 
@@ -749,7 +762,7 @@ ScreenManager:
                                     icon_left: 'magnify'
 
                                 MDIconButton:
-                                    icon: "briefcase-variant"  
+                                    icon: "briefcase-variant"
                                     theme_text_color: "Custom"
                                     text_color: 0, 0, 0, 1
                                     pos_hint: {'center_x': 0.11, 'center_y': 0.5}
@@ -758,10 +771,10 @@ ScreenManager:
                                 MDIconButton:
                                     icon: "filter"
                                     theme_text_color: "Custom"
-                                    text_color: 0, 0, 0, 1  
+                                    text_color: 0, 0, 0, 1
                                     pos_hint: {'center_x': 0.88 , 'center_y': 0.5}
 
-                            ScrollView: 
+                            ScrollView:
                                 MDGridLayout:
                                     id: vagas_box
                                     adaptive_height: True
@@ -779,7 +792,7 @@ ScreenManager:
             id: nav_drawer
             size_hint_y: 1
             spacing: 10
-            background_color: 1, 1, 1, 1  
+            background_color: 1, 1, 1, 1
 
             FloatLayout:
                 spacing: 14
@@ -787,11 +800,11 @@ ScreenManager:
 
                 MDList:
                     pos_hint: {'center_x': 0.4, 'center_y': 0.27}
-                            
+
                     ConfigItem:
                         text: "Perfil"
                         description: "Editar Perfil"
-                        on_release: 
+                        on_release:
                             app.root.transition.direction = "right"
                             app.root.current = 'config_Perfil'
                         IconLeftWidget:
@@ -799,7 +812,7 @@ ScreenManager:
                     ConfigItem:
                         text: "Segurança"
                         description: "Configurações de segurança do aplicativo"
-                        on_release: 
+                        on_release:
                             app.root.transition.direction = "right"
                             app.root.current = 'Config_Segurança'
                         IconLeftWidget:
@@ -807,7 +820,7 @@ ScreenManager:
                     ConfigItem:
                         text: "Privacidade de Dados"
                         description: "Controle de privacidade e segurança de dados"
-                        on_release: 
+                        on_release:
                             app.root.transition.direction = "right"
                             app.root.current = 'Config_Privacidade_Dados'
                         IconLeftWidget:
@@ -815,12 +828,12 @@ ScreenManager:
                     ConfigItem:
                         text: "Notificações"
                         description: "Gerencie as notificações do aplicativo"
-                        on_release: 
+                        on_release:
                             app.root.transition.direction = "right"
                             app.root.current = 'config_notificacoes'
                         IconLeftWidget:
                             icon: "bell-cog"
-                        
+
                     ConfigItem:
                         text: "Logout"
                         description: "Sair da conta e fazer logout do aplicativo"
@@ -838,7 +851,7 @@ ScreenManager:
                 Image:
                     source: 'Background/profile.png'
                     size_hint: None, None
-                    size: dp(65), dp(65)  
+                    size: dp(65), dp(65)
                     pos_hint: {'center_x': 0.10,'center_y': 0.95}
                     pos: self.parent.pos
 
@@ -846,8 +859,8 @@ ScreenManager:
                     icon: "account-circle"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.1,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
-                    on_release: 
+                    text_color: 0, 0, 0, 1
+                    on_release:
                         app.root.transition.direction = "right"
                         app.root.current = 'config_Perfil'
 
@@ -855,15 +868,15 @@ ScreenManager:
                     icon: "web"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.3,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
+                    text_color: 0, 0, 0, 1
                     on_release: app.open_link("https://workinweb.netlify.app/")
 
                 MDIconButton:
                     icon:'bookmark-multiple'
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.5,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
-                    on_release: 
+                    text_color: 0, 0, 0, 1
+                    on_release:
                         app.root.transition.direction = "right"
                         app.root.current = 'Salvos'
 
@@ -871,8 +884,8 @@ ScreenManager:
                     icon:"bell-ring"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.7,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
-                    on_release: 
+                    text_color: 0, 0, 0, 1
+                    on_release:
                         app.root.transition.direction = "right"
                         app.root.current = 'Notificacoes'
 
@@ -880,8 +893,8 @@ ScreenManager:
                     icon:"chat"
                     theme_text_color: "Custom"
                     pos_hint: {'center_x': 0.9,'center_y': 0.03}
-                    text_color: 0, 0, 0, 1  
-                    on_release: 
+                    text_color: 0, 0, 0, 1
+                    on_release:
                         app.root.transition.direction = "right"
                         app.root.current = 'chat'
 
@@ -1456,22 +1469,27 @@ ScreenManager:
 <TelaconfigPerfil>:
     name: 'config_Perfil'
     background_color:  '#FFFFFF'
+    Image:
+        source: 'BackgroundPerfil.png'
+        allow_stretch: True
+        keep_ratio: False
     FloatLayout:
         spacing: 14
         pos_hint: {'center_x': 0.5, 'center_y': 0.9}
         size_hint: None, None
-        size: dp(360), dp(160)                    
+        size: dp(360), dp(160)
         MDCard:
+            id: card_image
             size_hint_x: None
-            size: dp(360), dp(160)  
+            size: dp(360), dp(160)
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             elevation: 1
             orientation: 'vertical'
-            md_bg_color: 0, 0, 0, 1  
-            mode: "round"                        
+            md_bg_color: 0, 0, 0, 1
+            mode: "round"
             FitImage:
-                id: fit_image
-                source: 'Background\Background.png'
+                id: profile_image_large
+                source: root.large_image_path
                 allow_stretch: True
                 keep_ratio: False
         MDIconButton:
@@ -1479,26 +1497,26 @@ ScreenManager:
             theme_text_color: 'Custom'
             text_color: 0, 0, 0, 1
             pos_hint: {'center_x': 0.1, 'center_y': 0.7}
-            on_release: "menu"
             size_hint: None, None
             size: dp(48), dp(48)
-            on_release: 
+            on_release:
                 app.root.transition.direction = "right"
-                app.root.current = 'Menu'               
+                app.root.current = 'Menu'
         MDIconButton:
             icon: 'camera'
             theme_text_color: "Custom"
             pos_hint: {'center_x': 0.9,'center_y': 0.7}
             size_hint: None, None
             size: dp(48), dp(48)
-            text_color: 0, 0, 0, 1  
-            on_release: root.open_file_chooser()
+            text_color: 0, 0, 0, 1
+            on_release: root.open_file_chooser_large()
     FloatLayout:
         size_hint: None, None
-        size: dp(100), dp(100) 
+        size: dp(100), dp(100)
         pos_hint: {'center_x': 0.2, 'center_y': 0.78}
         Image:
-            source: 'Background\profile.png'
+            id: profile_image_small
+            source: root.small_image_path
             allow_stretch: True
             keep_ratio: False
             size_hint: None, None
@@ -1511,8 +1529,8 @@ ScreenManager:
             pos_hint: {'center_x': 0.82,'center_y': 0.14}
             size_hint: None, None
             size: dp(48), dp(48)
-            text_color: 0, 0, 0, 1  
-            on_release: app.change_screen('Trocar_foto_Perfil')             
+            text_color: 0, 0, 0, 1
+            on_release: root.open_file_chooser_small()
     FloatLayout:                   
         MDLabel:
             text: "Nome/Nome Social"
@@ -1581,8 +1599,8 @@ ScreenManager:
                     height: self.minimum_height
                     spacing:25
                     MDTextField:
-                        hint_text: "Sobre Mim"
-                        helper_text: "Descreva um pouco sobre você"
+                        hint_text: "Bio"
+                        helper_text: "Bio"
                         multiline: True
                         mode: "rectangle"
                         max_text_length: 500
@@ -1590,8 +1608,8 @@ ScreenManager:
                         size_hint_y: None
                         height: self.minimum_height
                     MDTextField:
-                        hint_text: "Bio"
-                        helper_text: "Bio"
+                        hint_text: "Sobre mim"
+                        helper_text: "Descreva um pouco você"
                         multiline: True
                         mode: "rectangle"
                         max_text_length: 500
