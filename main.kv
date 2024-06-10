@@ -579,16 +579,7 @@ ScreenManager:
                                 size_hint_x: None
                                 width: dp(400)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                        BoxLayout:
-                            orientation: 'vertical'
-                            size_hint: (0.9, 0.5)  # Altere o tamanho do carousel
-                            pos_hint: {"center_x": 0.5, "center_y": 0.43}  # Centralize o carousel
-                            AsyncImage:
-                                source: 'web.png'
-                                on_touch_down:
-                                    root.open_website()
-
-
+                                icon_left: 'magnify'
                         FloatLayout:
                             MDBoxLayout:
                                 orientation: 'vertical'
@@ -596,7 +587,7 @@ ScreenManager:
                                 spacing: dp(16)
                                 size_hint_y: None
                                 height: self.minimum_height
-                                pos_hint: {"center_x": .5, "top": 0.66}  # Ajusta a posição para mais próximo do topo
+                                pos_hint: {"center_x": .5, "top": 0.6}  # Ajusta a posição para mais próximo do topo
 
                                 GridLayout:
                                     cols: 4
@@ -1505,7 +1496,7 @@ ScreenManager:
             icon: 'arrow-left'
             theme_text_color: 'Custom'
             text_color: 0, 0, 0, 1
-            pos_hint: {'center_x': 0.05, 'center_y': 0.7}
+            pos_hint: {'center_x': 0.1, 'center_y': 0.7}
             size_hint: None, None
             size: dp(48), dp(48)
             on_release:
@@ -1544,10 +1535,10 @@ ScreenManager:
         MDLabel:
             text: "Nome/Nome Social"
             padding: 10
-            font_size: dp(14)
+            font_size: dp(20)  
             halign: "left"
             size_hint: None, None
-            size: dp(150), dp(24)
+            size: dp(150), dp(20)
             pos_hint: {'center_x': 0.55, 'center_y': 0.74}
         MDIconButton:
             icon: "pencil"
@@ -1560,7 +1551,7 @@ ScreenManager:
         MDLabel:
             text: "Pronome:"
             padding: 10
-            font_size: dp(15)
+            font_size: dp(15)  
             halign: "left"
             size_hint: None, None
             size: dp(150), dp(20)
@@ -1568,7 +1559,7 @@ ScreenManager:
         MDLabel:
             text: "Profissão:"
             padding: 10
-            font_size: dp(15)
+            font_size: dp(15)  
             halign: "left"
             size_hint: None, None
             size: dp(150), dp(20)
@@ -1576,11 +1567,11 @@ ScreenManager:
         MDLabel:
             text: "Localização:"
             padding: 10
-            font_size: dp(15)
+            font_size: dp(15)  
             halign: "left"
             size_hint: None, None
             size: dp(150), dp(20)
-            pos_hint: {'center_x': 0.2, 'center_y': 0.62}
+            pos_hint: {'center_x': 0.2, 'center_y': 0.62}               
         MDBoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
