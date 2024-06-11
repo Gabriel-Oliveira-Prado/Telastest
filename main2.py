@@ -894,7 +894,8 @@ class TelaconfigSeguranca(Screen):
 class TelaconfigPerfil(Screen):
     large_image_path = StringProperty('Background/Backgroundcursos.png')
     small_image_path = StringProperty('Background/profile.png')
-
+    publicacao = database.child("publicacoes").get().val()
+    user_name = publicacao.get('user_name', 'Nome não encontrado')
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.file_manager = MDFileManager(

@@ -1,3 +1,4 @@
+
 ScreenManager:
     SplashScreen:
     TelaEntrarLogin:
@@ -21,15 +22,8 @@ ScreenManager:
     Telacriarvaga:
 
 
-<plashScreen>:
+<SplashScreen>:
     name: 'splash'
-    canvas.before:
-        Color:
-            rgba: 0.5, 0, 0.5, 1  # Cor roxa em RGBA
-        Rectangle:
-            size: self.size
-            pos: self.pos
-
 
 <TelaEntrarLogin>:
     name: 'Entrar_login'
@@ -1495,7 +1489,7 @@ ScreenManager:
         size: dp(360), dp(160)
         MDCard:
             id: card_image
-            size_hint_x: None
+            size_hint_x: 1
             size: dp(360), dp(160)
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
             elevation: 1
@@ -1548,13 +1542,13 @@ ScreenManager:
             on_release: root.open_file_chooser_small()
     FloatLayout:
         MDLabel:
-            text: "Nome/Nome Social"
+            text: root.user_name
             padding: 10
-            font_size: dp(20)
+            font_size: dp(14)
             halign: "left"
             size_hint: None, None
-            size: dp(150), dp(20)
-            pos_hint: {'center_x': 0.55, 'center_y': 0.74}
+            size: dp(170), dp(20)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.76}
         MDIconButton:
             icon: "pencil"
             theme_text_color: "Custom"
@@ -1563,30 +1557,6 @@ ScreenManager:
             on_release:
                 app.root.transition.direction = "left"
                 app.root.current = 'informações_adicionais'
-        MDLabel:
-            text: "Pronome:"
-            padding: 10
-            font_size: dp(15)
-            halign: "left"
-            size_hint: None, None
-            size: dp(150), dp(20)
-            pos_hint: {'center_x': 0.2, 'center_y': 0.68}
-        MDLabel:
-            text: "Profissão:"
-            padding: 10
-            font_size: dp(15)
-            halign: "left"
-            size_hint: None, None
-            size: dp(150), dp(20)
-            pos_hint: {'center_x': 0.2, 'center_y': 0.65}
-        MDLabel:
-            text: "Localização:"
-            padding: 10
-            font_size: dp(15)
-            halign: "left"
-            size_hint: None, None
-            size: dp(150), dp(20)
-            pos_hint: {'center_x': 0.2, 'center_y': 0.62}
         MDBoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
