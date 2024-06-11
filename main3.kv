@@ -996,14 +996,16 @@ ScreenManager:
             Rectangle:
                 pos: self.pos
                 size: self.size
+
         MDIconButton:
             icon: 'arrow-left'
             theme_text_color: 'Custom'
             text_color: 0, 0, 0, 1
             pos_hint: {'center_x': 0.1, 'center_y': 0.95}
-            on_release: 
+            on_release:
                 app.root.transition.direction = "right"
                 app.root.current = 'Menu'
+
         MDBoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
@@ -1013,10 +1015,11 @@ ScreenManager:
             pos_hint: {'center_x': 0.5, 'center_y': 0.92}
             canvas:
                 Color:
-                    rgba: 0.7, 0.7, 0.7, 1 
+                    rgba: 0.7, 0.7, 0.7, 1
                 Rectangle:
                     size: self.size
                     pos: self.pos
+
         FloatLayout:
             size_hint: None, None
             size: dp(200), dp(200)
@@ -1030,17 +1033,19 @@ ScreenManager:
                 pos_hint: {'center_x': 0.5, 'center_y': 0.51}
                 theme_text_color: "Custom"
                 text_color: 0, 0, 0, 1
+
         ScrollView:
             size_hint: None, None
-            size: dp(360), dp(520) 
+            size: dp(360), dp(520)
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            do_scroll_x: False 
+            do_scroll_x: False
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
                 height: self.minimum_height
                 spacing: dp(10)
                 padding: dp(10)
+
                 MDLabel:
                     text: "Especificação:"
                     font_size: dp(20)
@@ -1049,8 +1054,9 @@ ScreenManager:
                     size: dp(300), dp(20)
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1
+
                 MDRoundFlatIconButton:
-                    icon:'pencil'
+                    icon: 'pencil'
                     id: button1
                     text: "                        especificação                       "
                     size_hint: None, None
@@ -1060,7 +1066,8 @@ ScreenManager:
                     color: 0, 0, 0, 1
                     on_release: root.show_especificacao(button1)
                     border_color: 0, 0, 0, 1
-                    text_color: 0, 0, 0, 1    
+                    text_color: 0, 0, 0, 1
+
                 MDLabel:
                     text: "Cargo:"
                     font_size: dp(20)
@@ -1069,8 +1076,9 @@ ScreenManager:
                     size: dp(300), dp(20)
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1
+
                 MDRoundFlatIconButton:
-                    icon:'pencil'
+                    icon: 'pencil'
                     id: button2
                     text: "                              cargo                                   "
                     size_hint: None, None
@@ -1080,7 +1088,8 @@ ScreenManager:
                     color: 0, 0, 0, 1
                     on_release: root.show_cargo(button2)
                     border_color: 0, 0, 0, 1
-                    text_color: 0, 0, 0, 1         
+                    text_color: 0, 0, 0, 1
+
                 MDLabel:
                     text: "Local de trabalho:"
                     font_size: dp(20)
@@ -1089,8 +1098,9 @@ ScreenManager:
                     size: dp(300), dp(20)
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1
+
                 MDRoundFlatIconButton:
-                    icon:'pencil'
+                    icon: 'pencil'
                     id: button3
                     text: "                     local de trabalho                    "
                     size_hint: None, None
@@ -1101,6 +1111,7 @@ ScreenManager:
                     on_release: root.show_local_de_trabalho(button3)
                     border_color: 0, 0, 0, 1
                     text_color: 0, 0, 0, 1
+
                 MDLabel:
                     text: "Localidade:"
                     font_size: dp(20)
@@ -1109,8 +1120,9 @@ ScreenManager:
                     size: dp(300), dp(20)
                     theme_text_color: "Custom"
                     text_color: 0, 0, 0, 1
+
                 MDRoundFlatIconButton:
-                    icon:'pencil'
+                    icon: 'pencil'
                     id: button4
                     text: "                            localidade                           "
                     size_hint: None, None
@@ -1121,6 +1133,7 @@ ScreenManager:
                     on_release: root.show_localidade(button4)
                     border_color: 0, 0, 0, 1
                     text_color: 0, 0, 0, 1
+
                 MDLabel:
                     text: "Tipo de vagas:"
                     font_size: dp(20)
@@ -1128,9 +1141,10 @@ ScreenManager:
                     size_hint_x: None
                     size: dp(300), dp(20)
                     theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1       
+                    text_color: 0, 0, 0, 1
+
                 MDRoundFlatIconButton:
-                    icon:'pencil'
+                    icon: 'pencil'
                     id: button5
                     text: "                         tipo de vagas                        "
                     size_hint: None, None
@@ -1141,6 +1155,7 @@ ScreenManager:
                     on_release: root.show_tipo_de_vaga(button5)
                     border_color: 0, 0, 0, 1
                     text_color: 0, 0, 0, 1
+
                 MDLabel:
                     text: "Sobre a vaga:"
                     font_size: dp(20)
@@ -1148,27 +1163,31 @@ ScreenManager:
                     size_hint_x: None
                     size: dp(300), dp(20)
                     theme_text_color: "Custom"
-                    text_color: 0, 0, 0, 1   
+                    text_color: 0, 0, 0, 1
+
                 MDTextField:
                     id: sobre_vaga
                     hint_text: "Descreva sobre a vaga"
                     multiline: True
-                    mode: "rectangle"
+
                     max_text_length: 250
                     font_size: sp(14)
                     size_hint_y: None
-                    height: self.minimum_height
+                    height: dp(150)  # Ajustar a altura para evitar problemas de renderização
                     line_color_focus: app.theme_cls.primary_color
                     line_color_normal: app.theme_cls.primary_color
+
                 MDRaisedButton:
                     id: btn_publicar
                     text: 'Publicar'
                     size_hint_x: 0.8
                     pos_hint: {'center_x': 0.5}
-                    on_release: 
+                    on_release:
                         root.salvar_vaga()
                         app.root.transition.direction = 'right'
                         app.root.current = 'Menu'
+
+
 
 <Telaconfignotificacoes>:
     name: 'config_notificacoes'
