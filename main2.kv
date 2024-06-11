@@ -1475,139 +1475,202 @@ ScreenManager:
                     app.root.current = 'Números_telefone'
 
 
-<TelaconfigPerfil>:
+<TelaConfigPerfil>:
     name: 'config_Perfil'
-    background_color:  '#FFFFFF'
-    Image:
-        source: 'BackgroundPerfil.png'
-        allow_stretch: True
-        keep_ratio: False
-    FloatLayout:
-        spacing: 14
-        pos_hint: {'center_x': 0.5, 'center_y': 0.9}
-        size_hint: None, None
-        size: dp(360), dp(160)
-        MDCard:
-            id: card_image
-            size_hint_x: 1
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: (0.125, 0.035, 0.345, 1)  # Cor de fundo roxa
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        FloatLayout:
+            spacing: 14
+            pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+            size_hint: 1, None
             size: dp(360), dp(160)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            elevation: 1
-            orientation: 'vertical'
-            md_bg_color: 0, 0, 0, 1
-            mode: "round"
-            FitImage:
-                id: profile_image_large
-                source: root.large_image_path
-                allow_stretch: True
-                keep_ratio: False
-        MDIconButton:
-            icon: 'arrow-left'
-            theme_text_color: 'Custom'
-            text_color: 0, 0, 0, 1
-            pos_hint: {'center_x': 0.1, 'center_y': 0.7}
-            size_hint: None, None
-            size: dp(48), dp(48)
-            on_release:
-                app.root.transition.direction = "right"
-                app.root.current = 'Menu'
-        MDIconButton:
-            icon: 'camera'
-            theme_text_color: "Custom"
-            pos_hint: {'center_x': 0.9,'center_y': 0.7}
-            size_hint: None, None
-            size: dp(48), dp(48)
-            text_color: 0, 0, 0, 1
-            on_release: root.open_file_chooser_large()
-    FloatLayout:
-        size_hint: None, None
-        size: dp(60), dp(60)
-        pos_hint: {'center_x': 0.2, 'center_y': 0.78}
-        Image:
-            id: profile_image_small
-            source: root.small_image_path
-            allow_stretch: True
-            keep_ratio: False
-            size_hint: None, None
-            size: dp(60), dp(60)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            radius:[100, 100, 100, 100]
-        MDIconButton:
-            icon: 'camera'
-            theme_text_color: "Custom"
-            pos_hint: {'center_x': 0.82,'center_y': 0.14}
-            size_hint: None, None
-            size: dp(48), dp(48)
-            text_color: 0, 0, 0, 1
-            on_release: root.open_file_chooser_small()
-    FloatLayout:
-        MDLabel:
-            text: root.user_name
-            padding: 10
-            font_size: dp(14)
-            halign: "left"
-            size_hint: None, None
-            size: dp(170), dp(20)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.76}
-        MDIconButton:
-            icon: "pencil"
-            theme_text_color: "Custom"
-            pos_hint: {'right': 0.98, 'center_y': 0.75}
-            text_color: 0, 0, 0, 1
-            on_release:
-                app.root.transition.direction = "left"
-                app.root.current = 'informações_adicionais'
-        MDBoxLayout:
+            MDBoxLayout:
+                id: card_image
+                size_hint_x: 1
+                size: dp(360), dp(160)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                elevation: 1
+                orientation: 'vertical'
+                md_bg_color: 0, 0, 0, 1
+                FitImage:
+                    id: profile_image_large
+                    source: root.large_image_path
+                    allow_stretch: True
+                    keep_ratio: False
+
+            MDIconButton:
+                icon: 'arrow-left'
+                theme_text_color: 'Custom'
+                text_color: 0, 0, 0, 1
+                pos_hint: {'center_x': 0.1, 'center_y': 0.7}
+                size_hint: None, None
+                size: dp(48), dp(48)
+                on_release:
+                    app.root.transition.direction = "right"
+                    app.root.current = 'Menu'
+            MDIconButton:
+                icon: 'camera'
+                theme_text_color: "Custom"
+                pos_hint: {'center_x': 0.9,'center_y': 0.7}
+                size_hint: None, None
+                size: dp(48), dp(48)
+                text_color: 0, 0, 0, 1
+                on_release: root.open_file_chooser_large()
+
+        # Header with profile image and name
+        BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(1)
-            padding: dp(5)
-            spacing: dp(5)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.59}
-            canvas:
+            height: dp(140)
+            padding: dp(20)
+            spacing: dp(10)
+            canvas.before:
                 Color:
-                    rgba: 0.7, 0.7, 0.7, 1
+                    rgba: 1, 1, 1, 1  # Cor de fundo branco
                 Rectangle:
-                    size: self.size
                     pos: self.pos
-        FloatLayout:
-            size_hint: None, None
-            size: dp(360), dp(400)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.37}
-            ScrollView:
-                pos_hint: {'center_x': 0.5, 'center_y': 0.05}
+                    size: self.size
+
+            FloatLayout:
                 size_hint: None, None
-                size: dp(350), dp(640)
-                BoxLayout:
-                    orientation: 'vertical'
+                size: dp(100), dp(100)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                canvas.before:
+                    Color:
+                        rgba: 0.125, 0.035, 0.345, 1
+                    Ellipse:
+                        pos: self.pos
+                        size: self.size
+                Image:
+                    id: profile_image_small
+                    source: root.small_image_path
+                    allow_stretch: True
+                    keep_ratio: False
+                    size_hint: None, None
+                    size: dp(100), dp(100)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                MDIconButton:
+                    icon: 'camera'
+                    theme_text_color: "Custom"
+                    pos_hint: {'right': 1, 'y': 0}
+                    size_hint: None, None
+                    size: dp(24), dp(24)
+                    text_color: 0, 0, 0, 1
+                    on_release: root.open_file_chooser_small()
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: dp(5)
+                md_bg_color: 0.125, 0.035, 0.345, 1
+                MDLabel:
+                    text: root.user_name
+                    font_style: "H6"
                     size_hint_y: None
-                    height: self.minimum_height
-                    spacing:25
-                    MDTextField:
-                        hint_text: "Bio"
-                        helper_text: "Bio"
-                        multiline: True
-                        mode: "rectangle"
-                        max_text_length: 500
-                        font_size: sp(14)
+                    height: self.texture_size[1]
+                    color: 0.125, 0.035, 0.345, 1
+                MDLabel:
+                    text: "@xxxxxx"
+                    font_style: "Caption"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    color: 0.125, 0.035, 0.345, 1
+                MDTextField:
+                    hint_text: "Bio"
+                    helper_text: "Escreva um pouco sobre você"
+                    multiline: True
+                    mode: "rectangle"
+                    max_text_length: 300
+                    font_size: sp(14)
+                    size_hint_y: None
+                    height: dp(50)
+
+        # About me section
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: dp(160)  # Ajustado para acomodar o título e o MDTextField
+            padding: dp(20)
+            spacing: dp(5)  # Ajustado o espaçamento entre os elementos
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # Cor de fundo branco
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            MDLabel:
+                text: "SOBRE MIM"
+                font_style: "Subtitle1"
+                color: 0.125, 0.035, 0.345, 1
+                height: dp(20)  # Altura ajustada
+            MDTextField:
+                hint_text: "Escreva um pouco sobre você"
+                helper_text: "Escreva um pouco sobre você"
+                multiline: True
+                mode: "rectangle"
+                max_text_length: 500
+                font_size: sp(14)
+                size_hint_y: None
+                height: dp(90)  # Altura ajustada
+                background_color: 1, 1, 1, 1  # Cor de fundo branco
+
+
+        # Featured works section
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: 0.3
+            padding: dp(20)
+            spacing: dp(10)
+            MDLabel:
+                text: "TRABALHOS DESTAQUE"
+                font_style: "Subtitle1"
+                color: 1, 1, 1, 1  # Cor do card
+                size_hint_y: 0.4
+                height: self.texture_size[1]
+                halign: 'center'  # Centraliza o texto horizontalmente
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: dp(100)
+                spacing: dp(10)
+                md_bg_color: 0.125, 0.035, 0.345, 1
+                MDCard:
+                    orientation: 'vertical'
+                    padding: dp(10)
+                    size_hint: None, None
+                    size: dp(180), dp(180)
+                    md_bg_color: 0.125, 0.035, 0.345, 1
+                    MDLabel:
+                        text: "XXXXXX XXX"
+                        font_style: "Body1"
+                        size_hint_y: 1
+                        height: self.texture_size[1]
+                        color: 1, 1, 1, 1
+                    MDLabel:
+                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+                        font_style: "Body2"
                         size_hint_y: None
-                        height: self.minimum_height
-                    MDTextField:
-                        hint_text: "Sobre mim"
-                        helper_text: "Descreva um pouco você"
-                        multiline: True
-                        mode: "rectangle"
-                        max_text_length: 500
-                        font_size: sp(14)
-                        size_hint_y: None
-                        height: self.minimum_height
-                    MDRectangleFlatIconButton:
-                        text: "Currículo:"
-                        padding: 10
-                        font_size: dp(15)
-                        halign: "left"
-                        pos_hint: {'center_x': 0.17, 'center_y': 0.5}
-                        icon: "attachment"
+                        height: self.texture_size[1]
+                        color: 1, 1, 1, 1
+
+                MDCard:
+                    orientation: 'vertical'
+                    padding: dp(10)
+                    size_hint: None, None
+                    size: dp(180), dp(180)
+                    MDIconButton:
+                        icon: 'image'
+                        theme_text_color: "Custom"
+                        size_hint: None, None
+                        size: dp(48), dp(48)
+                        text_color: 0, 0, 0, 1
+
 
 <TelaSalvos>:
     name: 'Salvos'

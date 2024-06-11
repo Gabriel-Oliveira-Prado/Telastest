@@ -33,10 +33,12 @@ from kivymd.uix.button import MDIconButton
 from kivy.properties import ObjectProperty
 import pyrebase
 from collections import OrderedDict
-from kivy.uix.image import AsyncImage
+from kivy.uix.image import AsyncImage, Image
 from kivy.utils import platform
 from kivy.utils import escape_markup
 import webbrowser
+from kivy.graphics import Rectangle, Color
+from kivy.core.window import Window
 
 firebaseConfig = {
     'apiKey': "AIzaSyA3gOHi9Q6aHQ5seN5S9bbNmQpPQFMGXFs",
@@ -54,17 +56,38 @@ auth = firebase.auth()
 
 
 class SplashScreen(Screen):
-    def __init__(self, **kwargs):
-        super(SplashScreen, self).__init__(**kwargs)
-        self.image = Image(source='telasplash.png', size_hint=(0.5, 0.7),
-                           pos_hint={'center_x': 0.5, 'center_y': 0.7})
+    def _init_(self, **kwargs):
+        super(SplashScreen, self)._init_(**kwargs)
+
+        Window.size = (360, 640)  # Definindo o tamanho da janela
+
+        with self.canvas:
+            self.bg = Rectangle(source='Telastest/splashscreen.png', pos=self.pos, size=self.size)
+
+        self.bind(pos=self.update_bg, size=self.update_bg)
+
         self.spinner = MDSpinner(size_hint=(None, None), size=(dp(36), dp(36)),
                                  pos_hint={'center_x': 0.5, 'center_y': 0.4})
-        self.add_widget(self.image)
         self.add_widget(self.spinner)
 
+    def update_bg(self, *args):
+        window_ratio = Window.width / Window.height
+        image_ratio = 360 / 640
+
+        if window_ratio > image_ratio:
+            # Tela mais larga que a proporção da imagem
+            new_height = Window.height
+            new_width = new_height * image_ratio
+        else:
+            # Tela mais alta que a proporção da imagem
+            new_width = Window.width
+            new_height = new_width / image_ratio
+
+        self.bg.size = (new_width, new_height)
+        self.bg.pos = ((Window.width - new_width) / 2, (Window.height - new_height) / 2)
+
     def on_enter(self):
-        Clock.schedule_once(self.dismiss_screen, 8)
+        Clock.schedule_once(self.dismiss_screen, 1)
 
     def dismiss_screen(self, dt):
         self.manager.current = 'Entrar_login'
