@@ -843,7 +843,7 @@ ScreenManager:
                     halign: "left"
                     size_hint_y: None
                     height: self.texture_size[1]
-                    pos_hint: {'center_x': 0.8, 'center_y': 0.94}
+                    pos_hint: {'center_x': 0.78, 'center_y': 0.94}
 
                 Image:
                     source: 'Background/profile.png'
@@ -897,9 +897,9 @@ ScreenManager:
 
 
 <TelaPublicacoes>:
-    name: 'Publicacoes'  # Nome da tela para navegação
-    publicacao_text: publicacao_text  # Liga o id ao nome da propriedade
-    publicar_button: publicar_button  # Liga o id ao nome da propriedade
+    name: 'Publicacoes' 
+    publicacao_text: publicacao_text  
+    publicar_button: publicar_button  
     
     MDIconButton:
         icon: 'arrow-left'
@@ -1670,12 +1670,8 @@ ScreenManager:
 
 <Telanotificacoes>:
     name: 'Notificacoes'
-    background_color:  '#FFFFFF'
-    MDGridLayout:
-        id: box
-        adaptive_height: True
-        cols: 1
-        padding: dp(5)
+    background_color: '#FFFFFF'
+
     MDIconButton:
         icon: 'arrow-left'
         theme_text_color: 'Custom'
@@ -1683,24 +1679,27 @@ ScreenManager:
         pos_hint: {'center_x': 0.1, 'center_y': 0.95}
         on_release: 
             app.root.transition.direction = "right"
-            app.root.current = 'Menu' 
+            app.root.current = 'Menu'
+
     FloatLayout:
         size_hint: None, None
-        size: dp(200), dp(200)
+        size: dp(360), dp(640)
         pos_hint: {'center_x': 0.5, 'center_y': 0.95}
         MDLabel:
             text: "Notificações"
-            padding: 10
-            font_size: dp(20)  
+            padding: dp(10)
+            font_size: dp(20)
             halign: "center"
             size_hint_x: None
-            size: dp(150),dp(20)
+            size: dp(150), dp(20)
             pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+
     MDIconButton:
         icon: 'filter'
         theme_text_color: 'Custom'
         text_color: 0, 0, 0, 1
         pos_hint: {'center_x': 0.9, 'center_y': 0.95}
+
     MDBoxLayout:
         orientation: 'horizontal'
         size_hint_y: None
@@ -1715,18 +1714,19 @@ ScreenManager:
                 size: self.size
                 pos: self.pos
 
-        MDCard:
-            id: user_info_card
-            orientation: 'vertical'
-            padding: '10dp'
-            size_hint_x: None
-            width: dp(350)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.6}  # Posicionamento do card
-            MDLabel:
-                id: user_info_label
-                halign: "center"
-                font_size: '14sp'
-
+    FloatLayout:
+        orientation: 'vertical'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        size_hint: None, None
+        size: dp(360), dp(500)
+        
+        MDScrollView:
+            MDGridLayout:
+                id: notification_box
+                cols: 1
+                spacing: dp(10)
+                padding: dp(20)
+                
 <TelaChat>:
     name: 'chat'
     MDNavigationLayout:

@@ -28,10 +28,18 @@ from kivymd.uix.spinner import MDSpinner
 from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.popup import Popup
 from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.button import MDIconButton
+from kivymd.uix.button import MDIconButton, MDRectangleFlatIconButton
 from kivy.properties import ObjectProperty
 import pyrebase
 from collections import OrderedDict
+import webbrowser
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivy.uix.scrollview import ScrollView
+from kivymd.uix.gridlayout import MDGridLayout
+from kivy.graphics import Rectangle, Color
+from kivy.core.window import Window
+
+
 
 firebaseConfig = {
     'apiKey': "AIzaSyA3gOHi9Q6aHQ5seN5S9bbNmQpPQFMGXFs",
@@ -48,20 +56,41 @@ database = firebase.database()
 auth = firebase.auth()
 
 class SplashScreen(Screen):
-    def __init__(self, **kwargs):
-        super(SplashScreen, self).__init__(**kwargs)
-        self.image = Image(source='logo.png', size_hint=(0.5, 0.7),
-                           pos_hint={'center_x': 0.5, 'center_y': 0.7})
+    def _init_(self, **kwargs):
+        super(SplashScreen, self)._init_(**kwargs)
+        
+        Window.size = (360, 640)  
+        
+        with self.canvas:
+            self.bg = Rectangle(source='Splashscreen.png', pos=self.pos, size=self.size)
+        
+        self.bind(pos=self.update_bg, size=self.update_bg)
+        
         self.spinner = MDSpinner(size_hint=(None, None), size=(dp(36), dp(36)),
-                                 pos_hint={'center_x': 0.5, 'center_y': 0.4})
-        self.add_widget(self.image)
+                        pos_hint={'center_x': 0.5, 'center_y': 0.4})
         self.add_widget(self.spinner)
 
+    def update_bg(self, *args):
+        window_ratio = Window.width / Window.height
+        image_ratio = 360 / 640
+        
+        if window_ratio > image_ratio:
+        
+            new_height = Window.height
+            new_width = new_height * image_ratio
+        else:
+  
+            new_width = Window.width
+            new_height = new_width / image_ratio
+        
+        self.bg.size = (new_width, new_height)
+        self.bg.pos = ((Window.width - new_width) / 2, (Window.height - new_height) / 2)
+
     def on_enter(self):
-        Clock.schedule_once(self.dismiss_screen, 1)
+        Clock.schedule_once(self.dismiss_screen, 5)
 
     def dismiss_screen(self, dt):
-        self.manager.current = 'Entrar_login'   
+        self.manager.current = 'Entrar_login'
 
 class TelaEntrarLogin(Screen):
     def show_dialog_Errologin(self, message):
@@ -266,9 +295,12 @@ class TelaMenu(Screen):
     publicacao_text = StringProperty('')
     user_name = StringProperty()
 
+    def open_website(self):
+        webbrowser.open('https://workinweb.netlify.app/')
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.on_enter = self.carregar_dados  
+        self.on_enter = self.carregar_dados
 
     def carregar_dados(self):
         """Carrega as vagas e publicações."""
@@ -289,7 +321,7 @@ class TelaMenu(Screen):
                 return
 
             self.user_name = user_info.get('nome', 'Nome não encontrado')
-            self.carregar_publicacoes()  
+            self.carregar_publicacoes()
 
         except Exception as e:
             print("Erro ao carregar dados:", e)
@@ -313,7 +345,7 @@ class TelaMenu(Screen):
                             local_de_trabalho=vaga.get('local_de_trabalho', 'N/A'),
                             localidade=vaga.get('localidade', 'N/A'),
                             tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
-                            user_name=vaga.get('user_name', 'UserName'),
+                            sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
                             user_name=user_name,
                             on_press=lambda x: self.mostrar_detalhes_vaga(key)
                         )
@@ -322,7 +354,6 @@ class TelaMenu(Screen):
                 print("Nenhuma vaga encontrada.")
         except Exception as e:
             print("Erro ao carregar vagas:", e)
-
 
     def carregar_publicacoes(self):
         """Carrega as publicações do Firebase."""
@@ -348,8 +379,8 @@ class TelaMenu(Screen):
     def mostrar_detalhes_publicacao(self, key):
         pass
 
-    def mostrar_detalhes_vaga(self, key):   
-        pass 
+    def mostrar_detalhes_vaga(self, key):
+        pass
 
     def show_dialog_need_juridical(self):
         self.dialog = MDDialog(
@@ -368,6 +399,47 @@ class TelaMenu(Screen):
             self.manager.current = 'CriarVaga'
         else:
             self.show_dialog_need_juridical()
+
+    def salvarvagas_dialog(self):
+        dialog = MDDialog(
+            title="Vaga Salva",
+            text="A vaga foi salva com sucesso.",
+            buttons=[
+                MDRaisedButton(
+                    text="OK",
+                    on_press=lambda x: dialog.dismiss()
+                )
+            ]
+        )
+        dialog.open()
+
+class NotificacaoCard(MDCard):
+    user_name = StringProperty()  
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = 'vertical'
+        self.size_hint_y = None
+        self.height = dp(100)
+        self.padding = dp(10)
+
+
+        user_label = MDLabel(
+            text=f"Usuário: {self.user_name}",
+            font_size="16sp",
+            theme_text_color='Secondary',
+            halign='center'
+        )
+        self.add_widget(user_label)
+
+        button = MDRectangleFlatIconButton(
+            text="Anexo",
+            icon="attachment",
+            size_hint=(1, None),
+            height=dp(40),
+            pos_hint={'center_x': 0.5}
+        )
+        self.add_widget(button)
 
 
 class PublicacaoCard(MDCard):
@@ -474,6 +546,10 @@ class VagaCard(MDCard):
                 ]
             )
             dialog.open()
+            
+            app = App.get_running_app()
+            tela_notificacoes = app.root.get_screen('Notificacoes')
+            tela_notificacoes.show_notification(self.user_name, "juridic")
         else:
             dialog = MDDialog(
                 title="Error",
@@ -486,18 +562,19 @@ class VagaCard(MDCard):
                 ]
             )
             dialog.open()
-    def salvarvagas_dialog(self):
-        dialog = MDDialog(
-            title="Vaga Salva",
-            text="A vaga foi salva com sucesso.",
-            buttons=[
-                MDRaisedButton(
-                    text="OK",
-                    on_press=lambda x: dialog.dismiss()
-                )
-            ]
-        )
-        dialog.open()
+
+def salvarvagas_dialog(self):
+    dialog = MDDialog(
+        title="Vaga Salva",
+        text="A vaga foi salva com sucesso.",
+        buttons=[
+            MDRaisedButton(
+                text="OK",
+                on_press=lambda x: dialog.dismiss()
+            )
+        ]
+    )
+    dialog.open()
 
 class Telacriarvaga(Screen):
     especificacao = [
@@ -803,6 +880,7 @@ class Publicacao:
             'texto': self.texto,
             'user_id': App.user_uid
         }
+    
 class Telaconfignotificacoes(Screen):
     vagas = BooleanProperty(False)
     contratacao = BooleanProperty(False)
@@ -912,7 +990,36 @@ class TelaSalvos(Screen):
     pass
 
 class Telanotificacoes(Screen):
-   pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.notification_box = ScrollView()
+        self.notification_layout = MDGridLayout(cols=1, spacing=20, size_hint_y=None)
+        self.notification_layout.bind(minimum_height=self.notification_layout.setter('height'))
+        self.notification_box.add_widget(self.notification_layout)
+        self.add_widget(self.notification_box)
+
+    def show_notification(self, candidate_name, creator_type):
+        if creator_type == "juridic":
+            notification_card = NotificationCard(candidate_name)
+            self.notification_layout.add_widget(notification_card)
+
+class NotificationCard(MDCard):
+    def __init__(self, candidate_name, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = 'horizontal'
+        self.size_hint = (1, None)
+        self.height = dp(60)
+        self.padding = dp(10)
+        self.spacing = dp(10)
+
+        self.add_widget(MDLabel(text=candidate_name))
+
+        icon_button = MDIconButton(icon="attachment")
+        icon_button.bind(on_release=self.icon_button_pressed)
+        self.add_widget(icon_button)
+
+    def icon_button_pressed(self, instance):
+        pass
 
 class TelaChat(Screen):
     pass
