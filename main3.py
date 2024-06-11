@@ -56,39 +56,24 @@ database = firebase.database()
 auth = firebase.auth()
 
 class SplashScreen(Screen):
-    def _init_(self, **kwargs):
-        super(SplashScreen, self)._init_(**kwargs)
-        
-        Window.size = (360, 640)  
-        
-        with self.canvas:
-            self.bg = Rectangle(source='Splashscreen.png', pos=self.pos, size=self.size)
-        
-        self.bind(pos=self.update_bg, size=self.update_bg)
-        
+    def __init__(self, **kwargs):
+        super(SplashScreen, self).__init__(**kwargs)
+        with self.canvas.before:
+            Color(32 / 255, 9 / 255, 88 / 255, 1) 
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.bind(size=self.update_rect, pos=self.update_rect)
+
+        self.image = Image(source='Splashscreen.png', size_hint=(0.5, 0.7),
+                           pos_hint={'center_x': 0.5, 'center_y': 0.7})  
         self.spinner = MDSpinner(size_hint=(None, None), size=(dp(36), dp(36)),
-                        pos_hint={'center_x': 0.5, 'center_y': 0.4})
+                                 pos_hint={'center_x': 0.5, 'center_y': 0.3})
+        self.add_widget(self.image)
         self.add_widget(self.spinner)
-
-    def update_bg(self, *args):
-        window_ratio = Window.width / Window.height
-        image_ratio = 360 / 640
-        
-        if window_ratio > image_ratio:
-        
-            new_height = Window.height
-            new_width = new_height * image_ratio
-        else:
-  
-            new_width = Window.width
-            new_height = new_width / image_ratio
-        
-        self.bg.size = (new_width, new_height)
-        self.bg.pos = ((Window.width - new_width) / 2, (Window.height - new_height) / 2)
-
+    def update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
     def on_enter(self):
         Clock.schedule_once(self.dismiss_screen, 5)
-
     def dismiss_screen(self, dt):
         self.manager.current = 'Entrar_login'
 
@@ -330,14 +315,33 @@ class TelaMenu(Screen):
         """Carrega as vagas do Firebase."""
         print(f"App.user_uid: {App.user_uid}")
         try:
+            # Busca todas as vagas do banco de dados
             vagas = database.child("posts").get().val()
+            
+            # Limpa a área onde as vagas serão exibidas
             self.ids.vagas_box.clear_widgets()
+            
             if vagas:
                 for key, vaga in vagas.items():
                     user_id = vaga.get('user_id')
-                    user_name = database.child("users_juridicos").child(user_id).child('nome_empresa').get().val()
-                    user_name = user_name if user_name else 'Nome do usuário não encontrado'
-
+                    if not user_id:
+                        print("Erro: user_id não encontrado na vaga")
+                        user_name = 'ID do usuário não encontrado'
+                    else:
+                        # Verifica se o usuário é do tipo físico ou jurídico
+                        if self.user_type == "juridical":
+                            user_info = database.child("users_juridicos").child(user_id).get().val()
+                        else:
+                            user_info = database.child("users").child(user_id).get().val()
+                        
+                        # Obtém o nome do usuário ou exibe uma mensagem de erro
+                        if user_info:
+                            user_name = user_info.get('nome_empresa', 'Nome do usuário não encontrado')
+                        else:
+                            print(f"Erro: Dados do usuário {user_id} não encontrados.")
+                            user_name = 'Dados do usuário não encontrados'
+                    
+                    # Adiciona o card da vaga com as informações obtidas
                     self.ids.vagas_box.add_widget(
                         VagaCard(
                             especificacao=vaga.get('especificacao', 'N/A'),
@@ -346,7 +350,8 @@ class TelaMenu(Screen):
                             localidade=vaga.get('localidade', 'N/A'),
                             tipo_de_vaga=vaga.get('tipo_de_vaga', 'N/A'),
                             sobre_vaga=vaga.get('sobre_vaga', 'N/A'),
-                            user_name=user_name,
+                            user_name=user_name,  # Nome do usuário encontrado
+                            vaga_id=key,
                             on_press=lambda x: self.mostrar_detalhes_vaga(key)
                         )
                     )

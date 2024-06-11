@@ -580,6 +580,18 @@ ScreenManager:
                                 width: dp(350)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 icon_left: 'magnify'
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint: (0.9, 0.1)  
+                            pos_hint: {"center_x": 0.5, "center_y": 0.43}
+                            AsyncImage:
+                                source: 'web.png'
+                                allow_stretch: True
+                                keep_ratio: False
+                                size_hint: (1, 1)
+                                on_touch_down:
+                                    if self.collide_point(*args[1].pos): root.open_website()
+
                         FloatLayout:
                             MDBoxLayout:
                                 orientation: 'vertical'
@@ -587,7 +599,7 @@ ScreenManager:
                                 spacing: dp(16)
                                 size_hint_y: None
                                 height: self.minimum_height
-                                pos_hint: {"center_x": 0.47, "top": 0.65} 
+                                pos_hint: {"center_x": 0.47, "top": 0.67} 
 
                                 GridLayout:
                                     cols: 4
@@ -681,8 +693,8 @@ ScreenManager:
 
                         BoxLayout:
                             orientation: 'vertical'
-                            size_hint: (0.9, 0.5)  
-                            pos_hint: {"center_x": 0.5, "center_y": 0.2}  
+                            size_hint: (0.9, 0.5)
+                            pos_hint: {"center_x": 0.5, "center_y": 0.2}
                             MDCarousel:
                                 id: carousel
                                 direction: 'right'
@@ -698,7 +710,6 @@ ScreenManager:
 
                                 AsyncImage:
                                     source: 'carrossel3.png'
-
 
 
                     MDBottomNavigationItem:
@@ -1718,14 +1729,19 @@ ScreenManager:
         orientation: 'vertical'
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
         size_hint: None, None
-        size: dp(360), dp(500)
+        size: dp(360), dp(600)
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: self.minimum_height
+            spacing:15                 
         
-        MDScrollView:
-            MDGridLayout:
-                id: notification_box
-                cols: 1
-                spacing: dp(10)
-                padding: dp(20)
+            MDScrollView:
+                MDGridLayout:
+                    id: notification_box
+                    cols: 1
+                    spacing: dp(10)
+                    padding: dp(20)
                 
 <TelaChat>:
     name: 'chat'
