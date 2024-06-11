@@ -1533,7 +1533,7 @@ ScreenManager:
             spacing: dp(10)
             canvas.before:
                 Color:
-                    rgba: 1, 1, 1, 1  # Cor de fundo branco
+                    rgba: 0.125, 0.035, 0.345, 1  # Cor de fundo Roxo
                 Rectangle:
                     pos: self.pos
                     size: self.size
@@ -1568,19 +1568,19 @@ ScreenManager:
             BoxLayout:
                 orientation: 'vertical'
                 spacing: dp(5)
-                md_bg_color: 0.125, 0.035, 0.345, 1
+                md_bg_color: 1, 1, 1, 1
                 MDLabel:
                     text: root.user_name
                     font_style: "H6"
                     size_hint_y: None
                     height: self.texture_size[1]
-                    color: 0.125, 0.035, 0.345, 1
+                    color: 1, 1, 1, 1
                 MDLabel:
                     text: "@xxxxxx"
                     font_style: "Caption"
                     size_hint_y: None
                     height: self.texture_size[1]
-                    color: 0.125, 0.035, 0.345, 1
+                    color: 1, 1, 1, 1
                 MDTextField:
                     hint_text: "Bio"
                     helper_text: "Escreva um pouco sobre você"
@@ -1590,6 +1590,7 @@ ScreenManager:
                     font_size: sp(14)
                     size_hint_y: None
                     height: dp(50)
+                    foreground_color: (1, 1, 1, 1)
 
         # About me section
         BoxLayout:
@@ -1619,7 +1620,6 @@ ScreenManager:
                 size_hint_y: None
                 height: dp(90)  # Altura ajustada
                 background_color: 1, 1, 1, 1  # Cor de fundo branco
-
 
         # Featured works section
         BoxLayout:

@@ -63,7 +63,7 @@ class SplashScreen(Screen):
             self.rect = Rectangle(size=self.size, pos=self.pos)
         self.bind(size=self.update_rect, pos=self.update_rect)
 
-        self.image = Image(source='Splashscreen.png', size_hint=(0.5, 0.7),
+        self.image = Image(source='Telasplashinicio.png', size_hint=(0.5, 0.7),
                            pos_hint={'center_x': 0.5, 'center_y': 0.7})  
         self.spinner = MDSpinner(size_hint=(None, None), size=(dp(36), dp(36)),
                                  pos_hint={'center_x': 0.5, 'center_y': 0.3})
@@ -73,7 +73,7 @@ class SplashScreen(Screen):
         self.rect.size = self.size
         self.rect.pos = self.pos
     def on_enter(self):
-        Clock.schedule_once(self.dismiss_screen, 5)
+        Clock.schedule_once(self.dismiss_screen, 8)
     def dismiss_screen(self, dt):
         self.manager.current = 'Entrar_login'
 
@@ -956,6 +956,8 @@ class TelaconfigSeguranca(Screen):
 class TelaconfigPerfil(Screen):
     large_image_path = StringProperty('Background/Backgroundcursos.png')
     small_image_path = StringProperty('Background/profile.png')
+    user_name = StringProperty()
+
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -970,6 +972,20 @@ class TelaconfigPerfil(Screen):
             exit_manager=self.exit_manager_small,
             preview=True
         )
+
+        self.update_user_name()
+
+    def get_publicacao_data(self):
+        # Substitua isso pelo código que obtém 'publicacao'
+        # Deve retornar um dicionário com dados da publicação
+        return {"user_name": "Nome não encontrado"}
+
+    def update_user_name(self):
+        publicacao = self.get_publicacao_data()
+        if publicacao:
+            self.user_name = publicacao.get('user_name', 'Nome não encontrado')
+        else:
+            self.user_name = 'Nome não encontrado'
 
     def open_file_chooser_large(self):
         self.file_manager.show('/')
