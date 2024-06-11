@@ -1078,7 +1078,7 @@ class App(MDApp):
         self.screen_manager.add_widget(Telanumerostelefone(name='Números_telefone'))
         self.screen_manager.add_widget(Telacriarvaga(name='CriarVaga')) 
         self.theme_cls.primary_palette = "DeepPurple"
-        return Builder.load_file("main.kv")
+        return Builder.load_file("main3.kv")
 
     def show_logout_dialog(self):
         self.dialog = MDDialog(
